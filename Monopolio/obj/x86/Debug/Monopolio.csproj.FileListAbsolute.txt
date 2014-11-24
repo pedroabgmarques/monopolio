@@ -1,0 +1,74 @@
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\componentes\seta_rato.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\fontes\arial_12.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro_grande.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\obj\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\obj\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\obj\x86\Debug\Monopolio.csprojResolveAssemblyReference.cache
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\background.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\city1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens3.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\city2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\componentes\seta_rato.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\fontes\arial_12.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\background.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\city1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens3.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\parallax\city2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro_grande.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\UICentrada.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\bin\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\obj\x86\Debug\Monopolio.csprojResolveAssemblyReference.cache
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\obj\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\Monopolio\obj\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\componentes\seta_rato.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\fontes\arial_12.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\background.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\city1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens1.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens3.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\city2.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro_grande.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\UICentrada.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_click.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_hover.xnb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\obj\x86\Debug\Monopolio.exe
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\obj\x86\Debug\Monopolio.pdb
+C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\obj\x86\Debug\Monopolio.csprojResolveAssemblyReference.cache

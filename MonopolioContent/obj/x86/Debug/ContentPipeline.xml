@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>texturas\componentes\seta_rato.png</Source>
+      <Name>texturas\componentes\seta_rato</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\componentes\seta_rato.xnb</Output>
+      <Time>2014-11-07T17:23:36.3029554+00:00</Time>
+    </Item>
+    <Item>
+      <Source>fontes\arial_12.png</Source>
+      <Name>fontes\arial_12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>FontTextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\fontes\arial_12.xnb</Output>
+      <Time>2014-11-07T19:02:54.4757434+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\tabuleiro\tabuleiro.jpg</Source>
+      <Name>texturas\tabuleiro\tabuleiro</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro.xnb</Output>
+      <Time>2014-11-07T19:27:01.8559266+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\background.png</Source>
+      <Name>texturas\UI\background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\background.xnb</Output>
+      <Time>2014-11-23T23:20:47.2456058+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\parallax\city1.jpg</Source>
+      <Name>texturas\parallax\city1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\city1.xnb</Output>
+      <Time>2014-11-10T16:35:40.6145043+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\parallax\nuvens1.png</Source>
+      <Name>texturas\parallax\nuvens1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens1.xnb</Output>
+      <Time>2014-11-11T00:46:59.7632646+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\parallax\nuvens2.png</Source>
+      <Name>texturas\parallax\nuvens2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens2.xnb</Output>
+      <Time>2014-11-11T00:47:23.7286353+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\parallax\nuvens3.png</Source>
+      <Name>texturas\parallax\nuvens3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\nuvens3.xnb</Output>
+      <Time>2014-11-22T02:02:41.3466863+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\parallax\city2.jpg</Source>
+      <Name>texturas\parallax\city2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\parallax\city2.xnb</Output>
+      <Time>2014-11-10T21:55:56.788936+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\tabuleiro\tabuleiro_grande.png</Source>
+      <Name>texturas\tabuleiro\tabuleiro_grande</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\tabuleiro\tabuleiro_grande.xnb</Output>
+      <Time>2014-11-12T22:33:59.7328732+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\UICentrada.png</Source>
+      <Name>texturas\UI\UICentrada</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\UICentrada.xnb</Output>
+      <Time>2014-11-13T22:15:35.8865626+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_bom.png</Source>
+      <Name>texturas\UI\botao_bom</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom.xnb</Output>
+      <Time>2014-11-13T23:38:46.5920146+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_mau.png</Source>
+      <Name>texturas\UI\botao_mau</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau.xnb</Output>
+      <Time>2014-11-13T23:38:41.529725+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_neutro.png</Source>
+      <Name>texturas\UI\botao_neutro</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro.xnb</Output>
+      <Time>2014-11-13T23:38:51.4822943+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_bom_hover.png</Source>
+      <Name>texturas\UI\botao_bom_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_hover.xnb</Output>
+      <Time>2014-11-15T16:30:29.8782769+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_mau_hover.png</Source>
+      <Name>texturas\UI\botao_mau_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_hover.xnb</Output>
+      <Time>2014-11-15T16:30:20.3607325+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_neutro_hover.png</Source>
+      <Name>texturas\UI\botao_neutro_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_hover.xnb</Output>
+      <Time>2014-11-15T16:30:40.5908896+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_bom_click.png</Source>
+      <Name>texturas\UI\botao_bom_click</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_bom_click.xnb</Output>
+      <Time>2014-11-15T16:32:25.2158738+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_mau_click.png</Source>
+      <Name>texturas\UI\botao_mau_click</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_mau_click.xnb</Output>
+      <Time>2014-11-15T16:32:00.5474628+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_neutro_click.png</Source>
+      <Name>texturas\UI\botao_neutro_click</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_neutro_click.xnb</Output>
+      <Time>2014-11-15T16:32:38.7056454+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_close.png</Source>
+      <Name>texturas\UI\botao_close</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close.xnb</Output>
+      <Time>2014-11-15T17:51:55.9727455+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_close_click.png</Source>
+      <Name>texturas\UI\botao_close_click</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_click.xnb</Output>
+      <Time>2014-11-15T17:49:57.2539551+00:00</Time>
+    </Item>
+    <Item>
+      <Source>texturas\UI\botao_close_hover.png</Source>
+      <Name>texturas\UI\botao_close_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\texturas\UI\botao_close_hover.xnb</Output>
+      <Time>2014-11-15T17:49:20.8878751+00:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\MonopolioContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\MonopolioContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T13:41:18+01:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2013-02-16T15:48:44.4483912+00:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

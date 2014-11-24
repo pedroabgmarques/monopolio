@@ -1,0 +1,887 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.Text;
+
+namespace Monopolio
+{
+    /// <summary>
+    /// This is the main type for your game
+    /// </summary>
+    public class Monopolio : Microsoft.Xna.Framework.Game
+    {
+
+        #region Estado
+        /// <summary>
+        /// Permite aceder a informações acerca da capacidade gráfica
+        /// </summary>
+        GraphicsDeviceManager graphics;
+        /// <summary>
+        /// Estado atual do teclado
+        /// </summary>
+        KeyboardState estadoTeclado;
+        /// <summary>
+        /// Spritebatch usado para desenhar o jogo
+        /// </summary>
+        SpriteBatch spriteBatch;
+        /// <summary>
+        /// Lista de camadas do efeito parallax
+        /// </summary>
+        List<ParallaxLayer> layers;
+        /// <summary>
+        /// Lista de jogadores
+        /// </summary>
+        List<Jogador> listaJogadores;
+        /// <summary>
+        /// Lista de componentes de UI
+        /// </summary>
+        List<UI> listaComponentesUI;
+        /// <summary>
+        /// Fonte Arial, tamanho 12
+        /// </summary>
+        SpriteFont arial12;
+        /// <summary>
+        /// Contém o estado e eventos do rato
+        /// </summary>
+        Rato rato;
+        /// <summary>
+        /// Tabuleiro de jogo
+        /// </summary>
+        Tabuleiro tabuleiro;
+        /// <summary>
+        /// Camara 2D com movimento, rotação e zoom
+        /// </summary>
+        Camera camera;
+        /// <summary>
+        /// ViewMatriz utilizada para desenhar o jogo
+        /// </summary>
+        Matrix ViewMatrix;
+        /// <summary>
+        /// Textura utilizada para sobreposição das casa de jogo
+        /// </summary>
+        Texture2D debugRectangle;
+        /// <summary>
+        /// Guarda a janela modal ativa, para impedir o clique noutras janelas
+        /// </summary>
+        UI UIModalAtiva;
+        /// <summary>
+        /// Utilizado e reclicado para criar opções para janelas modais
+        /// </summary>
+        Opcao opcao;
+        /// <summary>
+        /// Utilizado e reutilizado para gerar UI's centrais
+        /// </summary>
+        UI_Centrado UI_Centrado;
+        /// <summary>
+        /// Utilizado e reutilizado para gerar UI's de lançamento
+        /// </summary>
+        UI_Lancamento UI_Lancamento;
+        /// <summary>
+        /// Utilizado e reutilizado para gerar textos
+        /// </summary>
+        StringBuilder texto;
+        /// <summary>
+        /// Utilizado e reutilizado para gerar listas de opcoes
+        /// </summary>
+        List<Opcao> listaOpcoes;
+        /// <summary>
+        /// Utilizado e reutilizado para verificar se o rato está em cima de algo
+        /// </summary>
+        Rectangle rectanguloRato;
+        /// <summary>
+        /// Permite gerar números aleatórios
+        /// </summary>
+        Random random;
+        /// <summary>
+        /// Guarda a casa que está atualmente ativa
+        /// </summary>
+        Casa casaAtual;
+        /// <summary>
+        /// Gestor de animações da camera
+        /// </summary>
+        CameraAnimationManager cameraAnimationManager;
+        /// <summary>
+        /// Vector2 reutilizável
+        /// </summary>
+        Vector2 posicao;
+
+        /// <summary>
+        /// TESTE - guarda o indice da casa em que estamos atualmente
+        /// DEVERÁ SER GUARDADO NA CLASSE DO JOGADOR
+        /// </summary>
+        int indiceCasaAtual;
+        /// <summary>
+        /// TESTE - guarda o numero que saiu nos dados, que indica quantas casas vamos mover
+        /// </summary>
+        int casasAMover;
+
+        #endregion
+
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        public Monopolio()
+        {
+            //Opções de gráficos
+            graphics = new GraphicsDeviceManager(this);
+            graphics.PreferMultiSampling = true; //Anti-aliasing
+            graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
+            graphics.IsFullScreen = true; //Fullscreen
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 680;
+
+            Content.RootDirectory = "Content";
+
+            //Construir um gerador de numeros aleatorios
+            random = new Random();
+            
+            //Construir um rato
+            rato = new Rato();
+
+            //Construir um tabuleiro
+            tabuleiro = new Tabuleiro();
+
+            //Inicializar a lista de jogadores;
+            listaJogadores = new List<Jogador>();
+
+            //Inicializar a lista de componentes de UI
+            listaComponentesUI = new List<UI>();
+
+            //Inicializar a lista de opções utilizada para gerar certos componentes de UI
+            listaOpcoes = new List<Opcao>();
+
+            //Inicilizar o StringBuilder utilizado para gerar textos
+            texto = new StringBuilder();
+
+            //Inicializar o rectangulo do rato
+            rectanguloRato = new Rectangle();
+            rectanguloRato.Width = 5;
+            rectanguloRato.Height = 5;
+
+            //Setar o estado inicial do jogo
+            GameState.Estado = Estado.Inicial;
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            // TODO: Add your initialization logic here
+
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            arial12 = Content.Load<SpriteFont>("fontes/arial_12");
+            
+            //Carregar as texturas relacionadas com o rato
+            rato.LoadContent(Content);
+            //Subscrever os eventos do rato
+            rato.clique += new Rato.cliqueHandler(processarCliquesRato);
+            rato.desclique += new Rato.DescliqueHandler(processarDescliquesRato);
+
+            //Load do sprite do tabuleiro
+            tabuleiro.LoadContent(Content, GraphicsDevice);
+
+            //Construir uma camera
+            camera = new Camera(GraphicsDevice, tabuleiro);
+
+            //Inicializar o gestor de animações da camera
+            cameraAnimationManager = new CameraAnimationManager();
+
+            debugRectangle = new Texture2D(GraphicsDevice, 1, 1);          
+
+            //gerar UI
+            gerarUI();
+
+            //Criar uma lista de camadas para o efeito parallax
+            gerarCamadasParallax();
+
+        }
+
+        /// <summary>
+        /// Move a camara um determinado numero de casas
+        /// </summary>
+        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
+        /// <param name="casasAMover">Nº de casas que vamos mover</param>
+        private void moverCamaraParaCasa(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
+        {
+            this.indiceCasaAtual = tabuleiro.IndiceCasaAFrente(indiceCasaAtual, casasAMover);
+            atualizarCasaAtual(indiceCasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
+            cameraAnimationManager.newAnimation(Zoom.perto, accao);
+            
+        }
+
+        private void atualizarCasaAtual(int indiceCasaAtual)
+        {
+            casaAtual = tabuleiro.Casa(indiceCasaAtual);
+            posicao.X = casaAtual.CoordsAndSize.X - ((GraphicsDevice.Viewport.Width / 2) - (casaAtual.CoordsAndSize.Width / 2));
+            posicao.Y = casaAtual.CoordsAndSize.Y - ((GraphicsDevice.Viewport.Height / 2) - (casaAtual.CoordsAndSize.Height / 2));
+        }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            //atualizar o estado do teclado
+            estadoTeclado = Keyboard.GetState();
+
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || estadoTeclado.IsKeyDown(Keys.Escape))
+                this.Exit();
+
+            //Atualizar a posicao do rato
+            rato.Update();
+
+            //atualizar o rectangulo do rato
+            atualizarRectanguloRato();
+
+            //Atualizar as camadas de parallax
+            atualizarCamadasParallax();
+
+            //atualizar a camera
+            camera.Update(estadoTeclado, GraphicsDevice, tabuleiro, cameraAnimationManager);
+
+            //atualizar o gestor de animações da camera
+            cameraAnimationManager.Update(camera);
+
+            //Verificar se o rato está sobre um botao
+            verificarRatoSobreBotao();
+
+            //Atualizar UI de lancamento
+            atualizarUILancamento();
+
+            //Limpar lista de componentes de UI
+            eliminarUIsDesativas();
+
+            //Correr a lógica do jogo
+            gameLogic();
+
+            base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Atualiza a UI de lancamento, caso exista
+        /// </summary>
+        Lancamento lancamento;
+        private void atualizarUILancamento()
+        {
+            if (UIModalAtiva != null)
+            {
+                if (UIModalAtiva.GetType() == typeof(UI_Lancamento))
+                {
+                    lancamento = UIModalAtiva.Update(random);
+                    if (lancamento.somaDados != 0)
+                    {
+                        //A janela de lançamento produziu um valor para os dados
+                        //Fechar a janela de lançamentos
+                        UIModalAtiva.desativarUI(ref UIModalAtiva);
+                        criarUIResultadoLancamento(lancamento);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Implementa a lógica do jogo e altera o seu estado atual
+        /// </summary>
+        private void gameLogic()
+        {
+            if (UIModalAtiva == null)
+            //Se existe uma janela modal ativa estamos à espera de input dos jogadores, e a lógica do jogo não avança
+            {
+                switch (GameState.Estado)
+                {
+                    case Estado.Inicial:
+                        //Zoom Out
+                        cameraAnimationManager.newAnimation(Zoom.longe);
+                        //Verificar se já existem jogadores
+                        verificarListaJogadores();
+                        break;
+                    case Estado.Lançamento:
+                        break;
+                    case Estado.Compra:
+                        break;
+                    case Estado.Leilão:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Se não existem jogadores na lista de jogadores, cria a UI de seleção do número de jogadores
+        /// </summary>
+        private void verificarListaJogadores()
+        {
+            if (listaJogadores.Count == 0)
+            {
+                listaOpcoes.Clear();
+                opcao = new Opcao("One Player", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(1);
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Two Players", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(2);
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Three Players", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(3);
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Four Players", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(4);
+                });
+                listaOpcoes.Add(opcao);
+                texto.AppendLine("Welcome to Monopoly!");
+                texto.AppendLine();
+                texto.AppendLine("Use the buttons on the right to");
+                texto.AppendLine("choose how many player will be");
+                texto.AppendLine("playing.");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Vertical);
+            }
+        }
+
+        /// <summary>
+        /// Variável temporária para guardar uma UI
+        /// </summary>
+        UI tempUI;
+        /// <summary>
+        /// Inicializa a lista de jogadores com um determinado numero de jogadores,
+        /// fecha a UI de selecção do número de jogadores e altera o estado do jogo
+        /// </summary>
+        /// <param name="numJogadores">Número de Jogadores</param>
+        private void inicializarJogadores(int numJogadores)
+        {
+            //Criar os jogadores e inseri-los na lista
+            for (int i = 0; i < numJogadores; i++)
+            {
+                Jogador jogador = new Jogador("Player " + (i + 1));
+                listaJogadores.Add(jogador);
+            }
+            //Fechar a UI de escolha do número de jogadores
+            foreach(UI ui in listaComponentesUI)
+            {
+                if (ui == UIModalAtiva)
+                {
+                    tempUI = ui;
+                    ui.desativarUI(ref UIModalAtiva);
+                }
+            }
+            listaComponentesUI.Remove(tempUI);
+            //Adicionar a UI com a lista de jogadores
+            loadAndAddUIJogadores("background", true, false);
+            //Alterar o estado do jogo
+            GameState.Estado = Estado.Lançamento;
+            //Zoom na casa de partida
+            indiceCasaAtual = 0;
+            casasAMover = 0;
+            atualizarCasaAtual(indiceCasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaAtual, casasAMover), true);
+            cameraAnimationManager.newAnimation(Zoom.perto, (s) =>
+            {
+                criarUILancamento();
+            });
+        }
+
+        /// <summary>
+        /// Gera uma janela modal de UI para lançamento de dados
+        /// </summary>
+        private void criarUILancamento()
+        {
+            listaOpcoes.Clear();
+            opcao = new Opcao("Good luck!", TipoOpcao.Bom, true, (s) =>
+            {
+                cameraAnimationManager.newAnimation(Zoom.medio);
+                criarUILancamento("UICentrada", true);
+            });
+            listaOpcoes.Add(opcao);
+
+            texto.Clear();
+            texto.AppendLine("It's your turn to play!");
+            texto.AppendLine();
+            texto.AppendLine("Click the button below to roll your dice!");
+            criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+        }
+
+        private void criarUIResultadoLancamento(Lancamento lancamento)
+        {
+            listaOpcoes.Clear();
+            opcao = new Opcao("Ok, go!", TipoOpcao.Bom, true, (s) =>
+            {
+                moverCamaraParaCasa(indiceCasaAtual, lancamento.somaDados, (t) => {
+                    criarUILancamento(); 
+                });
+            });
+            listaOpcoes.Add(opcao);
+
+            texto.Clear();
+            texto.AppendLine("Congratulations, you had a " + lancamento.somaDados +"!");
+            texto.AppendLine();
+            texto.AppendLine("Click the button below to go!");
+            criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+        }
+
+        /// <summary>
+        /// Gera uma UI centrada e corre todos os métodos necessários
+        /// </summary>
+        /// <param name="nomeTextura">Nome da textura</param>
+        /// <param name="ativa">Se a janela está ativa</param>
+        /// <param name="modal">Se a janela é modal</param>
+        /// <param name="texto">Texto a inserir na janela</param>
+        /// <param name="listaOpcaoes">Lista de opções a apresentar</param>
+        /// <param name="orientacaoOpcoes">Orientação da lista de opções (Horizontal / Vertical)</param>
+        private void criarUICentrada(string nomeTextura, bool ativa, bool modal, StringBuilder texto, List<Opcao> listaOpcaoes, OrientacaoOpcoes orientacaoOpcoes)
+        {
+            UI_Centrado = new UI_Centrado(nomeTextura, ativa, modal, texto, listaOpcoes, orientacaoOpcoes);
+            UI_Centrado.LoadContent(Content, GraphicsDevice);
+            UI_Centrado.gerarRectangulosBotoes();
+            UI_Centrado.ativarUI(ref UIModalAtiva);
+            listaComponentesUI.Add(UI_Centrado);
+        }
+
+        private void criarUILancamento(string nomeTextura, bool ativa)
+        {
+            UI_Lancamento = new UI_Lancamento(nomeTextura, ativa);
+            UI_Lancamento.LoadContent(Content, GraphicsDevice);
+            UI_Lancamento.ativarUI(ref UIModalAtiva);
+            listaComponentesUI.Add(UI_Lancamento);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            ViewMatrix = camera.getTransformation(Vector2.One);
+
+            #region Parallax
+            //desenhar o background / parallax
+            foreach (ParallaxLayer layer in layers)
+                layer.Draw(spriteBatch);
+
+            desenharTabuleiro();
+            
+            desenharRectangulos(3);
+
+            #endregion
+
+            #region No Parallax
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            
+            //desenhar seta do rato
+            rato.Draw(spriteBatch);
+
+            //desenhar coordenadas do rato [DEBUG]
+            //desenharCoordenadasRato(rato);
+
+            //desenhar coordenadas da camera [DEBUG]
+            //desenharCoordenadasCamera(camera);
+
+            //desenharRotacaoCamera [DEBUG]
+            desenharRotacaoCamera(camera);
+
+            //desenhar UI
+            desenharUI();
+            
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+            #endregion
+        }
+
+        #region Helpers
+
+        private void atualizarRectanguloRato()
+        {
+            rectanguloRato.X = (int)rato.Posicao.X;
+            rectanguloRato.Y = (int)rato.Posicao.Y;
+        }
+
+        /// <summary>
+        /// Verifica se o rato está em cima de um botão e altera o botao convenientemente
+        /// </summary>
+        private void verificarRatoSobreBotao()
+        {
+            if (UIModalAtiva != null)
+            {
+                //Se existe uma janela modal ativa..
+                if (UIModalAtiva.getListaOpcoes() != null)
+                {
+                    //se a janela tem lista de opções..
+                    //se temos uma janela modal aberta, apenas consideramos Hovers nessa mesma janela
+                    foreach (Opcao opcao in UIModalAtiva.getListaOpcoes())
+                    {
+                        if (rectanguloRato.Intersects(opcao.rectangulo))
+                        {
+                            opcao.Hover = true;
+                        }
+                        else
+                        {
+                            if (opcao.Hover) opcao.Hover = false;
+                        }
+                    } 
+                }
+            }
+            else
+            {
+                //não há uma janela modal aberta, temos que comparar a posicao do rato com todos os botoes de todas as janelas
+                foreach (UI ui in listaComponentesUI)
+                {
+                    if (ui.getListaOpcoes() != null)
+                    {
+                        //Se este componente de UI tem uma lista de opções..
+                        foreach (Opcao opcao in ui.getListaOpcoes())
+                        {
+                            if (rectanguloRato.Intersects(opcao.rectangulo))
+                            {
+                                opcao.Hover = true;
+                            }
+                            else
+                            {
+                                if (opcao.Hover) opcao.Hover = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Desenha o tabuleiro de jogo
+        /// </summary>
+        private void desenharTabuleiro()
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                                BlendState.AlphaBlend,
+                                null,
+                                null,
+                                null,
+                                null,
+                                ViewMatrix);
+
+            //desenhar tabuleiro
+            tabuleiro.Draw(spriteBatch, camera, GraphicsDevice);
+            spriteBatch.End();
+        }
+
+        //Conta o numero de casas que já piscaram
+        int contadorCasas = 0;
+        /// <summary>
+        /// Desenha alternadamente rectangulos por cima das casas, fazendo um efeito catita
+        /// </summary>
+        /// <param name="velocidade">Velocidade do piscanço, em ms</param>
+        private void desenharRectangulos(int velocidade)
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                                BlendState.AlphaBlend,
+                                null,
+                                null,
+                                null,
+                                null,
+                                ViewMatrix);
+
+            foreach (Casa casa in tabuleiro.ListaCasas())
+            {
+
+                if (casa.ContadorPiscar < velocidade && !casa.Piscou)
+                {
+                    DrawRectangle(casa.CoordsAndSize, new Color(150, 150, 150, 128));
+                    casa.ContadorPiscar++;
+                    break;
+                }
+                else
+                {
+                    if (casa.ContadorPiscar >= velocidade && !casa.Piscou) 
+                    {
+                        casa.ContadorPiscar = 0;
+                        casa.Piscou = true;
+                        contadorCasas++;
+                    }
+                    
+                }
+
+                if (contadorCasas >= tabuleiro.ListaCasas().Count)
+                {
+                    contadorCasas = 0;
+                    tabuleiro.ResetCasasPiscaram();
+                }
+            }
+            spriteBatch.End();
+        }
+
+        /// <summary>
+        /// Variável temporaria utilizada para guadar a lista de componentes de UI antes de a percorrer,
+        /// uma vez que pode estar a ser alterada por outros métodos
+        /// O 100 está martelado porque nunca vamos ter 100 janelas de UI ao mesmo tempo a menos que algo tenha corrido muito mal
+        /// </summary>
+        UI[] tempListaComponentesUI = new UI[100];
+        /// <summary>
+        /// Lida com descliques do rato, passando todos os botões que estavamn clicados para o seu estado normal
+        /// </summary>
+        /// <param name="clique"></param>
+        private void processarDescliquesRato(Clique desclique)
+        {
+            listaComponentesUI.CopyTo(tempListaComponentesUI);
+            foreach (UI ui in tempListaComponentesUI)
+            {
+                if (ui != null)
+                {
+                    if (ui.getListaOpcoes() != null)
+                    {
+                        //Se este componente de UI tem lista de opções..
+                        foreach (Opcao opcao in ui.getListaOpcoes())
+                        {
+                            if (rectanguloRato.Intersects(opcao.rectangulo))
+                            {
+                                if (opcao.CloseOnClick)
+                                {
+                                    ui.desativarUI(ref UIModalAtiva);
+                                }
+                                opcao.ExecutarAccao();
+                            }
+                            opcao.Clique = false;
+                        }
+                    }
+                }
+                else
+                {
+                    //Esta UI foi desligada aquando do click num botão que a fecha, ignorar
+                }
+            }
+        }
+
+        List<UI> tempListaUI = new List<UI>();
+        private void eliminarUIsDesativas()
+        {
+            tempListaUI.Clear();
+            foreach (UI ui in listaComponentesUI)
+            {
+                if (!ui.Ativa)
+                {
+                    tempListaUI.Add(ui);
+                }
+            }
+            foreach (UI ui in tempListaUI)
+            {
+                listaComponentesUI.Remove(ui);
+            }
+        }
+
+        /// <summary>
+        /// Lida com os eventos disparados pelo rato
+        /// </summary>
+        /// <param name="posicao">Posicao do rato quando aconteceu o clique</param>
+        private void processarCliquesRato(Clique clique)
+        {
+            if (UIModalAtiva != null)
+            {
+                if (UIModalAtiva.getListaOpcoes() != null)
+                {
+                    //se temos uma janela modal aberta, apenas consideramos Hovers nessa mesma janela
+                    foreach (Opcao opcao in UIModalAtiva.getListaOpcoes())
+                    {
+                        if (rectanguloRato.Intersects(opcao.rectangulo))
+                        {
+                            opcao.Clique = true;
+                        }
+                        else
+                        {
+                            if (opcao.Clique) opcao.Clique = false;
+                        }
+                    } 
+                }
+            }
+            else
+            {
+                //não há uma janela modal aberta, temos que comparar a posicao do rato com todos os botoes de todas as janelas
+                foreach (UI ui in listaComponentesUI)
+                {
+
+                    if (ui.getListaOpcoes() != null)
+                    {
+                        //Esta UI tem uma lista de opções..
+                        foreach (Opcao opcao in ui.getListaOpcoes())
+                        {
+                            if (rectanguloRato.Intersects(opcao.rectangulo))
+                            {
+                                opcao.Clique = true;
+                            }
+                            else
+                            {
+                                if (opcao.Clique) opcao.Clique = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Desenha as coordenadas atuais do rato
+        /// Útil para debug
+        /// </summary>
+        /// <param name="rato">Uma instância do rato</param>
+        private void desenharCoordenadasRato(Rato rato)
+        {
+            spriteBatch.DrawString(arial12, rato.Posicao.ToString(), new Vector2(rato.Posicao.X, rato.Posicao.Y), Color.Black);
+        }
+
+        /// <summary>
+        /// Desenhar as coordenadas da camera junto ao rato
+        /// Útil para debug
+        /// </summary>
+        /// <param name="camera">Uma instância da camera</param>
+        private void desenharCoordenadasCamera(Camera camera)
+        {
+            spriteBatch.DrawString(arial12, camera.Posicao.ToString(), new Vector2(rato.Posicao.X, rato.Posicao.Y), Color.White);
+        }
+
+        /// <summary>
+        /// Desenha a rotação da camera (em radianos) junto ao rato
+        /// Útil para debug
+        /// </summary>
+        /// <param name="camera">Uma instância da camera</param>
+        private void desenharRotacaoCamera(Camera camera)
+        {
+            spriteBatch.DrawString(arial12, camera.getRotacao().ToString(), new Vector2(rato.Posicao.X + 20, rato.Posicao.Y), Color.White);
+        }
+
+        /// <summary>
+        /// Define as camadas de background parallax
+        /// </summary>
+        private void gerarCamadasParallax()
+        {
+            layers = new List<ParallaxLayer>
+            {
+                new ParallaxLayer(camera) { parallax = new Vector2(0.4f, 0.4f) },
+                new ParallaxLayer(camera) { parallax = new Vector2(0.7f, 0.7f) },
+                new ParallaxLayer(camera) { parallax = new Vector2(0.6f, 0.6f) },
+                new ParallaxLayer(camera) { parallax = new Vector2(0.5f, 0.5f) },
+            };
+
+
+            Sprite sprite;
+
+            sprite = new Sprite("city2",new Vector2(256, 256), Vector2.Zero);
+            loadAndAddParallax(0, sprite);
+
+            sprite = new Sprite("nuvens1", new Vector2(-1024, 350), new Vector2(-0.5f, 0));
+            loadAndAddParallax(1, sprite);
+
+            sprite = new Sprite("nuvens2", new Vector2(1024 * 2, 350), new Vector2(-0.7f, 0));
+            loadAndAddParallax(2, sprite);
+
+            sprite = new Sprite("nuvens3", new Vector2(1024 * 3, 350), new Vector2(-1f, 0));
+            loadAndAddParallax(3, sprite);
+        }
+
+        /// <summary>
+        /// Load das texturas necessárias para os backgrounds parallax
+        /// </summary>
+        /// <param name="indice">Indice da camada a que o background pertence</param>
+        /// <param name="sprite">Sprite a adicionar à camada</param>
+        private void loadAndAddParallax(int indice, Sprite sprite)
+        {
+            sprite.LoadContent(Content, GraphicsDevice);
+            layers[indice].sprites.Add(sprite);
+        }
+
+        /// <summary>
+        /// Load de todos os componentes do UI
+        /// </summary>
+        private void gerarUI()
+        {
+            
+        }
+
+        private void loadAndAddUIJogadores(string nomeTextura, bool ativa, bool modal)
+        {
+            UI_Jogadores jogadores = new UI_Jogadores(nomeTextura, modal);
+            jogadores.LoadContent(Content, GraphicsDevice);
+            if (ativa)
+            {
+                jogadores.ativarUI(ref UIModalAtiva);
+            }
+            listaComponentesUI.Add(jogadores);
+        }
+
+        /// <summary>
+        /// Desenha todos os componentes de UI
+        /// </summary>
+        private void desenharUI()
+        {
+            foreach (UI ui in listaComponentesUI)
+            {
+                if(ui.Ativa)
+                    ui.Draw(spriteBatch, camera, arial12, listaJogadores, tabuleiro);
+            }
+        }
+
+        /// <summary>
+        /// Atualiza as camadas de parallax que se movem (nuvens)
+        /// </summary>
+        private void atualizarCamadasParallax()
+        {
+            foreach (ParallaxLayer layer in layers)
+            {
+                for (int i = 0; i < layer.sprites.Count; i++)
+                {
+                    layer.sprites[i].Update();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Desenha um rectângulo numa determinada posicao e com uma dada cor
+        /// </summary>
+        /// <param name="coords">Posição onde o rectângulo será desenhado</param>
+        /// <param name="color">Cor</param>
+        private void DrawRectangle(Rectangle coords, Color color)
+        {
+            debugRectangle.SetData(new[] { color });
+            spriteBatch.Draw(debugRectangle, coords, color);
+        }
+
+        #endregion
+    }
+}
