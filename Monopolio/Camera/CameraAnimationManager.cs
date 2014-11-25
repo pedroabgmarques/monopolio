@@ -22,14 +22,16 @@ namespace Monopolio
         /// Objeto reutilizado para criar animações e inseri-las na fila
         /// </summary>
         private Animation tempAnimation;
-
+        /// <summary>
+        /// Animação que está a ser executada num determinado momento
+        /// </summary>
         private Animation activeAnimation;
 
         #endregion
 
         #region Construtor
         /// <summary>
-        /// Construtor vazio
+        /// Construtor
         /// </summary>
         public CameraAnimationManager()
         {
@@ -38,6 +40,10 @@ namespace Monopolio
         #endregion
 
         #region Métodos
+        /// <summary>
+        /// Devolve todas as animações em lista
+        /// </summary>
+        /// <returns>Animações em lista</returns>
         public int getQueuedAnimations()
         {
             return animations.Count;
@@ -79,6 +85,13 @@ namespace Monopolio
             Console.WriteLine("Animação adicionada!");
         }
 
+        /// <summary>
+        /// Insere uma nova animação de posicao e rotação
+        /// </summary>
+        /// <param name="posicaoTarget">Posição desejada</param>
+        /// <param name="rotacaoTarget">Rotação desejada</param>
+        /// <param name="v">Hack foleiro para distinguir contrutores</param>
+        /// <param name="accao">Código a executar no final da animação</param>
         public void newAnimation(Vector2 posicaoTarget, float rotacaoTarget, bool v, Action<string> accao = null)
         {
             tempAnimation = new Animation(posicaoTarget, rotacaoTarget, true, accao);
@@ -97,6 +110,12 @@ namespace Monopolio
             Console.WriteLine("Animação adicionada!");
         }
 
+        /// <summary>
+        /// Insere uma nova animaçao de rotação
+        /// </summary>
+        /// <param name="rotacaoTarget">Rotação desejada</param>
+        /// <param name="v">Hack para distinguir construtores</param>
+        /// <param name="accao">Código a executar no final da animação</param>
         public void newAnimation(float rotacaoTarget, bool v, Action<string> accao = null)
         {
             tempAnimation = new Animation(rotacaoTarget, v, accao);
@@ -106,12 +125,16 @@ namespace Monopolio
         #endregion
 
         #region Update
+        /// <summary>
+        /// Atualiza a animação atual
+        /// </summary>
+        /// <param name="camera">Uma instância da camera</param>
         public void Update(Camera camera)
         {
 
             if (activeAnimation != null)
             {
-                //Temos uma animação ativa, atacar
+                //Temos uma animação ativa, executá-la
                 activeAnimation.Update(camera);
                 //Verificar se ainda está ativa
                 if (!activeAnimation.Moving && !activeAnimation.Zooming && !activeAnimation.Rotating)
@@ -142,12 +165,15 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Devolve a próxima animação a executar e inicia os seus valores com valores atuais da camera
+        /// </summary>
+        /// <param name="camera">Uma instância da camera</param>
         private void getNextAnimation(Camera camera)
         {
             if (animations.Count > 0)
             {
                 activeAnimation = (Animation)animations.Dequeue();
-                Console.WriteLine("Animação retirada! {0} animações", animations.Count);
                 if (!activeAnimation.Moving)
                 {
                     activeAnimation.setPosicaoTarget(camera.Posicao);

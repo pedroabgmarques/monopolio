@@ -13,30 +13,63 @@ namespace Monopolio
     {
 
         #region Estado
+        /// <summary>
+        /// Posição para onde a camera será movida
+        /// </summary>
         Vector2 posicaoTarget;
+        /// <summary>
+        /// Setter de posição da camera
+        /// </summary>
+        /// <param name="posicaoTarget"></param>
         public void setPosicaoTarget(Vector2 posicaoTarget)
         {
             this.posicaoTarget = posicaoTarget;
         }
+        /// <summary>
+        /// Zoom para o qual se deseja mover a camera
+        /// </summary>
         float zoomTarget;
+        /// <summary>
+        /// Setter de zoom desejado
+        /// </summary>
+        /// <param name="zoom"></param>
         public void setZoomTarget(float zoom)
         {
             this.zoomTarget = zoom;
         }
+        /// <summary>
+        /// Rotação que se deseja para a camera
+        /// </summary>
         float rotacaoTarget;
+        /// <summary>
+        /// Setter de rotação desejada
+        /// </summary>
+        /// <param name="rotacao">Rotação desejada</param>
         public void setRotacaoTarget(float rotacao)
         {
             this.rotacaoTarget = rotacao;
         }
 
+        /// <summary>
+        /// Velocidade da mudança de posição
+        /// </summary>
         float posicaoStep = 0.07f;
+        /// <summary>
+        /// Velocidade da mudança de zoom
+        /// </summary>
         float zoomStep = 0.07f;
+        /// <summary>
+        /// Velocidade da rotação
+        /// </summary>
         float rotacaoStep = 0.07f;
 
         /// <summary>
         /// Flag de movimento
         /// </summary>
         private bool moving;
+        /// <summary>
+        /// Getter da flag de movimento
+        /// </summary>
         public bool Moving
         {
             get { return moving; }
@@ -46,6 +79,9 @@ namespace Monopolio
         /// Flag de zoom
         /// </summary>
         private bool zooming;
+        /// <summary>
+        /// Getter da flag de zoom
+        /// </summary>
         public bool Zooming
         {
             get { return zooming; }
@@ -55,6 +91,9 @@ namespace Monopolio
         /// Flag de rotação
         /// </summary>
         private bool rotating;
+        /// <summary>
+        /// Getter da flag de rotacao
+        /// </summary>
         public bool Rotating
         {
             get { return rotating; }
@@ -64,6 +103,10 @@ namespace Monopolio
         /// Código a ser executado no final da animação
         /// </summary>
         private Action<string> accao;
+        /// <summary>
+        /// Getter do código a ser executado no final da animação
+        /// </summary>
+        /// <returns></returns>
         public Action<string> getAccao()
         {
             return accao;
@@ -168,16 +211,19 @@ namespace Monopolio
             if (Math.Round(camera.Posicao.X, 0) != Math.Round(posicaoTarget.X, 0)
                 || Math.Round(camera.Posicao.Y, 0) != Math.Round(posicaoTarget.Y, 0))
             {
+                //Ainda não chegámos à posição desejada, continuar a mover
                 camera.Posicao = Vector2.Lerp(camera.Posicao, posicaoTarget, posicaoStep);
             }
             else
             {
+                //Chegámos à posição desejada, desligar a flag de movimento
                 moving = false;
             }
             if (Math.Round(camera.getZoom(), 2) != Math.Round(zoomTarget, 2))
             {
                 if (zoomTarget == Zoom.longe && posicaoTarget != camera.getPosicaoCentral())
                 {
+                    //Se o zoom vai para longe, centrar o tabuleiro para vermos o tabuleiro todo
                     posicaoTarget = camera.getPosicaoCentral();
                 }
                 camera.setZoom(MathHelper.Lerp(camera.getZoom(), zoomTarget, zoomStep));
@@ -188,6 +234,7 @@ namespace Monopolio
             }
             if (Math.Abs(camera.getRotacao() - rotacaoTarget) > 0.0001 
                 //Hack foleiro para resolver um problema de rotação de +0 para -0?
+                //Limita as rotações a um máximo de 270º
                 && Math.Abs(camera.getRotacao() - rotacaoTarget) <= MathHelper.ToRadians(270))
             {
                 camera.setRotacao(MathHelper.Lerp(camera.getRotacao(), rotacaoTarget, rotacaoStep));
@@ -199,6 +246,8 @@ namespace Monopolio
 
                     if ((Math.Abs((float)Math.Round((decimal)camera.getRotacao(), 0)) % (float)Math.Round(MathHelper.Pi, 0) == 0) && Math.Abs((float)Math.Round(camera.getRotacao(), 2)) > 3.14f)
                     {
+                        //Demos uma volta completa, rotação 2pi = 0.
+                        //Impede a acumulação de erro na rotação
                         camera.setRotacao(0);
                         this.setRotacaoTarget(0);
                     }

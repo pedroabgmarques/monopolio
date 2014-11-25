@@ -105,6 +105,7 @@ namespace Monopolio
             this.Posicao = posicaoCentral;
             setZoom(Zoom.closeUp);
             this.rotacao = MathHelper.ToRadians(0);
+            //origem  = centro do ecrã
             this.origem = new Vector2(this.viewport.Width / 2.0f,
                                         this.viewport.Height / 2.0f);
 

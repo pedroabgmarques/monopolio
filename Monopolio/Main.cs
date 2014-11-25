@@ -218,27 +218,6 @@ namespace Monopolio
         }
 
         /// <summary>
-        /// Move a camara um determinado numero de casas
-        /// </summary>
-        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
-        /// <param name="casasAMover">Nº de casas que vamos mover</param>
-        private void moverCamaraParaCasa(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
-        {
-            this.indiceCasaAtual = tabuleiro.IndiceCasaAFrente(indiceCasaAtual, casasAMover);
-            atualizarCasaAtual(indiceCasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
-            cameraAnimationManager.newAnimation(Zoom.perto, accao);
-            
-        }
-
-        private void atualizarCasaAtual(int indiceCasaAtual)
-        {
-            casaAtual = tabuleiro.Casa(indiceCasaAtual);
-            posicao.X = casaAtual.CoordsAndSize.X - ((GraphicsDevice.Viewport.Width / 2) - (casaAtual.CoordsAndSize.Width / 2));
-            posicao.Y = casaAtual.CoordsAndSize.Y - ((GraphicsDevice.Viewport.Height / 2) - (casaAtual.CoordsAndSize.Height / 2));
-        }
-
-        /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
@@ -246,6 +225,8 @@ namespace Monopolio
         {
             // TODO: Unload any non ContentManager content here
         }
+
+        #region Game Loop
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -279,9 +260,6 @@ namespace Monopolio
             //Verificar se o rato está sobre um botao
             verificarRatoSobreBotao();
 
-            //Atualizar UI de lancamento
-            atualizarUILancamento();
-
             //Limpar lista de componentes de UI
             eliminarUIsDesativas();
 
@@ -289,6 +267,80 @@ namespace Monopolio
             gameLogic();
 
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            ViewMatrix = camera.getTransformation(Vector2.One);
+
+            #region Parallax
+            //desenhar o background / parallax
+            foreach (ParallaxLayer layer in layers)
+                layer.Draw(spriteBatch);
+
+            desenharTabuleiro();
+            
+            desenharRectangulos(3);
+
+            #endregion
+
+            #region No Parallax
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            
+            //desenhar seta do rato
+            rato.Draw(spriteBatch);
+
+            //desenhar coordenadas do rato [DEBUG]
+            //desenharCoordenadasRato(rato);
+
+            //desenhar coordenadas da camera [DEBUG]
+            //desenharCoordenadasCamera(camera);
+
+            //desenharRotacaoCamera [DEBUG]
+            desenharRotacaoCamera(camera);
+
+            //desenhar UI
+            desenharUI();
+            
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+            #endregion
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Move a camara um determinado numero de casas
+        /// </summary>
+        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
+        /// <param name="casasAMover">Nº de casas que vamos mover</param>
+        private void moverCamaraParaCasa(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
+        {
+            this.indiceCasaAtual = tabuleiro.IndiceCasaAFrente(indiceCasaAtual, casasAMover);
+            atualizarCasaAtual(indiceCasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
+            cameraAnimationManager.newAnimation(Zoom.perto, accao);
+
+        }
+
+        /// <summary>
+        /// Atualiza a casa em que estamos atualmente
+        /// </summary>
+        /// <param name="indiceCasaAtual">Índice da casa em que estamos</param>
+        private void atualizarCasaAtual(int indiceCasaAtual)
+        {
+            casaAtual = tabuleiro.Casa(indiceCasaAtual);
+            posicao.X = casaAtual.CoordsAndSize.X - ((GraphicsDevice.Viewport.Width / 2) - (casaAtual.CoordsAndSize.Width / 2));
+            posicao.Y = casaAtual.CoordsAndSize.Y - ((GraphicsDevice.Viewport.Height / 2) - (casaAtual.CoordsAndSize.Height / 2));
         }
 
         /// <summary>
@@ -318,26 +370,28 @@ namespace Monopolio
         /// </summary>
         private void gameLogic()
         {
-            if (UIModalAtiva == null)
-            //Se existe uma janela modal ativa estamos à espera de input dos jogadores, e a lógica do jogo não avança
+            switch (GameState.Estado)
             {
-                switch (GameState.Estado)
-                {
-                    case Estado.Inicial:
+                case Estado.Inicial:
+                    if (UIModalAtiva == null)
+                    //Se existe uma janela modal ativa estamos à espera de input dos jogadores, e a lógica do jogo não avança
+                    {
                         //Zoom Out
                         cameraAnimationManager.newAnimation(Zoom.longe);
                         //Verificar se já existem jogadores
                         verificarListaJogadores();
-                        break;
-                    case Estado.Lançamento:
-                        break;
-                    case Estado.Compra:
-                        break;
-                    case Estado.Leilão:
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case Estado.Lançamento:
+                    //Atualizar UI de lancamento
+                    atualizarUILancamento();
+                    break;
+                case Estado.Compra:
+                    break;
+                case Estado.Leilão:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -349,11 +403,6 @@ namespace Monopolio
             if (listaJogadores.Count == 0)
             {
                 listaOpcoes.Clear();
-                opcao = new Opcao("One Player", TipoOpcao.Bom, true, (s) =>
-                {
-                    inicializarJogadores(1);
-                });
-                listaOpcoes.Add(opcao);
                 opcao = new Opcao("Two Players", TipoOpcao.Bom, true, (s) =>
                 {
                     inicializarJogadores(2);
@@ -396,7 +445,7 @@ namespace Monopolio
                 listaJogadores.Add(jogador);
             }
             //Fechar a UI de escolha do número de jogadores
-            foreach(UI ui in listaComponentesUI)
+            foreach (UI ui in listaComponentesUI)
             {
                 if (ui == UIModalAtiva)
                 {
@@ -445,14 +494,15 @@ namespace Monopolio
             listaOpcoes.Clear();
             opcao = new Opcao("Ok, go!", TipoOpcao.Bom, true, (s) =>
             {
-                moverCamaraParaCasa(indiceCasaAtual, lancamento.somaDados, (t) => {
-                    criarUILancamento(); 
+                moverCamaraParaCasa(indiceCasaAtual, lancamento.somaDados, (t) =>
+                {
+                    criarUILancamento();
                 });
             });
             listaOpcoes.Add(opcao);
 
             texto.Clear();
-            texto.AppendLine("Congratulations, you had a " + lancamento.somaDados +"!");
+            texto.AppendLine("Congratulations, you had a " + lancamento.somaDados + "!");
             texto.AppendLine();
             texto.AppendLine("Click the button below to go!");
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
@@ -476,6 +526,11 @@ namespace Monopolio
             listaComponentesUI.Add(UI_Centrado);
         }
 
+        /// <summary>
+        /// Cria uma UI de lançamento de dados e faz as inicializações necessárias
+        /// </summary>
+        /// <param name="nomeTextura">Nome da textura</param>
+        /// <param name="ativa">Ativa</param>
         private void criarUILancamento(string nomeTextura, bool ativa)
         {
             UI_Lancamento = new UI_Lancamento(nomeTextura, ativa);
@@ -485,52 +540,9 @@ namespace Monopolio
         }
 
         /// <summary>
-        /// This is called when the game should draw itself.
+        /// Atualiza o rectângulo do rato de acordo com a sua posição.
+        /// Este rectângulo é usado para verificar se o rato intersecta um botão
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            ViewMatrix = camera.getTransformation(Vector2.One);
-
-            #region Parallax
-            //desenhar o background / parallax
-            foreach (ParallaxLayer layer in layers)
-                layer.Draw(spriteBatch);
-
-            desenharTabuleiro();
-            
-            desenharRectangulos(3);
-
-            #endregion
-
-            #region No Parallax
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            
-            //desenhar seta do rato
-            rato.Draw(spriteBatch);
-
-            //desenhar coordenadas do rato [DEBUG]
-            //desenharCoordenadasRato(rato);
-
-            //desenhar coordenadas da camera [DEBUG]
-            //desenharCoordenadasCamera(camera);
-
-            //desenharRotacaoCamera [DEBUG]
-            desenharRotacaoCamera(camera);
-
-            //desenhar UI
-            desenharUI();
-            
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-            #endregion
-        }
-
-        #region Helpers
-
         private void atualizarRectanguloRato()
         {
             rectanguloRato.X = (int)rato.Posicao.X;
@@ -690,7 +702,13 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Variável reutilizada para guardar uma lista de UIs
+        /// </summary>
         List<UI> tempListaUI = new List<UI>();
+        /// <summary>
+        /// Percorre a lista de componentes de UI e remove as UIs desativas
+        /// </summary>
         private void eliminarUIsDesativas()
         {
             tempListaUI.Clear();
@@ -834,6 +852,12 @@ namespace Monopolio
             
         }
 
+        /// <summary>
+        /// Cria uma UI com a lista de jogadores e algumas características destes
+        /// </summary>
+        /// <param name="nomeTextura">Nome da textura a utilizar</param>
+        /// <param name="ativa">Ativa</param>
+        /// <param name="modal">Modal</param>
         private void loadAndAddUIJogadores(string nomeTextura, bool ativa, bool modal)
         {
             UI_Jogadores jogadores = new UI_Jogadores(nomeTextura, modal);
@@ -846,7 +870,7 @@ namespace Monopolio
         }
 
         /// <summary>
-        /// Desenha todos os componentes de UI
+        /// Desenha todos os componentes de UI que estão ativas
         /// </summary>
         private void desenharUI()
         {
