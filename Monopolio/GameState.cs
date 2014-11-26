@@ -10,6 +10,7 @@ namespace Monopolio
     {
         Inicial,
         Lançamento,
+        Casa,
         Compra,
         Leilão
     }

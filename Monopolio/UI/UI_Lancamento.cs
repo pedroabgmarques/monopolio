@@ -72,7 +72,7 @@ namespace Monopolio
             return lancamento;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(base.textura,
                             new Rectangle((int)base.posicao.X, (int)base.posicao.Y, textura.Width, textura.Height),

@@ -82,6 +82,7 @@ namespace Monopolio
             this.nome = nome;
             this.dinheiro = 2 * 500 + 2 * 100 + 2 * 50 + 6 * 20 + 5 * 10 + 5 * 5 + 5 * 1;
             this.casaAtual = 0;
+            this.listaPropriedades = new List<Propriedade>();
         }
         #endregion
 
@@ -121,6 +122,7 @@ namespace Monopolio
         {
             propriedade.Dono = this;
             listaPropriedades.Add(propriedade);
+            pagar(propriedade.Custo);
         }
 
         /// <summary>

@@ -186,7 +186,7 @@ namespace Monopolio
         /// <param name="arial12"></param>
         /// <param name="listaJogadores"></param>
         /// <param name="tabuleiro"></param>
-        virtual public void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro)
+        virtual public void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(textura, posicao, Color.White);
         }
