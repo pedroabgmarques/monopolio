@@ -70,7 +70,6 @@ namespace Monopolio
         }
 
         private int nVoltas;
-
         public int NVoltas
         {
             get { return nVoltas; }
@@ -78,12 +77,19 @@ namespace Monopolio
         }
 
         private bool primeiraVolta;
-
         public bool PrimeiraVolta
         {
             get { return primeiraVolta; }
             set { primeiraVolta = value; }
         }
+
+        private int ultimoLancamento;
+        public int UltimoLancamento
+        {
+            get { return ultimoLancamento; }
+            set { ultimoLancamento = value; }
+        }
+        
         
         
         
@@ -161,11 +167,15 @@ namespace Monopolio
         public int nEstacoes()
         {
             int nEstacoes = 0;
-            foreach (Utilidade prop in listaPropriedades)
+            foreach (Propriedade propriedade in listaPropriedades)
             {
-                if (prop.Tipo == Tipo.Estação)
+                if (propriedade is Utilidade)
                 {
-                    nEstacoes++;
+                    utilidade = (Utilidade)propriedade;
+                    if (utilidade.Tipo == Tipo.Estação)
+                    {
+                        nEstacoes++;
+                    }
                 }
             }
             return nEstacoes;
@@ -175,35 +185,24 @@ namespace Monopolio
         /// Devolve o nº de companhias eletricas que um jogador tem
         /// </summary>
         /// <returns></returns>
-        public int nEletricas()
+        Utilidade utilidade;
+        public int nEletricasEAguas()
         {
-            int nEletricas = 0;
-            foreach (Utilidade prop in listaPropriedades)
+            int nEletricasEAguas = 0;
+            foreach (Propriedade propriedade in listaPropriedades)
             {
-                if (prop.Tipo == Tipo.Eletricidade)
+                if (propriedade is Utilidade)
                 {
-                    nEletricas++;
+                    utilidade = (Utilidade)propriedade;
+                    if (utilidade.Tipo == Tipo.Eletricidade || utilidade.Tipo == Tipo.Água)
+                    {
+                        nEletricasEAguas++;
+                    }
                 }
             }
-            return nEletricas;
+            return nEletricasEAguas;
         }
 
-        /// <summary>
-        /// Devolve o nº de companhias da agua que um jogador possui
-        /// </summary>
-        /// <returns></returns>
-        public int nAguas()
-        {
-            int nAguas = 0;
-            foreach (Utilidade prop in listaPropriedades)
-            {
-                if (prop.Tipo == Tipo.Água)
-                {
-                    nAguas++;
-                }
-            }
-            return nAguas;
-        }
 
         #endregion
 

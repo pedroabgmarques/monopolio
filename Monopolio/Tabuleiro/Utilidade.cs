@@ -74,7 +74,7 @@ namespace Monopolio
         /// </summary>
         /// <param name="nUtilidades">Numero de outras utilidades do mesmo tipo possuidas pelo dono desta utilidade</param>
         /// <returns></returns>
-        public int renda(int nUtilidades)
+        public int rendaEstacoes(int nUtilidades)
         {
             switch (nUtilidades)
             {
@@ -92,9 +92,9 @@ namespace Monopolio
         /// <param name="nEletricas">Numero de companhias de electricidade que o jogador possui</param>
         /// <param name="dados">Numero que saiu nos dados no ultimo lançamento</param>
         /// <returns></returns>
-        public int rendaEletricas(int nEletricas, int dados)
+        public int rendaEletricasEAgua(int nEletricasEAguas, int dados)
         {
-            switch (nEletricas)
+            switch (nEletricasEAguas)
             {
                 case 1: return this.multiplicador1 * dados;
                 case 2: return this.multiplicador2 * dados;

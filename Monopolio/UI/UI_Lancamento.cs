@@ -69,6 +69,9 @@ namespace Monopolio
                     diferenca++;
                 }
             }
+
+            //lancamento.dado1 = 2;
+            //lancamento.dado2 = 3;
             return lancamento;
         }
 

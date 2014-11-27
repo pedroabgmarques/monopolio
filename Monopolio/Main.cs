@@ -376,6 +376,7 @@ namespace Monopolio
                         //A janela de lançamento produziu um valor para os dados
                         //Fechar a janela de lançamentos
                         UIModalAtiva.desativarUI(ref UIModalAtiva);
+                        jogador.UltimoLancamento = lancamento.dado1 + lancamento.dado2;
                         criarUIResultadoLancamento(lancamento);
                     }
                 }
@@ -473,7 +474,88 @@ namespace Monopolio
             }
             else if (propriedade is Utilidade)
             {
-                //TODO
+                processarUtilidade((Utilidade)propriedade);
+            }
+        }
+
+        /// <summary>
+        /// Processa uma casa do tipo Utilidade (estações, eletricas, águas)
+        /// </summary>
+        /// <param name="utilidade">Utilidade a processar</param>
+        private void processarUtilidade(Utilidade utilidade)
+        {
+            if (utilidade.Dono == null)
+            {
+                //Esta utilidade não tem dono, podemos comprá-la
+                listaOpcoes.Clear();
+                opcao = new Opcao("Buy!", TipoOpcao.Bom, true, (s) =>
+                {
+                    //Comprar a rua
+                    jogador.adicionarPropriedade((Propriedade)utilidade);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Será que aqui leva a leilão??
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You can buy ");
+                texto.Append(utilidade.Nome);
+                texto.Append("!");
+                texto.AppendLine();
+                texto.Append("For that, you pay ");
+                texto.Append(utilidade.Custo);
+                texto.Append(" Euro.");
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (utilidade.Dono != null && utilidade.Dono != jogador)
+            {
+                //Esta utilidade tem dono e não somos nós, temos que pagar renda
+                int renda;
+                switch (utilidade.Tipo)
+                {
+                    case Tipo.Estação:
+                        renda = utilidade.rendaEstacoes(utilidade.Dono.nEstacoes());
+                        break;
+                    case Tipo.Eletricidade:
+                        renda = utilidade.rendaEletricasEAgua(utilidade.Dono.nEletricasEAguas(), jogador.UltimoLancamento);
+                        break;
+                    case Tipo.Água:
+                        renda = utilidade.rendaEletricasEAgua(utilidade.Dono.nEletricasEAguas(), jogador.UltimoLancamento);
+                        break;
+                    default:
+                        renda = 0;
+                        break;
+                }
+
+                listaOpcoes.Clear();
+                opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Pagar o aluguer correspondente ao n de casas da rua
+                    jogador.pagar(renda);
+                    utilidade.Dono.receber(renda);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You get an invoice from ");
+                texto.Append(utilidade.Nome);
+                texto.Append(".");
+                texto.AppendLine();
+                texto.Append("You must pay ");
+                texto.Append(renda);
+                texto.Append(" Euro to ");
+                texto.Append(utilidade.Dono.Nome);
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (utilidade.Dono == jogador)
+            {
+                //A utilidade já é nossa, não podemos fazer nada
                 proximoJogador();
             }
         }
