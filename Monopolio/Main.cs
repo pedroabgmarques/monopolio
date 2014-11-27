@@ -535,7 +535,7 @@ namespace Monopolio
                 listaOpcoes.Clear();
                 opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
                 {
-                    //Pagar o aluguer correspondente ao n de casas da rua
+                    //Pagar o aluguer correspondente ao n de utilidades que o dono possui
                     jogador.pagar(renda);
                     utilidade.Dono.receber(renda);
                     proximoJogador();

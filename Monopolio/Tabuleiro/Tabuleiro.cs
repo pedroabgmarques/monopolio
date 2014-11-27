@@ -485,7 +485,7 @@ namespace Monopolio
                 //Se começamos numa casa de canto, temos q descontar uma rotação
                 if (
 
-                    ((indiceAtual == 0 && indiceAtual == 10 && indiceAtual == 20 && indiceAtual == 30) &&
+                    ((indiceAtual == 0 || indiceAtual == 10 || indiceAtual == 20 || indiceAtual == 30) &&
                     (indiceFinal == 0 || indiceFinal == 10 || indiceFinal == 20 || indiceFinal == 30))
 
                     ||
