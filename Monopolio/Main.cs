@@ -241,6 +241,7 @@ namespace Monopolio
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
             //atualizar o estado do teclado
             estadoTeclado = Keyboard.GetState();
 
