@@ -1,8 +1,7 @@
 C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Monopolio\MonopolioContent\obj\x86\Debug\MonopolioContent.contentprojResolveAssemblyReference.cache
 C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\Monopolio\MonopolioContent\obj\x86\Debug\MonopolioContent.contentprojResolveAssemblyReference.cache
 C:\Users\nlopes\Documents\IPCA\EDJD\code\Paradigmas de Programação I\Projeto PPI 1\MonopolioContent\obj\x86\Debug\MonopolioContent.contentprojResolveAssemblyReference.cache
-<<<<<<< HEAD
 C:\Users\Joana\Desktop\projectomonopolio\monopolio\MonopolioContent\obj\x86\Debug\MonopolioContent.contentprojResolveAssemblyReference.cache
-=======
+
 C:\Users\nlopes\Documents\GitHub\monopolio\MonopolioContent\obj\x86\Debug\MonopolioContent.contentprojResolveAssemblyReference.cache
->>>>>>> origin/master
+
