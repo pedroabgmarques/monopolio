@@ -113,14 +113,17 @@ namespace Monopolio
         Vector2 posicao;
 
         /// <summary>
-        /// TESTE - guarda o indice da casa em que estamos atualmente
-        /// DEVERÁ SER GUARDADO NA CLASSE DO JOGADOR
-        /// </summary>
-        int indiceCasaAtual;
-        /// <summary>
         /// TESTE - guarda o numero que saiu nos dados, que indica quantas casas vamos mover
         /// </summary>
         int casasAMover;
+        /// <summary>
+        /// Indice do jogador atual
+        /// </summary>
+        int indiceJogadorAtual;
+        /// <summary>
+        /// Jogador atual
+        /// </summary>
+        Jogador jogador;
 
         #endregion
 
@@ -214,6 +217,9 @@ namespace Monopolio
 
             //Criar uma lista de camadas para o efeito parallax
             gerarCamadasParallax();
+
+            //Zoom Out Inicial
+            cameraAnimationManager.newAnimation(Zoom.longe);
 
         }
 
@@ -319,17 +325,28 @@ namespace Monopolio
         #region Helpers
 
         /// <summary>
+        /// Move o jogador e a camera camara um determinado numero de casas
+        /// </summary>
+        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
+        /// <param name="casasAMover">Nº de casas que vamos mover</param>
+        private void moverJogadorECameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
+        {
+            jogador.CasaAtual = tabuleiro.IndiceCasaAFrente(jogador.CasaAtual, casasAMover);
+            atualizarCasaAtual(jogador.CasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
+            cameraAnimationManager.newAnimation(Zoom.perto, accao);
+        }
+
+        /// <summary>
         /// Move a camara um determinado numero de casas
         /// </summary>
         /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
         /// <param name="casasAMover">Nº de casas que vamos mover</param>
-        private void moverCamaraParaCasa(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
+        private void moverCameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
-            this.indiceCasaAtual = tabuleiro.IndiceCasaAFrente(indiceCasaAtual, casasAMover);
-            atualizarCasaAtual(indiceCasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
+            atualizarCasaAtual(jogador.CasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
-
         }
 
         /// <summary>
@@ -359,6 +376,7 @@ namespace Monopolio
                         //A janela de lançamento produziu um valor para os dados
                         //Fechar a janela de lançamentos
                         UIModalAtiva.desativarUI(ref UIModalAtiva);
+                        jogador.UltimoLancamento = lancamento.dado1 + lancamento.dado2;
                         criarUIResultadoLancamento(lancamento);
                     }
                 }
@@ -376,8 +394,6 @@ namespace Monopolio
                     if (UIModalAtiva == null)
                     //Se existe uma janela modal ativa estamos à espera de input dos jogadores, e a lógica do jogo não avança
                     {
-                        //Zoom Out
-                        cameraAnimationManager.newAnimation(Zoom.longe);
                         //Verificar se já existem jogadores
                         verificarListaJogadores();
                     }
@@ -386,12 +402,256 @@ namespace Monopolio
                     //Atualizar UI de lancamento
                     atualizarUILancamento();
                     break;
+                case Estado.Casa:
+                    if (UIModalAtiva == null) 
+                    {
+                        processarCasa(casaAtual);
+                    }
+                    break;
                 case Estado.Compra:
                     break;
                 case Estado.Leilão:
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Gere o processamento do código das casas
+        /// </summary>
+        private void processarCasa(Casa casa)
+        {
+            if (casaAtual is Propriedade)
+            {
+                processarPropriedades((Propriedade)casa);
+            }
+            else if (casaAtual is CommunityChest)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is Descanso)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is GoTo)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is Imposto)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is Partida)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is Prisao)
+            {
+                //TODO
+                proximoJogador();
+            }
+            else if (casaAtual is Sorte)
+            {
+                //TODO
+                proximoJogador();
+            }
+        }
+
+        /// <summary>
+        /// Processa as casas do tipo Propriedade
+        /// </summary>
+        private void processarPropriedades(Propriedade propriedade)
+        {
+            if (propriedade is Rua)
+            {
+                processarRua((Rua)propriedade);
+            }
+            else if (propriedade is Utilidade)
+            {
+                processarUtilidade((Utilidade)propriedade);
+            }
+        }
+
+        /// <summary>
+        /// Processa uma casa do tipo Utilidade (estações, eletricas, águas)
+        /// </summary>
+        /// <param name="utilidade">Utilidade a processar</param>
+        private void processarUtilidade(Utilidade utilidade)
+        {
+            if (utilidade.Dono == null)
+            {
+                //Esta utilidade não tem dono, podemos comprá-la
+                listaOpcoes.Clear();
+                opcao = new Opcao("Buy!", TipoOpcao.Bom, true, (s) =>
+                {
+                    //Comprar a rua
+                    jogador.adicionarPropriedade((Propriedade)utilidade);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Será que aqui leva a leilão??
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You can buy ");
+                texto.Append(utilidade.Nome);
+                texto.Append("!");
+                texto.AppendLine();
+                texto.Append("For that, you pay ");
+                texto.Append(utilidade.Custo);
+                texto.Append(" Euro.");
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (utilidade.Dono != null && utilidade.Dono != jogador)
+            {
+                //Esta utilidade tem dono e não somos nós, temos que pagar renda
+                int renda;
+                switch (utilidade.Tipo)
+                {
+                    case Tipo.Estação:
+                        renda = utilidade.rendaEstacoes(utilidade.Dono.nEstacoes());
+                        break;
+                    case Tipo.Eletricidade:
+                        renda = utilidade.rendaEletricasEAgua(utilidade.Dono.nEletricasEAguas(), jogador.UltimoLancamento);
+                        break;
+                    case Tipo.Água:
+                        renda = utilidade.rendaEletricasEAgua(utilidade.Dono.nEletricasEAguas(), jogador.UltimoLancamento);
+                        break;
+                    default:
+                        renda = 0;
+                        break;
+                }
+
+                listaOpcoes.Clear();
+                opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Pagar o aluguer correspondente ao n de utilidades que o dono possui
+                    jogador.pagar(renda);
+                    utilidade.Dono.receber(renda);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You get an invoice from ");
+                texto.Append(utilidade.Nome);
+                texto.Append(".");
+                texto.AppendLine();
+                texto.Append("You must pay ");
+                texto.Append(renda);
+                texto.Append(" Euro to ");
+                texto.Append(utilidade.Dono.Nome);
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (utilidade.Dono == jogador)
+            {
+                //A utilidade já é nossa, não podemos fazer nada
+                proximoJogador();
+            }
+        }
+
+        /// <summary>
+        /// Processa as casas do tipo Rua
+        /// </summary>
+        /// <param name="rua">Rua a processar</param>
+        private void processarRua(Rua rua)
+        {
+            if (rua.Dono == null)
+            {
+                //Esta rua ainda não tem dono, o jogador pode comprá-la
+                listaOpcoes.Clear();
+                opcao = new Opcao("Buy!", TipoOpcao.Bom, true, (s) =>
+                {
+                    //Comprar a rua
+                    jogador.adicionarPropriedade((Propriedade)rua);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Aqui deviamos ir para leilão.. TODO
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You can buy ");
+                texto.Append(rua.Nome);
+                texto.Append("!");
+                texto.AppendLine();
+                texto.Append("For that, you pay ");
+                texto.Append(rua.Custo);
+                texto.Append(" Euro.");
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (rua.Dono != null && rua.Dono != jogador)
+            {
+                //Esta rua tem dono e não somos nós, pagar aluguer
+                listaOpcoes.Clear();
+                opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Pagar o aluguer correspondente ao n de casas da rua
+                    jogador.pagar(rua.Renda());
+                    rua.Dono.receber(rua.Renda());
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You spend the night at ");
+                texto.Append(rua.Nome);
+                texto.Append(".");
+                texto.AppendLine();
+                texto.Append("For that, you pay ");
+                texto.Append(rua.Renda());
+                texto.Append(" Euro to ");
+                texto.Append(rua.Dono.Nome);
+                texto.Append(".");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else if (rua.Dono == jogador)
+            {
+                //Somos o dono desta rua
+                if (rua.NCasas < 5)
+                {
+                    listaOpcoes.Clear();
+                    opcao = new Opcao("Build!", TipoOpcao.Bom, true, (s) =>
+                    {
+                        //Construir uma casa
+                        //O custo é o mesmo do de compra???
+                        jogador.pagar(rua.Custo);
+                        rua.NCasas++;
+                        proximoJogador();
+                    });
+                    listaOpcoes.Add(opcao);
+                    opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
+                    {
+                        //Não quer comprar casa, azar
+                        proximoJogador();
+                    });
+                    listaOpcoes.Add(opcao);
+                    texto.Clear();
+                    texto.Append("This property is yours and you can invest in it!");
+                    texto.AppendLine();
+                    texto.Append("For that, you pay ");
+                    texto.Append(rua.Custo);
+                    texto.Append(" Euro");
+                    criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+                }
+                else
+                {
+                    //Já tem 5 casas, não pode fazer nada
+                    proximoJogador();
+                }
             }
         }
 
@@ -441,9 +701,12 @@ namespace Monopolio
             //Criar os jogadores e inseri-los na lista
             for (int i = 0; i < numJogadores; i++)
             {
-                Jogador jogador = new Jogador("Player " + (i + 1));
-                listaJogadores.Add(jogador);
+                Jogador novoJogador = new Jogador("Player " + (i + 1));
+                listaJogadores.Add(novoJogador);
             }
+            //Alterar o indice do jogador atual
+            indiceJogadorAtual = 0;
+            jogador = listaJogadores[indiceJogadorAtual];
             //Fechar a UI de escolha do número de jogadores
             foreach (UI ui in listaComponentesUI)
             {
@@ -456,17 +719,55 @@ namespace Monopolio
             listaComponentesUI.Remove(tempUI);
             //Adicionar a UI com a lista de jogadores
             loadAndAddUIJogadores("background", true, false);
-            //Alterar o estado do jogo
-            GameState.Estado = Estado.Lançamento;
+            
             //Zoom na casa de partida
-            indiceCasaAtual = 0;
+            jogador.CasaAtual = 0;
             casasAMover = 0;
-            atualizarCasaAtual(indiceCasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaAtual, casasAMover), true);
+            atualizarCasaAtual(jogador.CasaAtual);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, (s) =>
             {
+                //Quando as animações terminam,
+                //criar uma UI de lançamento de dados e alterar estado do jogo
+                GameState.Estado = Estado.Lançamento;
                 criarUILancamento();
             });
+        }
+
+        /// <summary>
+        /// Passa para o próximo jogador a jogar
+        /// </summary>
+        int casaOriginal;
+        private void proximoJogador()
+        {
+            GameState.Estado = Estado.Lançamento;
+            casaOriginal = jogador.CasaAtual;
+            indiceJogadorAtual++;
+            if (indiceJogadorAtual >= listaJogadores.Count)
+            {
+                indiceJogadorAtual = 0;
+            }
+            jogador = listaJogadores[indiceJogadorAtual];
+
+            //Mover camera para o jogador
+            moverCameraCasa(casaOriginal, jogador.CasaAtual, (s) =>
+            {
+                //Quando as animações terminam,
+                //criar uma UI de lançamento de dados e alterar estado do jogo
+                criarUILancamento();
+            });
+            
+        }
+
+        private void moverCameraCasa(int casaInicial, int casaDesejada, Action<string> accao = null)
+        {
+            cameraAnimationManager.newAnimation(Zoom.longe);
+            atualizarCasaAtual(casaDesejada);
+            cameraAnimationManager.newAnimation(posicao,
+                tabuleiro.verificarRotacaoEPartida(camera, casaInicial,
+                    tabuleiro.nCasasDiferenca(casaInicial, casaDesejada), jogador),
+                true);
+            cameraAnimationManager.newAnimation(Zoom.perto, accao);
         }
 
         /// <summary>
@@ -474,6 +775,7 @@ namespace Monopolio
         /// </summary>
         private void criarUILancamento()
         {
+            
             listaOpcoes.Clear();
             opcao = new Opcao("Good luck!", TipoOpcao.Bom, true, (s) =>
             {
@@ -483,7 +785,7 @@ namespace Monopolio
             listaOpcoes.Add(opcao);
 
             texto.Clear();
-            texto.AppendLine("It's your turn to play!");
+            texto.AppendLine("It's your turn to play, "+ jogador.Nome +"!");
             texto.AppendLine();
             texto.AppendLine("Click the button below to roll your dice!");
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
@@ -494,9 +796,9 @@ namespace Monopolio
             listaOpcoes.Clear();
             opcao = new Opcao("Ok, go!", TipoOpcao.Bom, true, (s) =>
             {
-                moverCamaraParaCasa(indiceCasaAtual, lancamento.somaDados, (t) =>
+                moverJogadorECameraNCasas(jogador.CasaAtual, lancamento.somaDados, (t) =>
                 {
-                    criarUILancamento();
+                    GameState.Estado = Estado.Casa;
                 });
             });
             listaOpcoes.Add(opcao);
@@ -683,13 +985,16 @@ namespace Monopolio
                         //Se este componente de UI tem lista de opções..
                         foreach (Opcao opcao in ui.getListaOpcoes())
                         {
-                            if (rectanguloRato.Intersects(opcao.rectangulo))
+                            if (rectanguloRato.Intersects(opcao.rectangulo) && opcao.Activa)
                             {
+                                rato.Blocked = true;
                                 if (opcao.CloseOnClick)
                                 {
+                                    opcao.Activa = false;
                                     ui.desativarUI(ref UIModalAtiva);
                                 }
                                 opcao.ExecutarAccao();
+                                rato.Blocked = false;
                             }
                             opcao.Clique = false;
                         }
@@ -877,7 +1182,7 @@ namespace Monopolio
             foreach (UI ui in listaComponentesUI)
             {
                 if(ui.Ativa)
-                    ui.Draw(spriteBatch, camera, arial12, listaJogadores, tabuleiro);
+                    ui.Draw(spriteBatch, camera, arial12, listaJogadores, tabuleiro, jogador);
             }
         }
 

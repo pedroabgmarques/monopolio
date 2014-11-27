@@ -170,12 +170,14 @@ namespace Monopolio
             //Rotação
             if (estadoTeclado.IsKeyDown(Keys.A))
             {
-                activateRotation(-90);
+                if(cameraAnimationManager.getQueuedAnimations() == 0)
+                    cameraAnimationManager.newAnimation(rotacao + MathHelper.ToRadians(-90), true);
             }
 
             if (estadoTeclado.IsKeyDown(Keys.D))
             {
-                activateRotation(90);
+                if (cameraAnimationManager.getQueuedAnimations() == 0)
+                    cameraAnimationManager.newAnimation(rotacao + MathHelper.ToRadians(90), true);
             }
 
         }

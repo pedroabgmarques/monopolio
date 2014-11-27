@@ -249,7 +249,7 @@ namespace Monopolio
                         //Demos uma volta completa, rotação 2pi = 0.
                         //Impede a acumulação de erro na rotação
                         camera.setRotacao(0);
-                        this.setRotacaoTarget(0);
+                        this.setRotacaoTarget(camera.getRotacao());
                     }
 
                     rotating = false;

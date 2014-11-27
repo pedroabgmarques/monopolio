@@ -309,11 +309,54 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Devolve o número de casas de diferença que temos que mover para chegar a uma determinada casa
+        /// </summary>
+        /// <param name="indiceAtual">Indice em que estamos</param>
+        /// <param name="indiceDesejado">Indice para onde vamos</param>
+        /// <returns></returns>
+        public int nCasasDiferenca(int indiceAtual, int indiceDesejado)
+        {
+            if (indiceAtual < indiceDesejado)
+            {
+                return indiceDesejado - indiceAtual;
+            }
+            else
+            {
+                return -(indiceAtual - indiceDesejado);
+            }
+        }
+
         public void ResetCasasPiscaram()
         {
             foreach (Casa casa in listaCasas)
             {
                 casa.Piscou = false;
+            }
+        }
+
+        /// <summary>
+        /// Executa as acções necessárias caso passemos na casa de partida
+        /// </summary>
+        /// <param name="jogador">Uma instância do jogador que se está a mover</param>
+        /// <param name="indice">O índice da casa atual</param>
+        private void processarCasaPartida(Jogador jogador, int indice)
+        {
+            if (indice == 0)
+            {
+                //Casa de partida, atualizar voltas e pagar se for o caso
+                if (jogador.PrimeiraVolta)
+                {
+                    jogador.PrimeiraVolta = false;
+                }
+                else
+                {
+                    jogador.NVoltas++;
+                }
+                if (jogador.NVoltas > 0)
+                {
+                    jogador.receber(200);
+                }
             }
         }
 
@@ -326,8 +369,10 @@ namespace Monopolio
         /// <param name="camera">Uma instância da camera</param>
         /// <param name="indiceAtual">Índice da casa em que estamos atualmente</param>
         /// <param name="casasAMover">Nº de casas a mover (negativo se vamos andar para trás)</param>
-        public float verificarRotacao(Camera camera, int indiceAtual, int casasAMover)
+        public float verificarRotacaoEPartida(Camera camera, int indiceAtual, int casasAMover, Jogador jogador)
         {
+
+            int indiceFinal = 0;
 
             contadorCasaEspecialEncontrada = 0;
             if (casasAMover > 0)
@@ -336,17 +381,17 @@ namespace Monopolio
                 if (indiceAtual + casasAMover < listaCasas.Count)
                 {
                     //Não chegamos ao "fim" do tabuleiro
+                    indiceFinal = indiceAtual + casasAMover;
                     for (int i = indiceAtual; i <= indiceAtual + casasAMover; i++)
                     {
 
                         if (listaCasas[i].Nome == "Partida" || listaCasas[i].Nome == "Prisao"
                             || listaCasas[i].Nome == "Descanso" || listaCasas[i].Nome == "GoTo")
                         {
-
                             contadorCasaEspecialEncontrada++;
-
+                            
                         }
-
+                        processarCasaPartida(jogador, i);
                     }
 
                 }
@@ -354,6 +399,8 @@ namespace Monopolio
                 {
                     //Este movimento passa pelo fim do tabuleiro, temos que scanar todas as casas até ao fim
                     // e depois todas as casas no inicio do tabuleiro até à casa em que vamos ficar
+                    indiceFinal = listaCasas.Count - indiceAtual + casasAMover;
+
                     for (int i = indiceAtual; i < listaCasas.Count; i++)
                     {
                         if (listaCasas[i].Nome == "Partida" || listaCasas[i].Nome == "Prisao"
@@ -361,6 +408,7 @@ namespace Monopolio
                         {
                             contadorCasaEspecialEncontrada++;
                         }
+                        processarCasaPartida(jogador, i);
                     }
                     for (int i = 0; i <= casasAMover - (listaCasas.Count - indiceAtual); i++)
                     {
@@ -369,11 +417,15 @@ namespace Monopolio
                         {
                             contadorCasaEspecialEncontrada++;
                         }
+                        processarCasaPartida(jogador, i);
                     }
                 }
 
                 //Se começamos numa casa de canto, temos q descontar uma rotação
-                if (indiceAtual == 0 || indiceAtual == 10 || indiceAtual == 20 || indiceAtual == 30)
+                if ((indiceAtual == 0 || indiceAtual == 10 || indiceAtual == 20 || indiceAtual == 30)
+                    //|| ((indiceAtual != 0 && indiceAtual != 10 && indiceAtual != 20 && indiceAtual != 30) &&
+                    //(indiceFinal == 0 || indiceFinal == 10 || indiceFinal == 20 || indiceFinal == 30)))
+                    )
                 {
                     contadorCasaEspecialEncontrada -= 1;
                 }
@@ -389,6 +441,7 @@ namespace Monopolio
                 //Vamos andar para trás no tabuleiro
                 if (indiceAtual + casasAMover >= 0)
                 {
+                    indiceFinal = indiceAtual + casasAMover;
                     //Não chegamos ao pricipio do tabuleiro
                     for (int i = indiceAtual; i >= indiceAtual + casasAMover; i--)
                     {
@@ -405,6 +458,8 @@ namespace Monopolio
                 {
                     //Este movimento anda para trás até ao inicio do tabuleiro e continua a andar para trás pelo final do tabuleiro
                     //Temos que testar da casa atual até ao 0 e depois do final do tabuleiro até à casa onde vamos
+                    indiceFinal = listaCasas.Count + (indiceAtual + casasAMover);
+                    if(indiceFinal == 40) indiceFinal = 0;
                     for (int i = indiceAtual; i >= 0; i--)
                     {
                         if (listaCasas[i].Nome == "Partida" || listaCasas[i].Nome == "Prisao"
@@ -428,7 +483,22 @@ namespace Monopolio
                 }
 
                 //Se começamos numa casa de canto, temos q descontar uma rotação
-                if ((indiceAtual == 0 || indiceAtual == 10 || indiceAtual == 20 || indiceAtual == 30))
+                if (
+
+                    ((indiceAtual == 0 || indiceAtual == 10 || indiceAtual == 20 || indiceAtual == 30) &&
+                    (indiceFinal == 0 || indiceFinal == 10 || indiceFinal == 20 || indiceFinal == 30))
+
+                    ||
+
+                    ((indiceAtual != 0 && indiceAtual != 10 && indiceAtual != 20 && indiceAtual != 30) && 
+                    (indiceFinal == 0 || indiceFinal == 10 || indiceFinal == 20 || indiceFinal == 30))
+
+                    || 
+                    
+                    ((indiceAtual == 0 && indiceAtual == 10 && indiceAtual == 20 && indiceAtual == 30) &&
+                    (indiceFinal == 0 || indiceFinal == 10 || indiceFinal == 20 || indiceFinal == 30))
+                    )
+                    
                 {
                     contadorCasaEspecialEncontrada -= 1;
                 }

@@ -17,6 +17,7 @@ namespace Monopolio
 {
     public class Casa
     {
+        #region Estado
         /// <summary>
         /// Nome da Casa
         /// </summary>
@@ -50,6 +51,8 @@ namespace Monopolio
             get { return piscou; }
             set { piscou = value; }
         }
-        
+        #endregion
+
+
     }
 }

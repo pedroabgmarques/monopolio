@@ -24,7 +24,9 @@ namespace Monopolio
             this.offset = new Vector2(490, 0);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro)
+        Color cor = Color.White;
+        int diferenca = 0;
+        public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(base.textura,
                             new Rectangle((int)base.posicao.X + (int)offset.X, (int)base.posicao.Y + (int)offset.Y, textura.Width, textura.Height),
@@ -48,6 +50,12 @@ namespace Monopolio
             foreach (Jogador jogador in listaJogadores)
             {
                 texto.Append(jogador.Nome);
+                texto.Append(" (");
+                texto.Append(jogador.CasaAtual);
+                texto.Append(" )");
+                texto.Append(" (");
+                texto.Append(jogador.NVoltas);
+                texto.Append(" )");
                 texto.AppendLine();
                 texto.Append(jogador.Dinheiro.ToString());
                 texto.Append(" Euro");
@@ -59,12 +67,32 @@ namespace Monopolio
                 if (contador < listaJogadores.Count)
                 {
                     texto.Append("----------------------------------------------------------------");
-                    texto.AppendLine();
                 }
-            }
 
-            spriteBatch.DrawString(arial12, texto, new Vector2(base.posicao.X + 27 + offset.X, base.posicao.Y + 25 + offset.Y), Color.White);
-            texto.Clear();
+                if (jogador == jogadorAtual)
+                {
+                    cor = Color.Green;
+                }
+                else
+                {
+                    cor = Color.White;
+                }
+
+                if (contador == 1)
+                {
+                    diferenca = 0;
+                }
+                else
+                {
+                    diferenca = (50 * (contador-1)) + 25;
+                }
+                spriteBatch.DrawString(arial12, texto, new Vector2(base.posicao.X + 27 + offset.X, base.posicao.Y + 25 + offset.Y + diferenca), cor);
+                
+                texto.Clear();
+            }
+            diferenca = 0;
+
+            
             
         }
     }
