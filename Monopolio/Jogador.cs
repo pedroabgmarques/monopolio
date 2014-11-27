@@ -68,6 +68,23 @@ namespace Monopolio
         {
             get { return listaPropriedades; }
         }
+
+        private int nVoltas;
+
+        public int NVoltas
+        {
+            get { return nVoltas; }
+            set { nVoltas = value; }
+        }
+
+        private bool primeiraVolta;
+
+        public bool PrimeiraVolta
+        {
+            get { return primeiraVolta; }
+            set { primeiraVolta = value; }
+        }
+        
         
         
 
@@ -83,6 +100,8 @@ namespace Monopolio
             this.dinheiro = 2 * 500 + 2 * 100 + 2 * 50 + 6 * 20 + 5 * 10 + 5 * 5 + 5 * 1;
             this.casaAtual = 0;
             this.listaPropriedades = new List<Propriedade>();
+            this.nVoltas = 0;
+            this.primeiraVolta = true;
         }
         #endregion
 

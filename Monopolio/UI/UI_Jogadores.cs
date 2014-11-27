@@ -53,6 +53,9 @@ namespace Monopolio
                 texto.Append(" (");
                 texto.Append(jogador.CasaAtual);
                 texto.Append(" )");
+                texto.Append(" (");
+                texto.Append(jogador.NVoltas);
+                texto.Append(" )");
                 texto.AppendLine();
                 texto.Append(jogador.Dinheiro.ToString());
                 texto.Append(" Euro");

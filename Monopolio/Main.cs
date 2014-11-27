@@ -333,7 +333,7 @@ namespace Monopolio
         {
             jogador.CasaAtual = tabuleiro.IndiceCasaAFrente(jogador.CasaAtual, casasAMover);
             atualizarCasaAtual(jogador.CasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
         }
 
@@ -345,7 +345,7 @@ namespace Monopolio
         private void moverCameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
             atualizarCasaAtual(jogador.CasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, indiceCasaOriginal, casasAMover), true);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
         }
 
@@ -478,6 +478,10 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Processa as casas do tipo Rua
+        /// </summary>
+        /// <param name="rua">Rua a processar</param>
         private void processarRua(Rua rua)
         {
             if (rua.Dono == null)
@@ -527,7 +531,8 @@ namespace Monopolio
                 texto.AppendLine();
                 texto.Append("For that, you pay ");
                 texto.Append(rua.Renda());
-                texto.Append(" Euro.");
+                texto.Append(" Euro to ");
+                texto.Append(rua.Dono.Nome);
                 texto.Append(".");
                 criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
             }
@@ -637,7 +642,7 @@ namespace Monopolio
             jogador.CasaAtual = 0;
             casasAMover = 0;
             atualizarCasaAtual(jogador.CasaAtual);
-            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacao(camera, jogador.CasaAtual, casasAMover), true);
+            cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, (s) =>
             {
                 //Quando as animações terminam,
@@ -677,8 +682,8 @@ namespace Monopolio
             cameraAnimationManager.newAnimation(Zoom.longe);
             atualizarCasaAtual(casaDesejada);
             cameraAnimationManager.newAnimation(posicao,
-                tabuleiro.verificarRotacao(camera, casaInicial,
-                    tabuleiro.nCasasDiferenca(casaInicial, casaDesejada)),
+                tabuleiro.verificarRotacaoEPartida(camera, casaInicial,
+                    tabuleiro.nCasasDiferenca(casaInicial, casaDesejada), jogador),
                 true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
         }
@@ -898,13 +903,16 @@ namespace Monopolio
                         //Se este componente de UI tem lista de opções..
                         foreach (Opcao opcao in ui.getListaOpcoes())
                         {
-                            if (rectanguloRato.Intersects(opcao.rectangulo))
+                            if (rectanguloRato.Intersects(opcao.rectangulo) && opcao.Activa)
                             {
+                                rato.Blocked = true;
                                 if (opcao.CloseOnClick)
                                 {
+                                    opcao.Activa = false;
                                     ui.desativarUI(ref UIModalAtiva);
                                 }
                                 opcao.ExecutarAccao();
+                                rato.Blocked = false;
                             }
                             opcao.Clique = false;
                         }

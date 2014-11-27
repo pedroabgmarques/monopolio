@@ -86,7 +86,18 @@ namespace Monopolio
         public TipoOpcao TipoOpcao
         {
             get { return tipoOpcao; }
-        }        
+        }
+
+        /// <summary>
+        /// Se não está ativa, o clique não faz nada
+        /// </summary>
+        private bool activa;
+        public bool Activa
+        {
+            get { return activa; }
+            set { activa = value; }
+        }
+        
 
         /// <summary>
         /// Construtor
@@ -100,6 +111,7 @@ namespace Monopolio
             this.accao = accao;
             this.tipoOpcao = tipoOpcao;
             this.closeOnClick = closeOnClick;
+            this.activa = true;
         }
 
         /// <summary>

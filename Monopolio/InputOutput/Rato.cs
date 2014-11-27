@@ -70,6 +70,17 @@ namespace Monopolio
             get { return posicao; }
             set { posicao = value; }
         }
+
+        private bool blocked;
+        /// <summary>
+        /// Impede os double-clicks
+        /// </summary>
+        public bool Blocked
+        {
+            get { return blocked; }
+            set { blocked = value; }
+        }
+        
         
         private Texture2D seta;
         #endregion
@@ -151,18 +162,24 @@ namespace Monopolio
         #region Helpers
         private void gerarEventoCliqueBotao(botao botaoClicado, Vector2 posicao)
         {
-            Clique click = new Clique();
-            click.Posicao = posicao;
-            click.BotaoClicado = botaoClicado;
-            clique(click);
+            if (!blocked)
+            {
+                Clique click = new Clique();
+                click.Posicao = posicao;
+                click.BotaoClicado = botaoClicado;
+                clique(click);
+            }
         }
 
         private void gerarEventoDescliqueBotao(botao botaoDesclicado, Vector2 posicao)
         {
-            Clique click = new Clique();
-            click.Posicao = posicao;
-            click.BotaoDesclicado = botaoDesclicado;
-            desclique(click);
+            if (!blocked)
+            {
+                Clique click = new Clique();
+                click.Posicao = posicao;
+                click.BotaoDesclicado = botaoDesclicado;
+                desclique(click);
+            }
         }
         #endregion
 
