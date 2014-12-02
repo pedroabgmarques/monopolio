@@ -493,6 +493,7 @@ namespace Monopolio
                 {
                     //Comprar a rua
                     jogador.adicionarPropriedade((Propriedade)utilidade);
+
                     proximoJogador();
                 });
                 listaOpcoes.Add(opcao);
@@ -1173,6 +1174,12 @@ namespace Monopolio
                 jogadores.ativarUI(ref UIModalAtiva);
             }
             listaComponentesUI.Add(jogadores);
+        }
+
+        private void loadAndAddUIPropriedadesJogador(string nomeTextura, bool ativa, bool modal)
+        {
+            
+        
         }
 
         /// <summary>

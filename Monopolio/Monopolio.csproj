@@ -138,6 +138,7 @@
     <Compile Include="UI\UI_Jogadores.cs" />
     <Compile Include="UI\UI.cs" />
     <Compile Include="UI\UI_Lancamento.cs" />
+    <Compile Include="UI\UI_PropriedadesJogador.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

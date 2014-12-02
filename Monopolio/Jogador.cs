@@ -148,6 +148,8 @@ namespace Monopolio
             propriedade.Dono = this;
             listaPropriedades.Add(propriedade);
             pagar(propriedade.Custo);
+            //adicionar propriedade a UI
+
         }
 
         /// <summary>
