@@ -90,9 +90,6 @@ namespace Monopolio
             set { ultimoLancamento = value; }
         }
         
-        
-        
-        
 
         #endregion
 

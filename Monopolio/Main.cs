@@ -439,13 +439,13 @@ namespace Monopolio
             }
             else if (casaAtual is GoTo)
             {
-                //TODO
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
                 proximoJogador();
             }
             else if (casaAtual is Imposto)
             {
-                //TODO
-                proximoJogador();
+                    processarImposto((Imposto)casa);
+                
             }
             else if (casaAtual is Partida)
             {
@@ -462,6 +462,56 @@ namespace Monopolio
                 //TODO
                 proximoJogador();
             }
+
+        }
+
+        private void processarImposto(Imposto imposto) 
+        {
+            if (imposto.Percentagem == 0)
+            {
+                listaOpcoes.Clear();
+                opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Pagar o imposto associado a casa
+                    jogador.pagar(imposto.CustoFixo);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("you like luxury then you have to pay :D         ");
+                texto.Append(imposto.CustoFixo);
+
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else 
+            {
+                listaOpcoes.Clear();
+                opcao = new Opcao("Pay 10%", TipoOpcao.Mau, true, (s) =>
+                {
+                    //Pagar o imposto de 10%
+                    jogador.pagar(imposto.Percentagem);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Pay 200 euros", TipoOpcao.Mau, true, (s) =>
+                {
+                    jogador.pagar(imposto.CustoFixo);
+                    proximoJogador();
+                });
+                listaOpcoes.Add(opcao);
+                texto.Clear();
+                texto.Append("You have to pay   ");
+                texto.Append(imposto.CustoFixo);
+                texto.Append("!");
+                texto.AppendLine();
+                texto.Append("or   ");
+                texto.Append(imposto.Percentagem);
+                
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+                
+            }
+
+
         }
 
         /// <summary>
