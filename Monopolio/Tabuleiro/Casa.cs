@@ -37,20 +37,6 @@ namespace Monopolio
             set { coordsAndSize = value; }
         }
 
-
-        private int contadorPiscar;
-        public int ContadorPiscar
-        {
-            get { return contadorPiscar; }
-            set { contadorPiscar = value; }
-        }
-
-        private bool piscou;
-        public bool Piscou
-        {
-            get { return piscou; }
-            set { piscou = value; }
-        }
         #endregion
 
 

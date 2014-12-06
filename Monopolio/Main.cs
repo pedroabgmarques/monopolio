@@ -434,7 +434,7 @@ namespace Monopolio
             }
             else if (casaAtual is Descanso)
             {
-                //TODO
+                //Passa apenas para o próximo jogador
                 proximoJogador();
             }
             else if (casaAtual is GoTo)
@@ -444,12 +444,12 @@ namespace Monopolio
             }
             else if (casaAtual is Imposto)
             {
-                    processarImposto((Imposto)casa);
-                
+                processarImposto((Imposto)casa);
             }
             else if (casaAtual is Partida)
             {
-                //TODO
+                //Passa apenas para o próximo jogador
+                //A lógica de receber o salário é calculada no tabuleiro/processarCasaPartida
                 proximoJogador();
             }
             else if (casaAtual is Prisao)
@@ -478,7 +478,7 @@ namespace Monopolio
                 });
                 listaOpcoes.Add(opcao);
                 texto.Clear();
-                texto.Append("you like luxury then you have to pay :D         ");
+                texto.Append("You spend a weekend in Vegas, that costs you ");
                 texto.Append(imposto.CustoFixo);
 
                 criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
@@ -486,26 +486,29 @@ namespace Monopolio
             else 
             {
                 listaOpcoes.Clear();
-                opcao = new Opcao("Pay 10%", TipoOpcao.Mau, true, (s) =>
+                opcao = new Opcao("Pay 10pc", TipoOpcao.Mau, true, (s) =>
                 {
                     //Pagar o imposto de 10%
-                    jogador.pagar(imposto.Percentagem);
+                    jogador.pagar(jogador.totalAssets() * 0.1f);
                     proximoJogador();
                 });
                 listaOpcoes.Add(opcao);
-                opcao = new Opcao("Pay 200 euros", TipoOpcao.Mau, true, (s) =>
+                opcao = new Opcao("Pay 200Euro", TipoOpcao.Mau, true, (s) =>
                 {
                     jogador.pagar(imposto.CustoFixo);
                     proximoJogador();
                 });
                 listaOpcoes.Add(opcao);
                 texto.Clear();
-                texto.Append("You have to pay   ");
-                texto.Append(imposto.CustoFixo);
-                texto.Append("!");
+
+                texto.AppendLine("It's that time of the year!");
+                texto.AppendLine("Your taxed are due.");
                 texto.AppendLine();
-                texto.Append("or   ");
+                texto.Append("You must pay either ");
+                texto.Append(imposto.CustoFixo);
+                texto.Append(" or ");
                 texto.Append(imposto.Percentagem);
+                texto.Append("pc of your total assets.");
                 
                 criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
                 
@@ -648,13 +651,26 @@ namespace Monopolio
             }
             else if (rua.Dono != null && rua.Dono != jogador)
             {
+                
                 //Esta rua tem dono e não somos nós, pagar aluguer
+                int renda = 0;
+                //Pagar o aluguer correspondente ao n de casas da rua
+                if (tabuleiro.verificarAvenida(rua.Dono, rua.GrupoRuas))
+                {
+                    //Este jogador tem monopolio, a renda duplica
+                    renda = rua.Renda() * 2;
+                }
+                else
+                {
+                    renda = rua.Renda();
+                }
+
                 listaOpcoes.Clear();
                 opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
                 {
-                    //Pagar o aluguer correspondente ao n de casas da rua
-                    jogador.pagar(rua.Renda());
-                    rua.Dono.receber(rua.Renda());
+                    
+                    jogador.pagar(renda);
+                    rua.Dono.receber(renda);
                     proximoJogador();
                 });
                 listaOpcoes.Add(opcao);
@@ -664,7 +680,7 @@ namespace Monopolio
                 texto.Append(".");
                 texto.AppendLine();
                 texto.Append("For that, you pay ");
-                texto.Append(rua.Renda());
+                texto.Append(renda);
                 texto.Append(" Euro to ");
                 texto.Append(rua.Dono.Nome);
                 texto.Append(".");
@@ -673,13 +689,13 @@ namespace Monopolio
             else if (rua.Dono == jogador)
             {
                 //Somos o dono desta rua
-                if (rua.NCasas < 5)
+                if (rua.NCasas < 5 
+                    && tabuleiro.verificarAvenida(jogador, rua.GrupoRuas))
                 {
                     listaOpcoes.Clear();
                     opcao = new Opcao("Build!", TipoOpcao.Bom, true, (s) =>
                     {
                         //Construir uma casa
-                        //O custo é o mesmo do de compra???
                         jogador.pagar(rua.Custo);
                         rua.NCasas++;
                         proximoJogador();
@@ -701,7 +717,7 @@ namespace Monopolio
                 }
                 else
                 {
-                    //Já tem 5 casas, não pode fazer nada
+                    //Já tem 5 casas ou não tem monopólio desta rua, não pode fazer nada
                     proximoJogador();
                 }
             }
@@ -978,7 +994,9 @@ namespace Monopolio
         /// <param name="velocidade">Velocidade do piscanço, em ms</param>
         private void desenharRectangulos(int velocidade)
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            if (jogador != null)
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront,
                                 BlendState.AlphaBlend,
                                 null,
                                 null,
@@ -986,33 +1004,14 @@ namespace Monopolio
                                 null,
                                 ViewMatrix);
 
-            foreach (Casa casa in tabuleiro.ListaCasas())
-            {
+                foreach (Propriedade propriedade in jogador.ListaPropriedades)
+                {
 
-                if (casa.ContadorPiscar < velocidade && !casa.Piscou)
-                {
-                    DrawRectangle(casa.CoordsAndSize, new Color(150, 150, 150, 128));
-                    casa.ContadorPiscar++;
-                    break;
+                    DrawRectangle(propriedade.CoordsAndSize, new Color(255, 0, 0, 128));
                 }
-                else
-                {
-                    if (casa.ContadorPiscar >= velocidade && !casa.Piscou) 
-                    {
-                        casa.ContadorPiscar = 0;
-                        casa.Piscou = true;
-                        contadorCasas++;
-                    }
-                    
-                }
-
-                if (contadorCasas >= tabuleiro.ListaCasas().Count)
-                {
-                    contadorCasas = 0;
-                    tabuleiro.ResetCasasPiscaram();
-                }
+                spriteBatch.End();
             }
-            spriteBatch.End();
+            
         }
 
         /// <summary>

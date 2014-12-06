@@ -52,6 +52,58 @@ namespace Monopolio
 
         #endregion
 
+        /// <summary>
+        /// Verifica se um jogador possui um monopolio / avenida (todas as ruas da mesma cor)
+        /// Se sim, o jogador pode eventualmente construir casa
+        /// </summary>
+        /// <returns></returns>
+        public bool verificarAvenida(Jogador jogador, GrupoRuas grupoRuas){
+            bool monopolio = false;
+            int contadorRuasGrupo = 0;
+            foreach (Propriedade propriedade in jogador.ListaPropriedades)
+            {
+                if (propriedade is Rua)
+                {
+                    Rua rua = (Rua)propriedade;
+                    if (rua.GrupoRuas == grupoRuas)
+                    {
+                        contadorRuasGrupo++;
+                    }
+                }
+            }
+
+            switch (grupoRuas)
+            {
+                case GrupoRuas.Brown:
+                    if (contadorRuasGrupo == 2) monopolio = true;
+                    break;
+                case GrupoRuas.LightBlue:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Pink:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Orange:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Red:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Yellow:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Green:
+                    if (contadorRuasGrupo == 3) monopolio = true;
+                    break;
+                case GrupoRuas.Blue:
+                    if (contadorRuasGrupo == 2) monopolio = true;
+                    break;
+                default:
+                    break;
+            }
+            return monopolio;
+        }
+
         #region LoadContent
         /// <summary>
         /// Loading de assets
@@ -69,7 +121,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 1334,
                     203, 201)));
-            listaCasas.Add(new Rua("Old Kent Road", 60, 30, 2, 10, 30, 90, 160, 250,
+            listaCasas.Add(new Rua("Old Kent Road", 60, 30, 2, 10, 30, 90, 160, 250, 50, GrupoRuas.Brown,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4,
                     (int)Posicao.Y + 1334,
@@ -79,7 +131,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333 - 122 - 4 - 117,
                     (int)Posicao.Y + 1334,
                     113, 201)));
-            listaCasas.Add(new Rua("Whitechapel Road", 60, 30, 4, 20, 60, 180, 320, 450,
+            listaCasas.Add(new Rua("Whitechapel Road", 60, 30, 4, 20, 60, 180, 320, 450, 50, GrupoRuas.Brown,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4,
                     (int)Posicao.Y + 1334,
@@ -94,7 +146,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6 - 118 - 5,
                     (int)Posicao.Y + 1334,
                     118, 201)));
-            listaCasas.Add(new Rua("The Angel Islington", 100, 50, 6, 30, 90, 270, 400, 550,
+            listaCasas.Add(new Rua("The Angel Islington", 100, 50, 6, 30, 90, 270, 400, 550, 50, GrupoRuas.LightBlue,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6 - 118 - 5 - 118 - 7,
                     (int)Posicao.Y + 1334,
@@ -104,12 +156,12 @@ namespace Monopolio
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6 - 118 - 5 - 118 - 7 - 120 - 4,
                     (int)Posicao.Y + 1334,
                     120, 201)));
-            listaCasas.Add(new Rua("Euston Road", 100, 50, 6, 30, 90, 270, 400, 550,
+            listaCasas.Add(new Rua("Euston Road", 100, 50, 6, 30, 90, 270, 400, 550, 50, GrupoRuas.LightBlue,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6 - 118 - 5 - 118 - 7 - 120 - 4 - 120 - 2,
                     (int)Posicao.Y + 1334,
                     118, 201)));
-            listaCasas.Add(new Rua("Pentonville Road", 120, 60, 8, 40, 100, 300, 450, 600,
+            listaCasas.Add(new Rua("Pentonville Road", 120, 60, 8, 40, 100, 300, 450, 600, 50, GrupoRuas.LightBlue,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6 - 118 - 5 - 118 - 7 - 120 - 4 - 120 - 2 - 118 - 6,
                     (int)Posicao.Y + 1334,
@@ -121,7 +173,7 @@ namespace Monopolio
                     (int)Posicao.Y + 1334,
                     199, 201)));
 
-            listaCasas.Add(new Rua("Pall Mall", 140, 70, 10, 50, 150, 450, 625, 750,
+            listaCasas.Add(new Rua("Pall Mall", 140, 70, 10, 50, 150, 450, 625, 750, 100, GrupoRuas.Pink,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4,
@@ -131,12 +183,12 @@ namespace Monopolio
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2,
                     199, 116)));
-            listaCasas.Add(new Rua("Whitehall", 140, 70, 10, 50, 150, 450, 625, 750,
+            listaCasas.Add(new Rua("Whitehall", 140, 70, 10, 50, 150, 450, 625, 750, 100, GrupoRuas.Pink,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8,
                     199, 119)));
-            listaCasas.Add(new Rua("Northumberland Avenue", 160, 80, 12, 60, 180, 500, 700, 900,
+            listaCasas.Add(new Rua("Northumberland Avenue", 160, 80, 12, 60, 180, 500, 700, 900, 100, GrupoRuas.Pink,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4,
@@ -146,7 +198,7 @@ namespace Monopolio
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4 - 119 - 4,
                     199, 119)));
-            listaCasas.Add(new Rua("Bow Street", 180, 90, 14, 70, 200, 550, 750, 950,
+            listaCasas.Add(new Rua("Bow Street", 180, 90, 14, 70, 200, 550, 750, 950, 100, GrupoRuas.Orange,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4 - 119 - 4 - 119 - 5,
@@ -156,12 +208,12 @@ namespace Monopolio
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4 - 119 - 4 - 119 - 5 - 120 - 4,
                     199, 118)));
-            listaCasas.Add(new Rua("Marlborough Street", 180, 90, 14, 70, 200, 550, 750, 950,
+            listaCasas.Add(new Rua("Marlborough Street", 180, 90, 14, 70, 200, 550, 750, 950, 100, GrupoRuas.Orange,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4 - 119 - 4 - 119 - 5 - 120 - 4 - 118 - 4,
                     199, 118)));
-            listaCasas.Add(new Rua("Vine Street", 200, 100, 16, 80, 220, 600, 800, 1000,
+            listaCasas.Add(new Rua("Vine Street", 200, 100, 16, 80, 220, 600, 800, 1000, 100, GrupoRuas.Orange,
                 new Rectangle(
                     (int)Posicao.X + 24,
                     (int)Posicao.Y + 1334 - 118 - 4 - 118 - 2 - 116 - 8 - 119 - 4 - 119 - 4 - 119 - 5 - 120 - 4 - 118 - 4 - 118 - 7,
@@ -172,7 +224,8 @@ namespace Monopolio
                     (int)Posicao.Y + 24, 
                     200, 198)));
 
-            listaCasas.Add(new Rua("The Strand", 220, 110, 18, 90, 250, 700, 875, 1050, new Rectangle(
+            listaCasas.Add(new Rua("The Strand", 220, 110, 18, 90, 250, 700, 875, 1050, 150, GrupoRuas.Red,
+                new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5, 
                     (int)Posicao.Y + 24, 
                     122, 198)));
@@ -180,11 +233,13 @@ namespace Monopolio
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3,
                     (int)Posicao.Y + 24, 
                     116, 198)));
-            listaCasas.Add(new Rua("Fleet Street", 220, 110, 18, 90, 250, 700, 875, 1050, new Rectangle(
+            listaCasas.Add(new Rua("Fleet Street", 220, 110, 18, 90, 250, 700, 875, 1050, 150, GrupoRuas.Red,
+                new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4,
                     (int)Posicao.Y + 24, 
                     120, 198)));
-            listaCasas.Add(new Rua("Trafalgar Square", 240, 120, 20, 100, 300, 750, 925, 1100, new Rectangle(
+            listaCasas.Add(new Rua("Trafalgar Square", 240, 120, 20, 100, 300, 750, 925, 1100, 150, GrupoRuas.Red,
+                new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4,
                     (int)Posicao.Y + 24,
                     119, 198)));
@@ -193,12 +248,12 @@ namespace Monopolio
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4 + 119 + 4,
                     (int)Posicao.Y + 24,
                     119, 198)));
-            listaCasas.Add(new Rua("Leicester Square", 260, 130, 22, 110, 330, 800, 975, 1150,
+            listaCasas.Add(new Rua("Leicester Square", 260, 130, 22, 110, 330, 800, 975, 1150, 150, GrupoRuas.Yellow,
                 new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4 + 119 + 4 + 119 + 4,
                     (int)Posicao.Y + 24,
                     120, 198)));
-            listaCasas.Add(new Rua("Coventry Street", 260, 130, 22, 110, 330, 800, 975, 1150,
+            listaCasas.Add(new Rua("Coventry Street", 260, 130, 22, 110, 330, 800, 975, 1150, 150, GrupoRuas.Yellow,
                 new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4 + 119 + 4 + 119 + 4 + 120 + 4,
                     (int)Posicao.Y + 24,
@@ -208,7 +263,7 @@ namespace Monopolio
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4 + 119 + 4 + 119 + 4 + 120 + 4 + 120 + 4,
                     (int)Posicao.Y + 24,
                     119, 198)));
-            listaCasas.Add(new Rua("Piccadilly", 280, 140, 24, 120, 360, 850, 1025, 1200,
+            listaCasas.Add(new Rua("Piccadilly", 280, 140, 24, 120, 360, 850, 1025, 1200, 150, GrupoRuas.Yellow,
                 new Rectangle(
                     (int)Posicao.X + 24 + 199 + 5 + 122 + 3 + 116 + 4 + 120 + 4 + 119 + 4 + 119 + 4 + 120 + 4 + 120 + 4 + 119 + 4,
                     (int)Posicao.Y + 24,
@@ -220,12 +275,12 @@ namespace Monopolio
                     (int)Posicao.Y + 24,
                     203, 198)));
          
-            listaCasas.Add(new Rua("Regent Street", 300, 150, 26, 130, 390, 900, 1100, 1275,
+            listaCasas.Add(new Rua("Regent Street", 300, 150, 26, 130, 390, 900, 1100, 1275, 200, GrupoRuas.Green,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5,
                     203, 120)));
-            listaCasas.Add(new Rua("Oxford Street", 300, 150, 26, 130, 390, 900, 1100, 1275,
+            listaCasas.Add(new Rua("Oxford Street", 300, 150, 26, 130, 390, 900, 1100, 1275, 200, GrupoRuas.Green,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5,
@@ -235,7 +290,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5,
                     203, 118)));
-            listaCasas.Add(new Rua("Bond Street", 320, 160, 28, 150, 450, 1000, 1200, 1400,
+            listaCasas.Add(new Rua("Bond Street", 320, 160, 28, 150, 450, 1000, 1200, 1400, 200, GrupoRuas.Green,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5,
@@ -250,7 +305,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 4,
                     203, 118)));
-            listaCasas.Add(new Rua("Park Lane", 350, 175, 35, 175, 500, 1100, 1300, 1500,
+            listaCasas.Add(new Rua("Park Lane", 350, 175, 35, 175, 500, 1100, 1300, 1500, 200, GrupoRuas.Blue,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 5 + 118 + 4,
@@ -260,7 +315,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 5 + 118 + 4 + 120 + 4,
                     203, 115)));
-            listaCasas.Add(new Rua("Mayfair", 400, 200, 50, 200, 600, 1400, 1700, 2000,
+            listaCasas.Add(new Rua("Mayfair", 400, 200, 50, 200, 600, 1400, 1700, 2000, 200, GrupoRuas.Blue,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 5 + 118 + 4 + 120 + 4 + 115 + 4,
@@ -324,14 +379,6 @@ namespace Monopolio
             else
             {
                 return -(indiceAtual - indiceDesejado);
-            }
-        }
-
-        public void ResetCasasPiscaram()
-        {
-            foreach (Casa casa in listaCasas)
-            {
-                casa.Piscou = false;
             }
         }
 

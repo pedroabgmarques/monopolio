@@ -36,11 +36,11 @@ namespace Monopolio
         /// <summary>
         /// Quantidade de dinheiro que o jogador possui
         /// </summary>
-        private int dinheiro;
+        private float dinheiro;
         /// <summary>
         /// Devolve a quantidade de dinheiro que o jogador possui
         /// </summary>
-        public int Dinheiro
+        public float Dinheiro
         {
             get { return dinheiro; }
         }
@@ -113,7 +113,7 @@ namespace Monopolio
         /// Retira uma determinada quantidade de dinheiro ao jogador
         /// </summary>
         /// <param name="valor">Quantidade de dinheiro a retirar ao jogador</param>
-        public void pagar(int valor)
+        public void pagar(float valor)
         {
             this.dinheiro -= valor;
         }
@@ -200,6 +200,33 @@ namespace Monopolio
                 }
             }
             return nEletricasEAguas;
+        }
+
+        /// <summary>
+        /// Devolve o total de dinheiro e investimentos de um jogador
+        /// </summary>
+        /// <returns>Soma total e dinheiro e investimentos</returns>
+        public float totalAssets()
+        {
+            float soma = 0;
+            //Somar o dinheiro vivo
+            soma += dinheiro;
+            //Somar o preço de compra de todas as propriedades, independentemente de estarem ou não hipotecadas
+            foreach (Propriedade propriedade in listaPropriedades)
+            {
+                soma += propriedade.Custo;
+            }
+            //Somar o preço de compra de todas as casas
+            foreach (Propriedade propriedade in listaPropriedades)
+            {
+                if (propriedade is Rua)
+                {
+                    Rua rua = (Rua)propriedade;
+                    soma += rua.NCasas * rua.CustoCasa();
+                }
+            }
+
+            return soma;
         }
 
 
