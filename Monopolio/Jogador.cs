@@ -7,6 +7,9 @@
  * Descreve e gere um jogador
  * */
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,15 +92,34 @@ namespace Monopolio
             get { return ultimoLancamento; }
             set { ultimoLancamento = value; }
         }
+
+        private Texture2D token;
+
+        public Texture2D Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
+
+        public Vector2 Posicao;
+
+        private Vector2 offsetPosicao;
+
+        public Vector2 OffsetPosicao
+        {
+            get { return offsetPosicao; }
+            set { offsetPosicao = value; }
+        }
         
 
+        private int nJogador;
         #endregion
 
         #region Construtor
         /// <summary>
         /// Construtor do Jogador
         /// </summary>
-        public Jogador(string nome)
+        public Jogador(string nome, int nJogador)
         {
             this.nome = nome;
             this.dinheiro = 2 * 500 + 2 * 100 + 2 * 50 + 6 * 20 + 5 * 10 + 5 * 5 + 5 * 1;
@@ -105,6 +127,16 @@ namespace Monopolio
             this.listaPropriedades = new List<Propriedade>();
             this.nVoltas = 0;
             this.primeiraVolta = true;
+            this.nJogador = nJogador;
+        }
+        #endregion
+
+        #region LoadContent
+        public void LoadContent(ContentManager Content, GraphicsDevice graphics)
+        {
+            token = Content.Load<Texture2D>("texturas/tabuleiro/tokens/token"+nJogador);
+            this.Posicao = new Vector2(graphics.Viewport.Width / 2,
+                                                    graphics.Viewport.Height / 2);
         }
         #endregion
 
@@ -230,6 +262,16 @@ namespace Monopolio
         }
 
 
+        #endregion
+
+        #region Draw
+        /// <summary>
+        /// Desenha o token do jogador
+        /// </summary>
+        public void Draw(SpriteBatch spriteBatch, Camera camera, GraphicsDevice graphics)
+        {
+            spriteBatch.Draw(token, Posicao + offsetPosicao, Color.White);
+        }
         #endregion
 
     }

@@ -28,3 +28,4 @@ _ReSharper*/
 *.txt
 Monopolio/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.cache
+*.cachefile

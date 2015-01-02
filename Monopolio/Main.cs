@@ -108,6 +108,10 @@ namespace Monopolio
         /// </summary>
         CameraAnimationManager cameraAnimationManager;
         /// <summary>
+        /// Gestor de animações dos tokens dos jogadores
+        /// </summary>
+        TokenAnimationManager tokenAnimationManager;
+        /// <summary>
         /// Vector2 reutilizável
         /// </summary>
         Vector2 posicao;
@@ -136,7 +140,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = true; //Fullscreen
+            graphics.IsFullScreen = false; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -210,6 +214,9 @@ namespace Monopolio
             //Inicializar o gestor de animações da camera
             cameraAnimationManager = new CameraAnimationManager();
 
+            //Inicializar o gestor de animações dos tokens dos jogadores
+            tokenAnimationManager = new TokenAnimationManager();
+
             debugRectangle = new Texture2D(GraphicsDevice, 1, 1);          
 
             //gerar UI
@@ -264,6 +271,9 @@ namespace Monopolio
             //atualizar o gestor de animações da camera
             cameraAnimationManager.Update(camera);
 
+            //atualizar o gestor de animações de tokens dos jogadores
+            tokenAnimationManager.Update(tabuleiro);
+
             //Verificar se o rato está sobre um botao
             verificarRatoSobreBotao();
 
@@ -294,6 +304,8 @@ namespace Monopolio
             desenharTabuleiro();
             
             desenharRectangulos(3);
+
+            desenharTokensJogadores();
 
             #endregion
 
@@ -326,6 +338,25 @@ namespace Monopolio
         #region Helpers
 
         /// <summary>
+        /// Desenha os tokens dos jogadores
+        /// </summary>
+        private void desenharTokensJogadores()
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                                BlendState.AlphaBlend,
+                                null,
+                                null,
+                                null,
+                                null,
+                                ViewMatrix);
+            foreach (Jogador jogador in listaJogadores)
+            {
+                jogador.Draw(spriteBatch, camera, graphics.GraphicsDevice);
+            }
+            spriteBatch.End();
+        }
+
+        /// <summary>
         /// Move o jogador e a camera camara um determinado numero de casas
         /// </summary>
         /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
@@ -336,6 +367,10 @@ namespace Monopolio
             atualizarCasaAtual(jogador.CasaAtual);
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
+
+            //Animar o bonequinho do jogador
+            Vector2 posicaoTargetTokenJogador = tabuleiro.centroCasa(jogador.CasaAtual, jogador.Token);
+            tokenAnimationManager.newAnimation(posicaoTargetTokenJogador, jogador);
         }
 
         /// <summary>
@@ -502,7 +537,7 @@ namespace Monopolio
                 texto.Clear();
 
                 texto.AppendLine("It's that time of the year!");
-                texto.AppendLine("Your taxed are due.");
+                texto.AppendLine("Your taxes are due.");
                 texto.AppendLine();
                 texto.Append("You must pay either ");
                 texto.Append(imposto.CustoFixo);
@@ -736,14 +771,19 @@ namespace Monopolio
                     inicializarJogadores(2);
                 });
                 listaOpcoes.Add(opcao);
-                opcao = new Opcao("Three Players", TipoOpcao.Bom, true, (s) =>
-                {
-                    inicializarJogadores(3);
-                });
-                listaOpcoes.Add(opcao);
                 opcao = new Opcao("Four Players", TipoOpcao.Bom, true, (s) =>
                 {
                     inicializarJogadores(4);
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Six Players", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(6);
+                });
+                listaOpcoes.Add(opcao);
+                opcao = new Opcao("Eight Players", TipoOpcao.Bom, true, (s) =>
+                {
+                    inicializarJogadores(8);
                 });
                 listaOpcoes.Add(opcao);
                 texto.AppendLine("Welcome to Monopoly!");
@@ -769,7 +809,11 @@ namespace Monopolio
             //Criar os jogadores e inseri-los na lista
             for (int i = 0; i < numJogadores; i++)
             {
-                Jogador novoJogador = new Jogador("Player " + (i + 1));
+                Jogador novoJogador = new Jogador("Player " + (i + 1), (i+1));
+                novoJogador.LoadContent(Content, graphics.GraphicsDevice);
+                novoJogador.Posicao = tabuleiro.centroCasa(0, novoJogador.Token);
+                novoJogador.OffsetPosicao = new Vector2(random.Next(-60, 60), random.Next(-60, 60));
+
                 listaJogadores.Add(novoJogador);
             }
             //Alterar o indice do jogador atual
@@ -1007,7 +1051,7 @@ namespace Monopolio
                 foreach (Propriedade propriedade in jogador.ListaPropriedades)
                 {
 
-                    DrawRectangle(propriedade.CoordsAndSize, new Color(255, 0, 0, 128));
+                    DrawRectangle(propriedade.CoordsAndSize, new Color(255, 0, 0, 80));
                 }
                 spriteBatch.End();
             }

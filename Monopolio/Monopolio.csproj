@@ -132,6 +132,8 @@
     <Compile Include="Background\Sprite.cs" />
     <Compile Include="Tabuleiro\Sorte.cs" />
     <Compile Include="Tabuleiro\Tabuleiro.cs" />
+    <Compile Include="Tabuleiro\TokenAnimation.cs" />
+    <Compile Include="Tabuleiro\TokenAnimationManager.cs" />
     <Compile Include="Tabuleiro\Utilidade.cs" />
     <Compile Include="UI\Opcao.cs" />
     <Compile Include="UI\UI_Centrado.cs" />

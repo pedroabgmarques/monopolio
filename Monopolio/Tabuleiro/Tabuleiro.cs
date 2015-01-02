@@ -333,6 +333,26 @@ namespace Monopolio
         #endregion
 
         #region Métodos
+
+        /// <summary>
+        /// Devolve as coordenadas do centro de uma determinada casa para um determinado token
+        /// </summary>
+        /// <param name="indiceCasa">Indice da casa da qual queremos saber o centro</param>
+        /// <param name="token">Token do jogador</param>
+        /// <param name="random">Random seed</param>
+        /// <returns></returns>
+        public Vector2 centroCasa(int indiceCasa, Texture2D token)
+        {
+            Vector2 posicao = Vector2.Zero;
+            posicao.X = listaCasas[indiceCasa].CoordsAndSize.X
+                + listaCasas[indiceCasa].CoordsAndSize.Width / 2
+                - token.Width / 2;
+            posicao.Y = listaCasas[indiceCasa].CoordsAndSize.Y
+                + listaCasas[indiceCasa].CoordsAndSize.Height / 2
+                - token.Height / 2;
+            return posicao;
+        }
+
         /// <summary>
         /// Devolve a casa de um determinado indice
         /// </summary>
