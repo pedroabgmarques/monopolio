@@ -27,3 +27,4 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.txt
 Monopolio/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache
