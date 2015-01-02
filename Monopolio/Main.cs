@@ -342,7 +342,7 @@ namespace Monopolio
         /// </summary>
         private void desenharTokensJogadores()
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,
                                 BlendState.AlphaBlend,
                                 null,
                                 null,
@@ -351,7 +351,7 @@ namespace Monopolio
                                 ViewMatrix);
             foreach (Jogador jogador in listaJogadores)
             {
-                jogador.Draw(spriteBatch, camera, graphics.GraphicsDevice);
+                jogador.Draw(spriteBatch, graphics.GraphicsDevice, this.jogador);
             }
             spriteBatch.End();
         }
@@ -873,7 +873,7 @@ namespace Monopolio
 
         private void moverCameraCasa(int casaInicial, int casaDesejada, Action<string> accao = null)
         {
-            cameraAnimationManager.newAnimation(Zoom.longe);
+            cameraAnimationManager.newAnimation(Zoom.medio);
             atualizarCasaAtual(casaDesejada);
             cameraAnimationManager.newAnimation(posicao,
                 tabuleiro.verificarRotacaoEPartida(camera, casaInicial,

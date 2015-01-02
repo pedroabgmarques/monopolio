@@ -47,7 +47,6 @@ namespace Monopolio
             get { return moving; }
         }
 
-        private bool movingX, movingY;
         #endregion
 
         #region Construtor
@@ -57,8 +56,6 @@ namespace Monopolio
             PosicaoTarget = posicaoTarget;
             Jogador = jogador;
             this.moving = true;
-            this.movingX = false;
-            this.movingY = false;
         }
 
         #endregion

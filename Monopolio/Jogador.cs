@@ -268,9 +268,17 @@ namespace Monopolio
         /// <summary>
         /// Desenha o token do jogador
         /// </summary>
-        public void Draw(SpriteBatch spriteBatch, Camera camera, GraphicsDevice graphics)
+        public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics, Jogador jogadorAtual)
         {
-            spriteBatch.Draw(token, Posicao + offsetPosicao, Color.White);
+            if (jogadorAtual == this)
+            {
+                spriteBatch.Draw(token, Posicao + offsetPosicao, null, Color.Gray, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+            else
+            {
+                spriteBatch.Draw(token, Posicao + offsetPosicao, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
+            }
+            
         }
         #endregion
 
