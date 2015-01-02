@@ -140,7 +140,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = false; //Fullscreen
+            graphics.IsFullScreen = true; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -322,7 +322,7 @@ namespace Monopolio
             //desenharCoordenadasCamera(camera);
 
             //desenharRotacaoCamera [DEBUG]
-            desenharRotacaoCamera(camera);
+            //desenharRotacaoCamera(camera);
 
             //desenhar UI
             desenharUI();
@@ -812,7 +812,7 @@ namespace Monopolio
                 Jogador novoJogador = new Jogador("Player " + (i + 1), (i+1));
                 novoJogador.LoadContent(Content, graphics.GraphicsDevice);
                 novoJogador.Posicao = tabuleiro.centroCasa(0, novoJogador.Token);
-                novoJogador.OffsetPosicao = new Vector2(random.Next(-60, 60), random.Next(-60, 60));
+                novoJogador.OffsetPosicao = new Vector2(random.Next(-30, 30), random.Next(-15, 30));
 
                 listaJogadores.Add(novoJogador);
             }

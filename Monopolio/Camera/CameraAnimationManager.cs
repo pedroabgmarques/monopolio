@@ -59,7 +59,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(posicaoTarget, zoomTarget, rotacaoTarget, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
 
         /// <summary>
@@ -70,7 +69,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(posicaoTarget, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
 
         /// <summary>
@@ -82,7 +80,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(posicaoTarget, zoom, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
 
         /// <summary>
@@ -96,7 +93,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(posicaoTarget, rotacaoTarget, true, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
 
         /// <summary>
@@ -107,7 +103,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(zoomTarget, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
 
         /// <summary>
@@ -120,7 +115,6 @@ namespace Monopolio
         {
             tempAnimation = new Animation(rotacaoTarget, v, accao);
             animations.Enqueue(tempAnimation);
-            Console.WriteLine("Animação adicionada!");
         }
         #endregion
 

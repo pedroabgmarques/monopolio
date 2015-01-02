@@ -46,6 +46,8 @@ namespace Monopolio
         {
             get { return moving; }
         }
+
+        private bool movingX, movingY;
         #endregion
 
         #region Construtor
@@ -55,6 +57,8 @@ namespace Monopolio
             PosicaoTarget = posicaoTarget;
             Jogador = jogador;
             this.moving = true;
+            this.movingX = false;
+            this.movingY = false;
         }
 
         #endregion
@@ -63,19 +67,33 @@ namespace Monopolio
 
         public void Update(Tabuleiro tabuleiro)
         {
-            if (Math.Round(jogador.Posicao.X, 0) != Math.Round(posicaoTarget.X, 0))
+
+            if (Math.Round(jogador.Posicao.X, 0) != Math.Round(posicaoTarget.X, 0) || Math.Round(jogador.Posicao.Y, 0) != Math.Round(posicaoTarget.Y, 0))
             {
+
                 jogador.Posicao.X = MathHelper.SmoothStep(jogador.Posicao.X, posicaoTarget.X, posicaoStep);
-            }
-            else if (Math.Round(jogador.Posicao.Y, 0) != Math.Round(posicaoTarget.Y, 0))
-            {
+                if (Math.Round(jogador.Posicao.X, 0) == Math.Round(posicaoTarget.X, 0))
+                {
+                    Console.WriteLine("Animacao X acabou.");
+                }
+                
                 jogador.Posicao.Y = MathHelper.SmoothStep(jogador.Posicao.Y, posicaoTarget.Y, posicaoStep);
+                Console.WriteLine("PosicaoY: " + jogador.Posicao.Y + "; targetY: " + posicaoTarget.Y);
+                if (Math.Round(jogador.Posicao.Y, 0) == Math.Round(posicaoTarget.Y, 0))
+                {
+                    Console.WriteLine("Animacao Y acabou.");
+                }
+                
+                
             }
             else
             {
                 this.moving = false;
+                Console.WriteLine("Animacao de token terminada.");
             }
         }
+
+        
 
         #endregion
 
