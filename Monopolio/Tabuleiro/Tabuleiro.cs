@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections;
 
 namespace Monopolio
 {
@@ -49,6 +50,18 @@ namespace Monopolio
         {
             return listaCasas;
         }
+
+        /// <summary>
+        /// Fila de cartas de comunidade
+        /// </summary>
+        private Queue listaCommunity;
+        public Queue ListaCommunity
+        {
+            get { return listaCommunity; }
+            set { listaCommunity = value; }
+        }
+        
+        
 
         #endregion
 
@@ -113,6 +126,7 @@ namespace Monopolio
             textura = Content.Load<Texture2D>("texturas/tabuleiro/tabuleiro_grande");
             this.posicao = new Vector2(graphics.Viewport.Width / 2,
                                                     graphics.Viewport.Height / 2);
+            listaCommunity = new Queue();
 
             listaCasas = new List<Casa>();
 

@@ -115,6 +115,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="Jogador.cs" />
     <Compile Include="Lancamento.cs" />
+    <Compile Include="Tabuleiro\Cards\Community.cs" />
     <Compile Include="Tabuleiro\Casa.cs" />
     <Compile Include="Background\ParallaxLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

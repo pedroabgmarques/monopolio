@@ -140,7 +140,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = true; //Fullscreen
+            graphics.IsFullScreen = false; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -207,6 +207,9 @@ namespace Monopolio
 
             //Load do sprite do tabuleiro
             tabuleiro.LoadContent(Content, GraphicsDevice);
+
+            //Load das cartas de comunidade
+            loadCartasComunidade();
 
             //Construir uma camera
             camera = new Camera(GraphicsDevice, tabuleiro);
@@ -338,6 +341,30 @@ namespace Monopolio
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Objeto reutilizado para criar cartas de comunidade
+        /// </summary>
+        Community cartaComunidade;
+        /// <summary>
+        /// Gera uma lista de cartas de comunidade
+        /// </summary>
+        private void loadCartasComunidade()
+        {
+            cartaComunidade = new Community(TipoOpcao.Mau, "Advance to Go (Collect $200)", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new Community(TipoOpcao.Bom, "Bank error in your favor: collect $75", (s) =>
+            {
+                jogador.receber(75);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+        }
 
         private void desenharDonosPropriedades()
         {
@@ -487,8 +514,7 @@ namespace Monopolio
             }
             else if (casaAtual is CommunityChest)
             {
-                //TODO
-                proximoJogador();
+                processarCommunityChest();
             }
             else if (casaAtual is Descanso)
             {
@@ -521,6 +547,19 @@ namespace Monopolio
                 proximoJogador();
             }
 
+        }
+
+        private void processarCommunityChest()
+        {
+            Community carta = (Community)tabuleiro.ListaCommunity.Dequeue();
+            listaOpcoes.Clear();
+            opcao = new Opcao(carta.TipoOpcao == TipoOpcao.Bom? "Yeaahh!" : "Damn..", carta.TipoOpcao, true, carta.Accao);
+            listaOpcoes.Add(opcao);
+            texto.Clear();
+            texto.Append(carta.Texto);
+
+            criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            tabuleiro.ListaCommunity.Enqueue(carta);
         }
 
         private void processarImposto(Imposto imposto) 
