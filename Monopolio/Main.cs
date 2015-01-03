@@ -302,9 +302,11 @@ namespace Monopolio
                 layer.Draw(spriteBatch);
 
             desenharTabuleiro();
-            
-            desenharRectangulos(3);
 
+            desenharRectangulos();
+
+            desenharDonosPropriedades();
+            
             desenharTokensJogadores();
 
             #endregion
@@ -336,6 +338,27 @@ namespace Monopolio
         #endregion
 
         #region Helpers
+
+        private void desenharDonosPropriedades()
+        {
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,
+                                BlendState.AlphaBlend,
+                                null,
+                                null,
+                                null,
+                                null,
+                                ViewMatrix);
+            foreach (Casa casa in tabuleiro.ListaCasas())
+            {
+                if (casa is Propriedade)
+                {
+                    Propriedade propriedade = (Propriedade)casa;
+                    if(propriedade.Dono != null)
+                        propriedade.Draw(spriteBatch, arial12, tabuleiro.ListaCasas().FindIndex(x => x == propriedade));
+                }
+            }
+            spriteBatch.End();
+        }
 
         /// <summary>
         /// Desenha os tokens dos jogadores
@@ -1030,13 +1053,11 @@ namespace Monopolio
             spriteBatch.End();
         }
 
-        //Conta o numero de casas que já piscaram
-        int contadorCasas = 0;
         /// <summary>
         /// Desenha alternadamente rectangulos por cima das casas, fazendo um efeito catita
         /// </summary>
         /// <param name="velocidade">Velocidade do piscanço, em ms</param>
-        private void desenharRectangulos(int velocidade)
+        private void desenharRectangulos()
         {
             if (jogador != null)
             {
@@ -1048,10 +1069,20 @@ namespace Monopolio
                                 null,
                                 ViewMatrix);
 
-                foreach (Propriedade propriedade in jogador.ListaPropriedades)
+                foreach (Casa casa in tabuleiro.ListaCasas())
                 {
-
-                    DrawRectangle(propriedade.CoordsAndSize, new Color(255, 0, 0, 80));
+                    if (casa is Propriedade)
+                    {
+                        Propriedade prop = (Propriedade)casa;
+                        if (prop.Dono != null && prop.Dono != jogador)
+                        {
+                            DrawRectangle(prop.CoordsAndSize, new Color(128, 0, 0, 5));
+                        }
+                        else if (prop.Dono != null && prop.Dono == jogador)
+                        {
+                            DrawRectangle(prop.CoordsAndSize, new Color(0, 128, 0, 5));
+                        }
+                    }
                 }
                 spriteBatch.End();
             }
@@ -1308,6 +1339,7 @@ namespace Monopolio
         /// <param name="color">Cor</param>
         private void DrawRectangle(Rectangle coords, Color color)
         {
+            Texture2D debugRectangle = new Texture2D(GraphicsDevice, 1, 1);   
             debugRectangle.SetData(new[] { color });
             spriteBatch.Draw(debugRectangle, coords, color);
         }

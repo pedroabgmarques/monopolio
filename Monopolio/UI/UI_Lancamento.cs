@@ -70,8 +70,8 @@ namespace Monopolio
                 }
             }
 
-            //lancamento.dado1 = 2;
-            //lancamento.dado2 = 2;
+            //lancamento.dado1 = 5;
+            //lancamento.dado2 = 6;
             return lancamento;
         }
 

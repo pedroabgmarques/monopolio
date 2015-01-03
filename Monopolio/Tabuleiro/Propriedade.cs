@@ -7,6 +7,8 @@
  * Descreve e gere as propriedades / terrenos que existem no jogo
  * */
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +74,29 @@ namespace Monopolio
         }
         
         
+        #endregion
+
+        #region Draw
+        public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
+        {
+            if (indiceCasa > 0 && indiceCasa < 10)
+            {
+                spriteBatch.DrawString(arial12, dono.Nome, new Vector2(CoordsAndSize.X, CoordsAndSize.Y), Color.Blue, MathHelper.ToRadians(0), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+            if (indiceCasa > 10 && indiceCasa < 20)
+            {
+                spriteBatch.DrawString(arial12, dono.Nome, new Vector2(CoordsAndSize.X + CoordsAndSize.Width, CoordsAndSize.Y), Color.Blue, MathHelper.ToRadians(90), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+            if (indiceCasa > 20 && indiceCasa < 30)
+            {
+                spriteBatch.DrawString(arial12, dono.Nome, new Vector2(CoordsAndSize.X + CoordsAndSize.Width, CoordsAndSize.Y + CoordsAndSize.Height), Color.Blue, MathHelper.ToRadians(180), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+            if (indiceCasa > 30 && indiceCasa < 40)
+            {
+                spriteBatch.DrawString(arial12, dono.Nome, new Vector2(CoordsAndSize.X, CoordsAndSize.Y + CoordsAndSize.Height), Color.Blue, MathHelper.ToRadians(270), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+            
+        }
         #endregion
     }
 }
