@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Monopolio
 {
-    public class Community
+    public class CommunityAndChance
     {
         #region Estado
 
@@ -44,7 +44,7 @@ namespace Monopolio
         /// </summary>
         /// <param name="texto"></param>
         /// <param name="accao"></param>
-        public Community(TipoOpcao tipoOpcao, string texto, Action<string> accao)
+        public CommunityAndChance(TipoOpcao tipoOpcao, string texto, Action<string> accao)
         {
             this.texto = texto;
             this.accao = accao;

@@ -60,9 +60,17 @@ namespace Monopolio
             get { return listaCommunity; }
             set { listaCommunity = value; }
         }
-        
-        
 
+        /// <summary>
+        /// Fila de cartas da sorte
+        /// </summary>
+        private Queue listaChance;
+        public Queue ListaChance
+        {
+            get { return listaChance; }
+            set { listaChance = value; }
+        }
+        
         #endregion
 
         /// <summary>
@@ -127,6 +135,7 @@ namespace Monopolio
             this.posicao = new Vector2(graphics.Viewport.Width / 2,
                                                     graphics.Viewport.Height / 2);
             listaCommunity = new Queue();
+            listaChance = new Queue();
 
             listaCasas = new List<Casa>();
 
@@ -347,6 +356,49 @@ namespace Monopolio
         #endregion
 
         #region Métodos
+
+        /// <summary>
+        /// Devolve o indice da utilidade mais proxima
+        /// </summary>
+        /// <param name="casaAtual">Casa a partir de onde começar a procurar</param>
+        /// <param name="estacao">Se se procura uma estação ou não (agua, eletricidade)</param>
+        /// <returns></returns>
+        public int nearestUtility(int casaAtual, bool estacao)
+        {
+            int indice = casaAtual+1;
+            if(indice > 39) indice = 0;
+            int indiceUtilidadeMaisProxima = 0;
+            bool encontrado = false;
+            while (!encontrado)
+            {
+                if (listaCasas[indice] is Utilidade)
+                {
+                    Utilidade utilidade = (Utilidade)listaCasas[indice];
+                    if (!estacao)
+                    {
+                        if (utilidade.Tipo == Tipo.Água || utilidade.Tipo == Tipo.Eletricidade)
+                        {
+                            encontrado = true;
+                            indiceUtilidadeMaisProxima = indice;
+                        }
+                    }
+                    else
+                    {
+                        if (utilidade.Tipo == Tipo.Estação)
+                        {
+                            encontrado = true;
+                            indiceUtilidadeMaisProxima = indice;
+                        }
+                    }
+                }
+
+                indice++;
+                if (indice > 39) indice = 0;
+            }
+            
+
+            return indiceUtilidadeMaisProxima;
+        }
 
         /// <summary>
         /// Devolve as coordenadas do centro de uma determinada casa para um determinado token

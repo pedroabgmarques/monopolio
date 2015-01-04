@@ -140,7 +140,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = false; //Fullscreen
+            graphics.IsFullScreen = true; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -210,6 +210,9 @@ namespace Monopolio
 
             //Load das cartas de comunidade
             loadCartasComunidade();
+
+            //load das cartas da sorte
+            loadCartasSorte();
 
             //Construir uma camera
             camera = new Camera(GraphicsDevice, tabuleiro);
@@ -343,24 +346,276 @@ namespace Monopolio
         #region Helpers
 
         /// <summary>
+        /// Objeto reutilizado para criar cartas de sorte
+        /// </summary>
+        CommunityAndChance cartaSorte;
+        /// <summary>
+        /// Gera uma fila de cartas de sorte
+        /// </summary>
+        private void loadCartasSorte()
+        {
+            
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
+            {
+                jogador.receber(200);
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to Trafalgar Square.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 24));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to the nearest utility.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, tabuleiro.nearestUtility(jogador.CasaAtual, false)));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to the nearest railroad.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, tabuleiro.nearestUtility(jogador.CasaAtual, true)));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to Pall Mall.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 11));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Bank pays you dividend of $50", (s) =>
+            {
+                jogador.receber(50);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Get out of jail free: this card may be kept until needed, or sold", (s) =>
+            {
+                jogador.GetOutOfJail++;
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Go back 3 spaces.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, jogador.CasaAtual - 3));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Mau, "Go directly to Jail.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Mau, "General repairs: for each house pay $25; for each hotel $100.", (s) =>
+            {
+                int conta = 25 * jogador.nCasas() + 100 * jogador.nHoteis();
+                jogador.pagar(conta);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Mau, "Pay poor tax of $15", (s) =>
+            {
+                jogador.pagar(15);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Take a trip to Kings Cross Station.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 5));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Take a trip to Mayfair.", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 39));
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Mau, "You have been elected chairman of the board: pay each player $50", (s) =>
+            {
+                int contador = 0;
+                foreach (Jogador jogador in listaJogadores)
+                {
+                    if (jogador != this.jogador)
+                    {
+                        jogador.receber(50);
+                        contador++;
+                    }
+                }
+                this.jogador.pagar(50 * contador);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Your building loan matures: collect $150", (s) =>
+            {
+                jogador.receber(150);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+            cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "You have won a crossword competition: collect $100 ", (s) =>
+            {
+                jogador.receber(100);
+                proximoJogador();
+            });
+            tabuleiro.ListaChance.Enqueue(cartaSorte);
+
+        }
+
+        /// <summary>
         /// Objeto reutilizado para criar cartas de comunidade
         /// </summary>
-        Community cartaComunidade;
+        CommunityAndChance cartaComunidade;
         /// <summary>
-        /// Gera uma lista de cartas de comunidade
+        /// Gera uma fila de cartas de comunidade
         /// </summary>
         private void loadCartasComunidade()
         {
-            cartaComunidade = new Community(TipoOpcao.Mau, "Advance to Go (Collect $200)", (s) =>
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
             {
+                jogador.receber(200);
                 moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
                 proximoJogador();
             });
             tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
 
-            cartaComunidade = new Community(TipoOpcao.Bom, "Bank error in your favor: collect $75", (s) =>
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Bank error in your favor: collect $75", (s) =>
             {
                 jogador.receber(75);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Doctor's fees: Pay $50", (s) =>
+            {
+                jogador.pagar(50);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Get out of jail free: this card may be kept until needed, or sold", (s) =>
+            {
+                jogador.GetOutOfJail++;
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Go to jail: go directly to jail: Do not pass Go, do not collect $200", (s) =>
+            {
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "It is your birthday! Collect $10 from each player", (s) =>
+            {
+                int contador = 0;
+                foreach (Jogador jogador in listaJogadores)
+                {
+                    if (jogador != this.jogador)
+                    {
+                        jogador.pagar(10);
+                        contador++;
+                    }
+                }
+                this.jogador.receber(10 * contador);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Grand Opera Night: collect $50 from every player for opening night seats", (s) =>
+            {
+                int contador = 0;
+                foreach (Jogador jogador in listaJogadores)
+                {
+                    if (jogador != this.jogador)
+                    {
+                        jogador.pagar(50);
+                        contador++;
+                    }
+                }
+                this.jogador.receber(50 * contador);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Income Tax refund: collect $20", (s) =>
+            {
+                jogador.receber(20);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Life Insurance Matures: collect $100", (s) =>
+            {
+                jogador.receber(100);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Pay Hospital Fees of $100", (s) =>
+            {
+                jogador.pagar(100);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Pay School Fees of $50", (s) =>
+            {
+                jogador.pagar(50);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Receive $25 Consultancy Fee", (s) =>
+            {
+                jogador.receber(25);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Street repairs: $40 per house, $115 per hotel.", (s) =>
+            {
+                int conta = 40 * jogador.nCasas() + 115 * jogador.nHoteis();
+                jogador.pagar(conta);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "You have won second prize in a beauty contest: collect $10", (s) =>
+            {
+                jogador.receber(10);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "You inherit $100", (s) =>
+            {
+                jogador.receber(100);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "From sale of stock you get $50", (s) =>
+            {
+                jogador.receber(50);
+                proximoJogador();
+            });
+            tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
+
+            cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Holiday Fund matures: Receive $100", (s) =>
+            {
+                jogador.receber(100);
                 proximoJogador();
             });
             tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
@@ -413,14 +668,34 @@ namespace Monopolio
         /// <param name="casasAMover">Nº de casas que vamos mover</param>
         private void moverJogadorECameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
+            if (camera.getZoom() != Zoom.medio) cameraAnimationManager.newAnimation(Zoom.medio, null);
             jogador.CasaAtual = tabuleiro.IndiceCasaAFrente(jogador.CasaAtual, casasAMover);
             atualizarCasaAtual(jogador.CasaAtual);
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
-            cameraAnimationManager.newAnimation(Zoom.perto, accao);
+
+
+            if (accao != null || !verificarSeDono(jogador))
+            {
+                cameraAnimationManager.newAnimation(Zoom.perto, accao);
+            }
 
             //Animar o bonequinho do jogador
             Vector2 posicaoTargetTokenJogador = tabuleiro.centroCasa(jogador.CasaAtual, jogador.Token);
             tokenAnimationManager.newAnimation(posicaoTargetTokenJogador, jogador);
+        }
+
+        private bool verificarSeDono(Jogador jogador)
+        {
+            bool dono = false;
+            if (tabuleiro.Casa(jogador.CasaAtual) is Rua)
+            {
+                Rua rua = (Rua)tabuleiro.Casa(jogador.CasaAtual);
+                if (rua.Dono == this.jogador)
+                {
+                    dono = true;
+                }
+            }
+            return dono;
         }
 
         /// <summary>
@@ -489,7 +764,7 @@ namespace Monopolio
                     atualizarUILancamento();
                     break;
                 case Estado.Casa:
-                    if (UIModalAtiva == null) 
+                    if (UIModalAtiva == null && cameraAnimationManager.getQueuedAnimations() == 0) 
                     {
                         processarCasa(casaAtual);
                     }
@@ -543,15 +818,14 @@ namespace Monopolio
             }
             else if (casaAtual is Sorte)
             {
-                //TODO
-                proximoJogador();
+                processarChance();
             }
 
         }
 
         private void processarCommunityChest()
         {
-            Community carta = (Community)tabuleiro.ListaCommunity.Dequeue();
+            CommunityAndChance carta = (CommunityAndChance)tabuleiro.ListaCommunity.Dequeue();
             listaOpcoes.Clear();
             opcao = new Opcao(carta.TipoOpcao == TipoOpcao.Bom? "Yeaahh!" : "Damn..", carta.TipoOpcao, true, carta.Accao);
             listaOpcoes.Add(opcao);
@@ -560,6 +834,19 @@ namespace Monopolio
 
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
             tabuleiro.ListaCommunity.Enqueue(carta);
+        }
+
+        private void processarChance()
+        {
+            CommunityAndChance carta = (CommunityAndChance)tabuleiro.ListaChance.Dequeue();
+            listaOpcoes.Clear();
+            opcao = new Opcao(carta.TipoOpcao == TipoOpcao.Bom ? "Yeaahh!" : "Damn..", carta.TipoOpcao, true, carta.Accao);
+            listaOpcoes.Add(opcao);
+            texto.Clear();
+            texto.Append(carta.Texto);
+
+            criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            tabuleiro.ListaChance.Enqueue(carta);
         }
 
         private void processarImposto(Imposto imposto) 
@@ -935,7 +1222,10 @@ namespace Monopolio
 
         private void moverCameraCasa(int casaInicial, int casaDesejada, Action<string> accao = null)
         {
-            cameraAnimationManager.newAnimation(Zoom.medio);
+            if (casaInicial != casaDesejada)
+            {
+                cameraAnimationManager.newAnimation(Zoom.medio);
+            }
             atualizarCasaAtual(casaDesejada);
             cameraAnimationManager.newAnimation(posicao,
                 tabuleiro.verificarRotacaoEPartida(camera, casaInicial,

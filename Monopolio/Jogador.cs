@@ -72,6 +72,17 @@ namespace Monopolio
             get { return listaPropriedades; }
         }
 
+        /// <summary>
+        /// Numero de cartas get out of jail que o jogador tem
+        /// </summary>
+        private int getOutOfJail;
+        public int GetOutOfJail
+        {
+            get { return getOutOfJail; }
+            set { getOutOfJail = value; }
+        }
+        
+
         private int nVoltas;
         public int NVoltas
         {
@@ -128,6 +139,7 @@ namespace Monopolio
             this.nVoltas = 0;
             this.primeiraVolta = true;
             this.nJogador = nJogador;
+            this.getOutOfJail = 0;
         }
         #endregion
 
@@ -259,6 +271,50 @@ namespace Monopolio
             }
 
             return soma;
+        }
+        
+        /// <summary>
+        /// Devolve o numero de casas que o jogador possui
+        /// </summary>
+        /// <returns>Número de casas</returns>
+        public int nCasas()
+        {
+            int contadorCasas = 0;
+            foreach (Propriedade prop in listaPropriedades)
+            {
+                if (prop is Rua)
+                {
+                    Rua rua = (Rua)prop;
+                    if (rua.NCasas > 0 && rua.NCasas < 5)
+                    {
+                        //Um hotel são cinco casas
+                        contadorCasas += rua.NCasas;
+                    }
+                }
+            }
+            return contadorCasas;
+        }
+
+        /// <summary>
+        /// Devolve o numero de hoteis que um jogador possui
+        /// </summary>
+        /// <returns>Numero de hoteis</returns>
+        public int nHoteis()
+        {
+            int contadorHoteis = 0;
+            foreach (Propriedade prop in listaPropriedades)
+            {
+                if (prop is Rua)
+                {
+                    Rua rua = (Rua)prop;
+                    if (rua.NCasas > 0 && rua.NCasas == 5)
+                    {
+                        //Um hotel são cinco casas
+                        contadorHoteis++;
+                    }
+                }
+            }
+            return contadorHoteis;
         }
 
 
