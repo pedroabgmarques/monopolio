@@ -136,7 +136,9 @@
     <Compile Include="Tabuleiro\TokenAnimation.cs" />
     <Compile Include="Tabuleiro\TokenAnimationManager.cs" />
     <Compile Include="Tabuleiro\Utilidade.cs" />
+    <Compile Include="UI\MoneyAnimation.cs" />
     <Compile Include="UI\Opcao.cs" />
+    <Compile Include="UI\PlayerAnimation.cs" />
     <Compile Include="UI\UI_Centrado.cs" />
     <Compile Include="UI\UI_Jogadores.cs" />
     <Compile Include="UI\UI.cs" />

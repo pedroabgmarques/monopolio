@@ -93,6 +93,11 @@ namespace Monopolio
                 spriteBatch.DrawString(arial12, texto, new Vector2(base.posicao.X + 27 + offset.X, base.posicao.Y + 25 + offset.Y + diferenca), cor);
                 
                 texto.Clear();
+
+                if (jogador.PosicaoStats == Vector2.Zero)
+                {
+                    jogador.PosicaoStats = new Vector2(base.posicao.X + 27 + offset.X, base.posicao.Y + 25 + offset.Y + diferenca);
+                }
             }
             diferenca = 0;
 

@@ -128,6 +128,15 @@ namespace Monopolio
         /// Jogador atual
         /// </summary>
         Jogador jogador;
+        /// <summary>
+        /// Splash "Player 1" - indica a vez de jogar
+        /// </summary>
+        PlayerAnimation playerSplashAnimation;
+        /// <summary>
+        /// Lista de animações de receber ou pagar dinheiro
+        /// </summary>
+        List<MoneyAnimation> listaMoneyAnimation;
+        List<MoneyAnimation> deadMoneyAnimations;
 
         #endregion
 
@@ -166,6 +175,10 @@ namespace Monopolio
 
             //Inicilizar o StringBuilder utilizado para gerar textos
             texto = new StringBuilder();
+
+            //Inicializar a lista de animações de receber ou pagar dinheiro
+            listaMoneyAnimation = new List<MoneyAnimation>();
+            deadMoneyAnimations = new List<MoneyAnimation>();
 
             //Inicializar o rectangulo do rato
             rectanguloRato = new Rectangle();
@@ -280,6 +293,12 @@ namespace Monopolio
             //atualizar o gestor de animações de tokens dos jogadores
             tokenAnimationManager.Update(tabuleiro);
 
+            //atualizar o splash do jogador que tem a vez de jogar
+            atualizarPlayerAnimationSplash();
+
+            //atualizar animações de dinheiro
+            atualizarMoneyAnimations();
+
             //Verificar se o rato está sobre um botao
             verificarRatoSobreBotao();
 
@@ -318,8 +337,11 @@ namespace Monopolio
             #endregion
 
             #region No Parallax
+
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            
+
+            desenharPlayerAnimationSplash();
+
             //desenhar seta do rato
             rato.Draw(spriteBatch);
 
@@ -334,6 +356,8 @@ namespace Monopolio
 
             //desenhar UI
             desenharUI();
+
+            desenharMoneyAnimations();
             
             spriteBatch.End();
 
@@ -344,6 +368,51 @@ namespace Monopolio
         #endregion
 
         #region Helpers
+
+        private void atualizarMoneyAnimations()
+        {
+            foreach (MoneyAnimation anim in listaMoneyAnimation)
+            {
+                anim.Update();
+                if (!anim.Viva) deadMoneyAnimations.Add(anim);
+            }
+            foreach (MoneyAnimation anim in deadMoneyAnimations)
+            {
+                listaMoneyAnimation.Remove(anim);
+            }
+            deadMoneyAnimations.Clear(); 
+        }
+
+        /// <summary>
+        /// Atualiza o splash que indica o jogador que tem a vez de jogar
+        /// </summary>
+        private void atualizarPlayerAnimationSplash()
+        {
+            if (playerSplashAnimation != null)
+            {
+                playerSplashAnimation.Update();
+                if (!playerSplashAnimation.Viva) playerSplashAnimation = null;
+            }
+        }
+
+        private void desenharMoneyAnimations()
+        {
+            foreach (MoneyAnimation anim in listaMoneyAnimation)
+            {
+                anim.Draw(arial12, spriteBatch);
+            }
+        }
+
+        /// <summary>
+        /// Desenha o splash que indica o jogador que tem a vez de jogar
+        /// </summary>
+        private void desenharPlayerAnimationSplash()
+        {
+            if (playerSplashAnimation != null)
+            {
+                playerSplashAnimation.Draw(spriteBatch);
+            }
+        }
 
         /// <summary>
         /// Objeto reutilizado para criar cartas de sorte
@@ -357,7 +426,6 @@ namespace Monopolio
             
             cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
             {
-                jogador.receber(200);
                 moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
                 proximoJogador();
             });
@@ -483,7 +551,6 @@ namespace Monopolio
         {
             cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
             {
-                jogador.receber(200);
                 moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
                 proximoJogador();
             });
@@ -1158,7 +1225,7 @@ namespace Monopolio
             //Criar os jogadores e inseri-los na lista
             for (int i = 0; i < numJogadores; i++)
             {
-                Jogador novoJogador = new Jogador("Player " + (i + 1), (i+1));
+                Jogador novoJogador = new Jogador("Player " + (i + 1), (i+1), ref listaMoneyAnimation);
                 novoJogador.LoadContent(Content, graphics.GraphicsDevice);
                 novoJogador.Posicao = tabuleiro.centroCasa(0, novoJogador.Token);
                 novoJogador.OffsetPosicao = new Vector2(random.Next(-30, 30), random.Next(-15, 30));
@@ -1180,6 +1247,8 @@ namespace Monopolio
             listaComponentesUI.Remove(tempUI);
             //Adicionar a UI com a lista de jogadores
             loadAndAddUIJogadores("background", true, false);
+
+            playerSplashAnimation = new PlayerAnimation(jogador, graphics.GraphicsDevice);
             
             //Zoom na casa de partida
             jogador.CasaAtual = 0;
@@ -1201,6 +1270,7 @@ namespace Monopolio
         int casaOriginal;
         private void proximoJogador()
         {
+            
             GameState.Estado = Estado.Lançamento;
             casaOriginal = jogador.CasaAtual;
             indiceJogadorAtual++;
@@ -1209,6 +1279,7 @@ namespace Monopolio
                 indiceJogadorAtual = 0;
             }
             jogador = listaJogadores[indiceJogadorAtual];
+            playerSplashAnimation = new PlayerAnimation(jogador, graphics.GraphicsDevice);
 
             //Mover camera para o jogador
             moverCameraCasa(casaOriginal, jogador.CasaAtual, (s) =>

@@ -112,6 +112,15 @@ namespace Monopolio
             set { token = value; }
         }
 
+        private Texture2D playerSplash;
+
+        public Texture2D PlayerSplash
+        {
+            get { return playerSplash; }
+            set { playerSplash = value; }
+        }
+        
+
         public Vector2 Posicao;
 
         private Vector2 offsetPosicao;
@@ -124,13 +133,24 @@ namespace Monopolio
         
 
         private int nJogador;
+
+        private Vector2 posicaoStats;
+
+        public Vector2 PosicaoStats
+        {
+            get { return posicaoStats; }
+            set { posicaoStats = value; }
+        }
+
+        private List<MoneyAnimation> listaMoneyAnimations;
+        
         #endregion
 
         #region Construtor
         /// <summary>
         /// Construtor do Jogador
         /// </summary>
-        public Jogador(string nome, int nJogador)
+        public Jogador(string nome, int nJogador, ref List<MoneyAnimation> listaMoneyanimations)
         {
             this.nome = nome;
             this.dinheiro = 2 * 500 + 2 * 100 + 2 * 50 + 6 * 20 + 5 * 10 + 5 * 5 + 5 * 1;
@@ -140,6 +160,8 @@ namespace Monopolio
             this.primeiraVolta = true;
             this.nJogador = nJogador;
             this.getOutOfJail = 0;
+            this.posicaoStats = Vector2.Zero;
+            this.listaMoneyAnimations = listaMoneyanimations;
         }
         #endregion
 
@@ -147,6 +169,7 @@ namespace Monopolio
         public void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {
             token = Content.Load<Texture2D>("texturas/tabuleiro/tokens/token"+nJogador);
+            playerSplash = Content.Load<Texture2D>("texturas/players/player" + nJogador);
             this.Posicao = new Vector2(graphics.Viewport.Width / 2,
                                                     graphics.Viewport.Height / 2);
         }
@@ -160,6 +183,7 @@ namespace Monopolio
         public void pagar(float valor)
         {
             this.dinheiro -= valor;
+            adicionarMoneyAnimation(new MoneyAnimation(this, -valor));
         }
 
         /// <summary>
@@ -169,6 +193,20 @@ namespace Monopolio
         public void receber(int valor)
         {
             this.dinheiro += valor;
+            adicionarMoneyAnimation(new MoneyAnimation(this, valor));
+        }
+
+        private void adicionarMoneyAnimation(MoneyAnimation anim)
+        {
+            //remover as animacoes já existentes deste jogador e inserir a nova
+            foreach (MoneyAnimation animation in listaMoneyAnimations)
+            {
+                if (animation.Jogador == this)
+                {
+                    animation.Viva = false;
+                }
+            }
+            listaMoneyAnimations.Add(anim);
         }
 
         /// <summary>
