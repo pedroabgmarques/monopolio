@@ -149,7 +149,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = true; //Fullscreen
+            graphics.IsFullScreen = false; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -477,7 +477,7 @@ namespace Monopolio
 
             cartaSorte = new CommunityAndChance(TipoOpcao.Mau, "Go directly to Jail.", (s) =>
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
+                goToPrison();
             });
             tabuleiro.ListaChance.Enqueue(cartaSorte);
 
@@ -551,8 +551,12 @@ namespace Monopolio
         {
             cartaComunidade = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
-                proximoJogador();
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0), x =>
+                {
+                    proximoJogador();
+                });
+                
+                
             });
             tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
 
@@ -579,8 +583,7 @@ namespace Monopolio
 
             cartaComunidade = new CommunityAndChance(TipoOpcao.Mau, "Go to jail: go directly to jail: Do not pass Go, do not collect $200", (s) =>
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
-                proximoJogador();
+                goToPrison();
             });
             tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
 
@@ -710,6 +713,18 @@ namespace Monopolio
         }
 
         /// <summary>
+        /// Envia um jogador para a prisão
+        /// </summary>
+        private void goToPrison()
+        {
+            moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10), x =>
+            {
+                jogador.Jailed = true;
+                proximoJogador();
+            });
+        }
+
+        /// <summary>
         /// Desenha os tokens dos jogadores
         /// </summary>
         private void desenharTokensJogadores()
@@ -735,20 +750,19 @@ namespace Monopolio
         /// <param name="casasAMover">Nº de casas que vamos mover</param>
         private void moverJogadorECameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
-            if (camera.getZoom() != Zoom.medio) cameraAnimationManager.newAnimation(Zoom.medio, null);
+            if (camera.getZoom() != Zoom.medio) cameraAnimationManager.newAnimation(Zoom.medio, accao);
             jogador.CasaAtual = tabuleiro.IndiceCasaAFrente(jogador.CasaAtual, casasAMover);
             atualizarCasaAtual(jogador.CasaAtual);
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, indiceCasaOriginal, casasAMover, jogador), true);
 
-
-            if (accao != null || !verificarSeDono(jogador))
-            {
-                cameraAnimationManager.newAnimation(Zoom.perto, accao);
-            }
-
             //Animar o bonequinho do jogador
             Vector2 posicaoTargetTokenJogador = tabuleiro.centroCasa(jogador.CasaAtual, jogador.Token);
             tokenAnimationManager.newAnimation(posicaoTargetTokenJogador, jogador);
+
+            if (accao != null || !verificarSeDono(jogador))
+            {
+                cameraAnimationManager.newAnimation(Zoom.perto);
+            }
         }
 
         private bool verificarSeDono(Jogador jogador)
@@ -805,9 +819,49 @@ namespace Monopolio
                         //Fechar a janela de lançamentos
                         UIModalAtiva.desativarUI(ref UIModalAtiva);
                         jogador.UltimoLancamento = lancamento.dado1 + lancamento.dado2;
+                        processarDoubles(lancamento, jogador);
+                    }
+                }
+            }
+        }
+
+        private void processarDoubles(Lancamento lancamento, Jogador jogador)
+        {
+            //Contar doubles e verificar se o jogador deve ir para a prisão
+            if (lancamento.dado1 == lancamento.dado2)
+            {
+                //double!
+                if (jogador.Jailed && jogador.DoubleToEscapeJail)
+                {
+                    jogador.Jailed = false;
+                    jogador.DoubleToEscapeJail = false;
+                    jogador.TurnsOnJail = 0;
+                    jogador.ContadorDoubles = 0;
+                    jogador.JogaOutraVez = false;
+                    criarUIResultadoLancamento(lancamento);
+                }
+                else
+                {
+                    jogador.ContadorDoubles++;
+                    jogador.JogaOutraVez = true;
+                    if (jogador.ContadorDoubles == 3)
+                    {
+                        jogador.resetDoubles();
+                        criarUIPrisao();
+                    }
+                    else
+                    {
                         criarUIResultadoLancamento(lancamento);
                     }
                 }
+
+                
+            }
+            else
+            {
+                //não houve double, fazer reset ao contador de doubles
+                jogador.resetDoubles();
+                criarUIResultadoLancamento(lancamento);
             }
         }
 
@@ -865,8 +919,8 @@ namespace Monopolio
             }
             else if (casaAtual is GoTo)
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 10));
-                proximoJogador();
+                goToPrison();
+                
             }
             else if (casaAtual is Imposto)
             {
@@ -1273,20 +1327,51 @@ namespace Monopolio
             
             GameState.Estado = Estado.Lançamento;
             casaOriginal = jogador.CasaAtual;
-            indiceJogadorAtual++;
-            if (indiceJogadorAtual >= listaJogadores.Count)
+
+            if (!jogador.JogaOutraVez)
             {
-                indiceJogadorAtual = 0;
+                indiceJogadorAtual++;
+                if (indiceJogadorAtual >= listaJogadores.Count)
+                {
+                    indiceJogadorAtual = 0;
+                }
+                jogador = listaJogadores[indiceJogadorAtual];
+                playerSplashAnimation = new PlayerAnimation(jogador, graphics.GraphicsDevice);
             }
-            jogador = listaJogadores[indiceJogadorAtual];
-            playerSplashAnimation = new PlayerAnimation(jogador, graphics.GraphicsDevice);
+            else
+            {
+                jogador.JogaOutraVez = false;
+            }
+            
 
             //Mover camera para o jogador
             moverCameraCasa(casaOriginal, jogador.CasaAtual, (s) =>
             {
                 //Quando as animações terminam,
                 //criar uma UI de lançamento de dados e alterar estado do jogo
-                criarUILancamento();
+
+                if (jogador.Jailed)
+                {
+                    if (jogador.TurnsOnJail == 3)
+                    {
+                        jogador.Jailed = false;
+                        jogador.TurnsOnJail = 0;
+                    }
+                    else
+                    {
+                        jogador.TurnsOnJail++;
+                    }
+                }
+
+                if (!jogador.Jailed)
+                {
+                    criarUILancamento();
+                }
+                else
+                {
+                    criarUISairPrisao();
+                }
+                
             });
             
         }
@@ -1303,6 +1388,48 @@ namespace Monopolio
                     tabuleiro.nCasasDiferenca(casaInicial, casaDesejada), jogador),
                 true);
             cameraAnimationManager.newAnimation(Zoom.perto, accao);
+        }
+
+        private void criarUISairPrisao()
+        {
+            listaOpcoes.Clear();
+
+            if (jogador.GetOutOfJail > 0)
+            {
+                opcao = new Opcao("Use the card!", TipoOpcao.Bom, true, (s) =>
+                {
+                    jogador.GetOutOfJail--;
+                    jogador.Jailed = false;
+                    cameraAnimationManager.newAnimation(Zoom.medio);
+                    criarUILancamento("UICentrada", true);
+                });
+                listaOpcoes.Add(opcao);
+            }
+
+            opcao = new Opcao("Pay $50", TipoOpcao.Mau, true, (s) =>
+            {
+                jogador.pagar(50);
+                jogador.Jailed = false;
+                cameraAnimationManager.newAnimation(Zoom.medio);
+                criarUILancamento("UICentrada", true);
+            });
+            listaOpcoes.Add(opcao);
+
+            opcao = new Opcao("Go for double", TipoOpcao.Mau, true, (s) =>
+            {
+                jogador.DoubleToEscapeJail = true;
+                cameraAnimationManager.newAnimation(Zoom.medio);
+                criarUILancamento("UICentrada", true);
+            });
+            listaOpcoes.Add(opcao);
+
+            
+
+            texto.Clear();
+            texto.AppendLine("It's your turn to play, " + jogador.Nome + "!");
+            texto.AppendLine();
+            texto.AppendLine("Click the button below to roll your dice!");
+            criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
         }
 
         /// <summary>
@@ -1328,20 +1455,55 @@ namespace Monopolio
 
         private void criarUIResultadoLancamento(Lancamento lancamento)
         {
-            listaOpcoes.Clear();
-            opcao = new Opcao("Ok, go!", TipoOpcao.Bom, true, (s) =>
+
+            if (jogador.Jailed && jogador.DoubleToEscapeJail)
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, lancamento.somaDados, (t) =>
+                listaOpcoes.Clear();
+                opcao = new Opcao("Damn..", TipoOpcao.Mau, true, (s) =>
                 {
-                    GameState.Estado = Estado.Casa;
+                    proximoJogador();
                 });
+                listaOpcoes.Add(opcao);
+
+                texto.Clear();
+                texto.AppendLine("No double! You stay in jail.");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+            else
+            {
+                listaOpcoes.Clear();
+                opcao = new Opcao("Ok, go!", TipoOpcao.Bom, true, (s) =>
+                {
+                    moverJogadorECameraNCasas(jogador.CasaAtual, lancamento.somaDados, (t) =>
+                    {
+                        GameState.Estado = Estado.Casa;
+                    });
+                });
+                listaOpcoes.Add(opcao);
+
+                texto.Clear();
+                texto.AppendLine("Congratulations, you had a " + lancamento.somaDados + "!");
+                texto.AppendLine();
+                texto.AppendLine("Click the button below to go!");
+                criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            }
+
+            
+        }
+
+        private void criarUIPrisao()
+        {
+            listaOpcoes.Clear();
+            opcao = new Opcao("I'm innocent!", TipoOpcao.Mau, true, (s) =>
+            {
+                goToPrison();
             });
             listaOpcoes.Add(opcao);
 
             texto.Clear();
-            texto.AppendLine("Congratulations, you had a " + lancamento.somaDados + "!");
+            texto.AppendLine("3 doubles in a row? You must certainly be cheating!");
             texto.AppendLine();
-            texto.AppendLine("Click the button below to go!");
+            texto.AppendLine("You are going to jail.");
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
         }
 

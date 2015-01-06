@@ -82,7 +82,9 @@ namespace Monopolio
             set { getOutOfJail = value; }
         }
         
-
+        /// <summary>
+        /// Número de voltas que o jogador deu ao tabuleiro
+        /// </summary>
         private int nVoltas;
         public int NVoltas
         {
@@ -90,6 +92,9 @@ namespace Monopolio
             set { nVoltas = value; }
         }
 
+        /// <summary>
+        /// Indica se o jogador está ou não na primeira volta
+        /// </summary>
         private bool primeiraVolta;
         public bool PrimeiraVolta
         {
@@ -97,6 +102,9 @@ namespace Monopolio
             set { primeiraVolta = value; }
         }
 
+        /// <summary>
+        /// Valor do último lançamento deste jogador
+        /// </summary>
         private int ultimoLancamento;
         public int UltimoLancamento
         {
@@ -104,27 +112,35 @@ namespace Monopolio
             set { ultimoLancamento = value; }
         }
 
+        /// <summary>
+        /// Imagem do token deste jogador
+        /// </summary>
         private Texture2D token;
-
         public Texture2D Token
         {
             get { return token; }
             set { token = value; }
         }
 
+        /// <summary>
+        /// "Player 1", "Player 2", etc.
+        /// </summary>
         private Texture2D playerSplash;
-
         public Texture2D PlayerSplash
         {
             get { return playerSplash; }
             set { playerSplash = value; }
         }
         
-
+        /// <summary>
+        /// Posição do token do jogador no tabuleiro
+        /// </summary>
         public Vector2 Posicao;
 
+        /// <summary>
+        /// Offset na posição do jogador, para os tokens não ficarem (demasiado) sobrepostos
+        /// </summary>
         private Vector2 offsetPosicao;
-
         public Vector2 OffsetPosicao
         {
             get { return offsetPosicao; }
@@ -134,15 +150,71 @@ namespace Monopolio
 
         private int nJogador;
 
+        /// <summary>
+        /// Posição na UI em que aparecem as stats deste jogador
+        /// </summary>
         private Vector2 posicaoStats;
-
         public Vector2 PosicaoStats
         {
             get { return posicaoStats; }
             set { posicaoStats = value; }
         }
 
+        /// <summary>
+        /// Lista de animações de entradas ou saídas de dinheiro associadas a este jogador
+        /// </summary>
         private List<MoneyAnimation> listaMoneyAnimations;
+
+        /// <summary>
+        /// Indica se o jogador está na prisão ou não
+        /// </summary>
+        private bool jailed;
+        public bool Jailed
+        {
+            get { return jailed; }
+            set { jailed = value; }
+        }
+
+        /// <summary>
+        /// Conta o número de doubles seguidos: se três, o jogador vai diretamente para a prisão
+        /// </summary>
+        private int contadorDoubles;
+        public int ContadorDoubles
+        {
+            get { return contadorDoubles; }
+            set { contadorDoubles = value; }
+        }
+
+        //Verdadeiro se o jogador tirou um double e tem direito a jogar novamente
+        private bool jogaOutraVez;
+        public bool JogaOutraVez
+        {
+            get { return jogaOutraVez; }
+            set { jogaOutraVez = value; }
+        }
+
+        //Conta o numero de turnos há que o jogador está na prisão
+        private int turnsOnJail;
+        public int TurnsOnJail
+        {
+            get { return turnsOnJail; }
+            set { turnsOnJail = value; }
+        }
+
+        /// <summary>
+        /// Indica se o proximo lançamento é um double para tentar sair da prisão
+        /// </summary>
+        private bool doubleToEscapeJail;
+        public bool DoubleToEscapeJail
+        {
+            get { return doubleToEscapeJail; }
+            set { doubleToEscapeJail = value; }
+        }
+        
+        
+        
+        
+        
         
         #endregion
 
@@ -162,6 +234,11 @@ namespace Monopolio
             this.getOutOfJail = 0;
             this.posicaoStats = Vector2.Zero;
             this.listaMoneyAnimations = listaMoneyanimations;
+            this.jailed = false;
+            this.contadorDoubles = 0;
+            this.jogaOutraVez = false;
+            this.turnsOnJail = 0;
+            this.doubleToEscapeJail = false;
         }
         #endregion
 
@@ -176,6 +253,15 @@ namespace Monopolio
         #endregion
 
         #region Métodos
+        /// <summary>
+        /// Faz reset ao estado dos doubles
+        /// </summary>
+        public void resetDoubles()
+        {
+            this.contadorDoubles = 0;
+            this.jogaOutraVez = false;
+        }
+
         /// <summary>
         /// Retira uma determinada quantidade de dinheiro ao jogador
         /// </summary>
