@@ -76,6 +76,7 @@ namespace Monopolio
         
         #endregion
 
+        Rua ruaTemp;
         #region Draw
         public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
         {
@@ -95,7 +96,11 @@ namespace Monopolio
             {
                 spriteBatch.DrawString(arial12, dono.Nome, new Vector2(CoordsAndSize.X, CoordsAndSize.Y + CoordsAndSize.Height), Color.Blue, MathHelper.ToRadians(270), Vector2.Zero, 1f, SpriteEffects.None, 1f);
             }
-            
+            if (this is Rua)
+            {
+                ruaTemp = (Rua)this;
+                ruaTemp.Draw(spriteBatch, arial12, indiceCasa);
+            }
         }
         #endregion
     }

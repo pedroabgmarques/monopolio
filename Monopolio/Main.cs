@@ -149,7 +149,7 @@ namespace Monopolio
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true; //Anti-aliasing
             graphics.GraphicsProfile = GraphicsProfile.HiDef; //Gráficos potentes
-            graphics.IsFullScreen = false; //Fullscreen
+            graphics.IsFullScreen = true; //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 680;
 
@@ -238,15 +238,11 @@ namespace Monopolio
 
             debugRectangle = new Texture2D(GraphicsDevice, 1, 1);          
 
-            //gerar UI
-            gerarUI();
-
             //Criar uma lista de camadas para o efeito parallax
             gerarCamadasParallax();
 
             //Zoom Out Inicial
             cameraAnimationManager.newAnimation(Zoom.longe);
-
         }
 
         /// <summary>
@@ -426,8 +422,11 @@ namespace Monopolio
             
             cartaSorte = new CommunityAndChance(TipoOpcao.Bom, "Advance to Go (Collect $200)", (s) =>
             {
-                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0));
-                proximoJogador();
+                moverJogadorECameraNCasas(jogador.CasaAtual, tabuleiro.nCasasDiferenca(jogador.CasaAtual, 0), x =>
+                {
+                    proximoJogador();
+                });
+                
             });
             tabuleiro.ListaChance.Enqueue(cartaSorte);
 
@@ -934,7 +933,6 @@ namespace Monopolio
             }
             else if (casaAtual is Prisao)
             {
-                //TODO
                 proximoJogador();
             }
             else if (casaAtual is Sorte)
@@ -1130,13 +1128,19 @@ namespace Monopolio
             {
                 //Esta rua ainda não tem dono, o jogador pode comprá-la
                 listaOpcoes.Clear();
-                opcao = new Opcao("Buy!", TipoOpcao.Bom, true, (s) =>
+
+                if (jogador.Dinheiro > rua.Custo)
                 {
-                    //Comprar a rua
-                    jogador.adicionarPropriedade((Propriedade)rua);
-                    proximoJogador();
-                });
-                listaOpcoes.Add(opcao);
+                    opcao = new Opcao("Buy!", TipoOpcao.Bom, true, (s) =>
+                    {
+                        //Comprar a rua
+                        jogador.adicionarPropriedade((Propriedade)rua);
+                        proximoJogador();
+                    });
+                    listaOpcoes.Add(opcao);
+                }
+                
+
                 opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
                 {
                     //Aqui deviamos ir para leilão.. TODO
@@ -1198,14 +1202,22 @@ namespace Monopolio
                     && tabuleiro.verificarAvenida(jogador, rua.GrupoRuas))
                 {
                     listaOpcoes.Clear();
-                    opcao = new Opcao("Build!", TipoOpcao.Bom, true, (s) =>
+
+                    //Ver qual a rua deste monopolio com menos casas
+                    Rua ruaMenosCasas = (Rua)tabuleiro.Casa(tabuleiro.ruaComMenosCasas(jogador.CasaAtual));
+
+                    if (jogador.Dinheiro > ruaMenosCasas.Custo)
                     {
-                        //Construir uma casa
-                        jogador.pagar(rua.Custo);
-                        rua.NCasas++;
-                        proximoJogador();
-                    });
-                    listaOpcoes.Add(opcao);
+                        opcao = new Opcao("Build!", TipoOpcao.Bom, true, (s) =>
+                        {
+                            //Ver qual a rua deste monopolio com menos casas
+                            
+                            jogador.pagar(ruaMenosCasas.Custo);
+                            ruaMenosCasas.NCasas++;
+                        });
+                        listaOpcoes.Add(opcao);
+                    }
+
                     opcao = new Opcao("Not today.", TipoOpcao.Mau, true, (s) =>
                     {
                         //Não quer comprar casa, azar
@@ -1215,8 +1227,8 @@ namespace Monopolio
                     texto.Clear();
                     texto.Append("This property is yours and you can invest in it!");
                     texto.AppendLine();
-                    texto.Append("For that, you pay ");
-                    texto.Append(rua.Custo);
+                    texto.Append("For an upgrade, you pay ");
+                    texto.Append(ruaMenosCasas.Custo);
                     texto.Append(" Euro");
                     criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
                 }
@@ -1308,6 +1320,11 @@ namespace Monopolio
             jogador.CasaAtual = 0;
             casasAMover = 0;
             atualizarCasaAtual(jogador.CasaAtual);
+
+            //DEBUG
+            distribuirMonopolios();
+
+
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual, casasAMover, jogador), true);
             cameraAnimationManager.newAnimation(Zoom.perto, (s) =>
             {
@@ -1316,6 +1333,46 @@ namespace Monopolio
                 GameState.Estado = Estado.Lançamento;
                 criarUILancamento();
             });
+        }
+
+
+        /// <summary>
+        /// DEBUG
+        /// distribui os monopólios pelos jogadores para se poder testar o código de construir casas e hoteis
+        /// </summary>
+        private void distribuirMonopolios()
+        {
+            Jogador jogador;
+            GrupoRuas grupoAnterior = GrupoRuas.Brown;
+            int contador = 0;
+            int indiceJogador = 0;
+
+            jogador = listaJogadores[indiceJogador];
+            foreach (Casa casa in tabuleiro.ListaCasas())
+            {
+                if (casa is Propriedade)
+                {
+                    Propriedade prop = (Propriedade)casa;
+                    if (prop is Rua)
+                    {
+                        Rua rua = (Rua)prop;
+                        if (rua.GrupoRuas == grupoAnterior)
+                        {
+                            jogador.adicionarPropriedade(rua);
+                            jogador.receber(rua.Custo);
+                        }
+                        else
+                        {
+                            indiceJogador++;
+                            if (indiceJogador > listaJogadores.Count - 1) indiceJogador = 0;
+                            jogador = listaJogadores[indiceJogador];
+                            jogador.adicionarPropriedade(rua);
+                            jogador.receber(rua.Custo);
+                        }
+                        grupoAnterior = rua.GrupoRuas;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1426,9 +1483,9 @@ namespace Monopolio
             
 
             texto.Clear();
-            texto.AppendLine("It's your turn to play, " + jogador.Nome + "!");
+            texto.AppendLine("You're in jail!");
             texto.AppendLine();
-            texto.AppendLine("Click the button below to roll your dice!");
+            texto.AppendLine("Choose one of the options to get free.");
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
         }
 
@@ -1487,8 +1544,6 @@ namespace Monopolio
                 texto.AppendLine("Click the button below to go!");
                 criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
             }
-
-            
         }
 
         private void criarUIPrisao()
@@ -1835,14 +1890,6 @@ namespace Monopolio
         {
             sprite.LoadContent(Content, GraphicsDevice);
             layers[indice].sprites.Add(sprite);
-        }
-
-        /// <summary>
-        /// Load de todos os componentes do UI
-        /// </summary>
-        private void gerarUI()
-        {
-            
         }
 
         /// <summary>

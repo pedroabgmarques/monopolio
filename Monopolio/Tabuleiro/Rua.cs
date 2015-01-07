@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Monopolio
 {
@@ -90,6 +91,43 @@ namespace Monopolio
         public int CustoCasa()
         {
             return custoCasa;
+        }
+
+        private string textoTemp;
+        public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
+        {
+            if (nCasas > 0)
+            {
+                if (nCasas == 1)
+                {
+                    textoTemp = nCasas + "house";
+                }
+                else if (nCasas < 5)
+                {
+                    textoTemp = nCasas + "houses";
+                }
+                else
+                {
+                    textoTemp = "1 hotel";
+                }
+                if (indiceCasa > 0 && indiceCasa < 10)
+                {
+                    spriteBatch.DrawString(arial12, textoTemp, new Vector2(CoordsAndSize.X + 73, CoordsAndSize.Y), Color.Blue, MathHelper.ToRadians(0), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                }
+                if (indiceCasa > 10 && indiceCasa < 20)
+                {
+                    spriteBatch.DrawString(arial12, textoTemp, new Vector2(CoordsAndSize.X + CoordsAndSize.Width, CoordsAndSize.Y + 73), Color.Blue, MathHelper.ToRadians(90), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                }
+                if (indiceCasa > 20 && indiceCasa < 30)
+                {
+                    spriteBatch.DrawString(arial12, textoTemp, new Vector2(CoordsAndSize.X - 73 + CoordsAndSize.Width, CoordsAndSize.Y + CoordsAndSize.Height), Color.Blue, MathHelper.ToRadians(180), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                }
+                if (indiceCasa > 30 && indiceCasa < 40)
+                {
+                    spriteBatch.DrawString(arial12, textoTemp, new Vector2(CoordsAndSize.X + 73, CoordsAndSize.Y + CoordsAndSize.Height), Color.Blue, MathHelper.ToRadians(270), Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                }
+            }
+            
         }
         
     }

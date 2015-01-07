@@ -646,6 +646,32 @@ namespace Monopolio
             
         }
 
+        public int ruaComMenosCasas(int indiceCasaAtual)
+        {
+            int menorNumCasas = 6;
+            int indiceCasaMenorNumCasas = 0;
+            Rua rua = (Rua)listaCasas[indiceCasaAtual];
+            foreach (Casa casa in listaCasas)
+            {
+                if (casa is Propriedade)
+                {
+                    if ((Propriedade)casa is Rua)
+                    {
+                        Rua ruaMonopolio = (Rua)(Propriedade)casa;
+                        if (ruaMonopolio.GrupoRuas == rua.GrupoRuas)
+                        {
+                            if (ruaMonopolio.NCasas < menorNumCasas)
+                            {
+                                indiceCasaMenorNumCasas = listaCasas.FindIndex(x => x == ruaMonopolio);
+                                menorNumCasas = ruaMonopolio.NCasas;
+                            }
+                        }
+                    }
+                }
+            }
+            return indiceCasaMenorNumCasas;
+        }
+
         #endregion
 
         #region Draw
