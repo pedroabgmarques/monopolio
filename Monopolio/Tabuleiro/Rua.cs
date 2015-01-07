@@ -33,7 +33,7 @@ namespace Monopolio
     /// <summary>
     /// Uma rua é uma propriedade que pode ter casas e hotéis
     /// </summary>
-    class Rua : Propriedade
+    public class Rua : Propriedade
     {
         private int nCasas;
         public int NCasas

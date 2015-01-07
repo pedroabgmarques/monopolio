@@ -20,7 +20,7 @@ namespace Monopolio
         /// <summary>
         /// Stringbuilder utilizado para 
         /// </summary>
-        private StringBuilder texto;
+        protected StringBuilder texto;
 
         /// <summary>
         /// Variáveis utilizadas para calcular as bordas entre botões
@@ -30,7 +30,7 @@ namespace Monopolio
         /// <summary>
         /// Orientação dos botões - vertical ou horizontal
         /// </summary>
-        OrientacaoOpcoes orientacaOpcoes;
+        protected OrientacaoOpcoes orientacaOpcoes;
 
         public UI_Centrado()
         {
@@ -101,7 +101,7 @@ namespace Monopolio
 
             
             //Desenhar os botões para as opcoes
-            foreach(Opcao opcao in listaOpcoes)
+            foreach(Opcao opcao in base.listaOpcoes)
             {
 
                 botao = base.getBotao(opcao.TipoOpcao, opcao.Hover, opcao.Clique);

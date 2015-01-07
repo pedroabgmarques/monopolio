@@ -84,6 +84,10 @@ namespace Monopolio
         /// </summary>
         UI_Lancamento UI_Lancamento;
         /// <summary>
+        /// Utilizado e reutilizado para gerar UI's de mortgages
+        /// </summary>
+        UI_Mortgages UI_Mortgages;
+        /// <summary>
         /// Utilizado e reutilizado para gerar textos
         /// </summary>
         StringBuilder texto;
@@ -1381,7 +1385,7 @@ namespace Monopolio
         int casaOriginal;
         private void proximoJogador()
         {
-            
+
             GameState.Estado = Estado.Lançamento;
             casaOriginal = jogador.CasaAtual;
 
@@ -1496,18 +1500,46 @@ namespace Monopolio
         {
             
             listaOpcoes.Clear();
-            opcao = new Opcao("Good luck!", TipoOpcao.Bom, true, (s) =>
+            opcao = new Opcao("Roll dice", TipoOpcao.Bom, true, (s) =>
             {
                 cameraAnimationManager.newAnimation(Zoom.medio);
                 criarUILancamento("UICentrada", true);
             });
             listaOpcoes.Add(opcao);
 
+            if (jogador.listaRuas().Count > 0)
+            {
+                opcao = new Opcao("Mortgages", TipoOpcao.Bom, true, (s) =>
+                {
+                    cameraAnimationManager.newAnimation(Zoom.longe);
+                    criarUIMortgages();
+                });
+                listaOpcoes.Add(opcao);
+            }
+            
             texto.Clear();
             texto.AppendLine("It's your turn to play, "+ jogador.Nome +"!");
             texto.AppendLine();
             texto.AppendLine("Click the button below to roll your dice!");
             criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
+        }
+
+        private void criarUIMortgages()
+        {
+            listaOpcoes.Clear();
+            opcao = new Opcao("Close", TipoOpcao.Bom, true, (s) =>
+            {
+                cameraAnimationManager.newAnimation(posicao,
+                tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual,
+                    tabuleiro.nCasasDiferenca(jogador.CasaAtual, jogador.CasaAtual), jogador),
+                true);
+                cameraAnimationManager.newAnimation(Zoom.perto);
+                criarUILancamento();
+            });
+            listaOpcoes.Add(opcao);
+            criarUIMortgages("UIMortgages", true, listaOpcoes, OrientacaoOpcoes.Horizontal);
+            texto.Clear();
+            
         }
 
         private void criarUIResultadoLancamento(Lancamento lancamento)
@@ -1591,6 +1623,15 @@ namespace Monopolio
             UI_Lancamento.LoadContent(Content, GraphicsDevice);
             UI_Lancamento.ativarUI(ref UIModalAtiva);
             listaComponentesUI.Add(UI_Lancamento);
+        }
+
+        private void criarUIMortgages(string nomeTextura, bool ativa, List<Opcao> listaOpcoes, OrientacaoOpcoes orientacao)
+        {
+            UI_Mortgages = new UI_Mortgages(nomeTextura, ativa, listaOpcoes, orientacao, jogador);
+            UI_Mortgages.LoadContent(Content, GraphicsDevice);
+            UI_Mortgages.gerarRectangulosBotoes();
+            UI_Mortgages.ativarUI(ref UIModalAtiva);
+            listaComponentesUI.Add(UI_Mortgages);
         }
 
         /// <summary>
@@ -1712,6 +1753,7 @@ namespace Monopolio
         /// O 100 está martelado porque nunca vamos ter 100 janelas de UI ao mesmo tempo a menos que algo tenha corrido muito mal
         /// </summary>
         UI[] tempListaComponentesUI = new UI[100];
+        Opcao[] tempListaOpcoes = new Opcao[100];
         /// <summary>
         /// Lida com descliques do rato, passando todos os botões que estavamn clicados para o seu estado normal
         /// </summary>
@@ -1726,20 +1768,25 @@ namespace Monopolio
                     if (ui.getListaOpcoes() != null)
                     {
                         //Se este componente de UI tem lista de opções..
-                        foreach (Opcao opcao in ui.getListaOpcoes())
+                        ui.getListaOpcoes().CopyTo(tempListaOpcoes);
+                        foreach (Opcao opcao in tempListaOpcoes)
                         {
-                            if (rectanguloRato.Intersects(opcao.rectangulo) && opcao.Activa)
+                            if (opcao != null)
                             {
-                                rato.Blocked = true;
-                                if (opcao.CloseOnClick)
+                                if (rectanguloRato.Intersects(opcao.rectangulo) && opcao.Activa)
                                 {
-                                    opcao.Activa = false;
-                                    ui.desativarUI(ref UIModalAtiva);
+                                    rato.Blocked = true;
+                                    if (opcao.CloseOnClick)
+                                    {
+                                        opcao.Activa = false;
+                                        ui.desativarUI(ref UIModalAtiva);
+                                    }
+                                    opcao.ExecutarAccao();
+                                    rato.Blocked = false;
                                 }
-                                opcao.ExecutarAccao();
-                                rato.Blocked = false;
+                                opcao.Clique = false;
                             }
-                            opcao.Clique = false;
+                            
                         }
                     }
                 }

@@ -440,6 +440,19 @@ namespace Monopolio
             return contadorHoteis;
         }
 
+        public List<Rua> listaRuas()
+        {
+            List<Rua> listaRuas = new List<Rua>();
+            foreach (Propriedade prop in listaPropriedades)
+            {
+                if (prop is Rua)
+                {
+                    listaRuas.Add((Rua)prop);
+                }
+            }
+            return listaRuas;
+        }
+
 
         #endregion
 
