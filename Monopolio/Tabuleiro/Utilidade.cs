@@ -89,7 +89,7 @@ namespace Monopolio
         /// <summary>
         /// Devolve a renda a pagar no caso especial das companhias de eletricidade
         /// </summary>
-        /// <param name="nEletricas">Numero de companhias de electricidade que o jogador possui</param>
+        /// <param name="nEletricasEAguas">Numero de companhias de electricidade e água que o jogador possui</param>
         /// <param name="dados">Numero que saiu nos dados no ultimo lançamento</param>
         /// <returns></returns>
         public int rendaEletricasEAgua(int nEletricasEAguas, int dados)

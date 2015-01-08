@@ -76,6 +76,9 @@ namespace Monopolio
         /// Numero de cartas get out of jail que o jogador tem
         /// </summary>
         private int getOutOfJail;
+        /// <summary>
+        /// Getter / Setter do numero de cartas get out of jail que o jogador possui
+        /// </summary>
         public int GetOutOfJail
         {
             get { return getOutOfJail; }
@@ -86,6 +89,9 @@ namespace Monopolio
         /// Número de voltas que o jogador deu ao tabuleiro
         /// </summary>
         private int nVoltas;
+        /// <summary>
+        /// Getter / Setter do numero de voltas que este jogador deu ao tabuleiro
+        /// </summary>
         public int NVoltas
         {
             get { return nVoltas; }
@@ -96,6 +102,9 @@ namespace Monopolio
         /// Indica se o jogador está ou não na primeira volta
         /// </summary>
         private bool primeiraVolta;
+        /// <summary>
+        /// Getter / Setter do indicador de primeira volta ao tabuleiro
+        /// </summary>
         public bool PrimeiraVolta
         {
             get { return primeiraVolta; }
@@ -106,6 +115,9 @@ namespace Monopolio
         /// Valor do último lançamento deste jogador
         /// </summary>
         private int ultimoLancamento;
+        /// <summary>
+        /// Getter / Setter do valor do ultimo lançamento do jogador
+        /// </summary>
         public int UltimoLancamento
         {
             get { return ultimoLancamento; }
@@ -116,6 +128,9 @@ namespace Monopolio
         /// Imagem do token deste jogador
         /// </summary>
         private Texture2D token;
+        /// <summary>
+        /// Getter / Setter da textura do token
+        /// </summary>
         public Texture2D Token
         {
             get { return token; }
@@ -126,6 +141,9 @@ namespace Monopolio
         /// "Player 1", "Player 2", etc.
         /// </summary>
         private Texture2D playerSplash;
+        /// <summary>
+        /// Getter / Setter da textura de splash
+        /// </summary>
         public Texture2D PlayerSplash
         {
             get { return playerSplash; }
@@ -141,6 +159,9 @@ namespace Monopolio
         /// Offset na posição do jogador, para os tokens não ficarem (demasiado) sobrepostos
         /// </summary>
         private Vector2 offsetPosicao;
+        /// <summary>
+        /// Getter / Setter do offset de posição deste jogador no tabuleiro
+        /// </summary>
         public Vector2 OffsetPosicao
         {
             get { return offsetPosicao; }
@@ -154,6 +175,9 @@ namespace Monopolio
         /// Posição na UI em que aparecem as stats deste jogador
         /// </summary>
         private Vector2 posicaoStats;
+        /// <summary>
+        /// Getter / Setter da posição em que deverão aparecer as entradas / saidas de dinheiro do jogador
+        /// </summary>
         public Vector2 PosicaoStats
         {
             get { return posicaoStats; }
@@ -169,6 +193,9 @@ namespace Monopolio
         /// Indica se o jogador está na prisão ou não
         /// </summary>
         private bool jailed;
+        /// <summary>
+        /// Getter / Setter do estado de prisioneiro do jogador
+        /// </summary>
         public bool Jailed
         {
             get { return jailed; }
@@ -179,6 +206,9 @@ namespace Monopolio
         /// Conta o número de doubles seguidos: se três, o jogador vai diretamente para a prisão
         /// </summary>
         private int contadorDoubles;
+        /// <summary>
+        /// Getter / Setter do contador de doubles do jogador
+        /// </summary>
         public int ContadorDoubles
         {
             get { return contadorDoubles; }
@@ -187,6 +217,9 @@ namespace Monopolio
 
         //Verdadeiro se o jogador tirou um double e tem direito a jogar novamente
         private bool jogaOutraVez;
+        /// <summary>
+        /// Getter / Setter do indicador de direito de jogar novamente
+        /// </summary>
         public bool JogaOutraVez
         {
             get { return jogaOutraVez; }
@@ -195,6 +228,9 @@ namespace Monopolio
 
         //Conta o numero de turnos há que o jogador está na prisão
         private int turnsOnJail;
+        /// <summary>
+        /// Getter / Setter do numero de turnos há que o jogador está na prisão
+        /// </summary>
         public int TurnsOnJail
         {
             get { return turnsOnJail; }
@@ -205,6 +241,9 @@ namespace Monopolio
         /// Indica se o proximo lançamento é um double para tentar sair da prisão
         /// </summary>
         private bool doubleToEscapeJail;
+        /// <summary>
+        /// Getter / setter da aposta do jogador em double para sair da prisão
+        /// </summary>
         public bool DoubleToEscapeJail
         {
             get { return doubleToEscapeJail; }
@@ -243,6 +282,11 @@ namespace Monopolio
         #endregion
 
         #region LoadContent
+        /// <summary>
+        /// Carrega os assets necessários ao jogador
+        /// </summary>
+        /// <param name="Content">Content Manager</param>
+        /// <param name="graphics">Graphics Device</param>
         public void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {
             token = Content.Load<Texture2D>("texturas/tabuleiro/tokens/token"+nJogador);
@@ -350,8 +394,12 @@ namespace Monopolio
         /// <summary>
         /// Devolve o nº de companhias eletricas que um jogador tem
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Número de utilidades que o jogador possui</returns>
         Utilidade utilidade;
+        /// <summary>
+        /// Devolve o número de utilidades de eletricidade/água que um jogador possui
+        /// </summary>
+        /// <returns></returns>
         public int nEletricasEAguas()
         {
             int nEletricasEAguas = 0;
@@ -440,6 +488,10 @@ namespace Monopolio
             return contadorHoteis;
         }
 
+        /// <summary>
+        /// Devolve a lista de ruas que um jogador possui
+        /// </summary>
+        /// <returns>Lista de Ruas</returns>
         public List<Rua> listaRuas()
         {
             List<Rua> listaRuas = new List<Rua>();

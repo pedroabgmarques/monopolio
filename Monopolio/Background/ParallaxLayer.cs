@@ -15,8 +15,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma camada de parallax
+    /// </summary>
     public class ParallaxLayer
     {
+        /// <summary>
+        /// Construtor de uma camada de parallax
+        /// </summary>
+        /// <param name="camera">Instância da camara</param>
         public ParallaxLayer(Camera camera)
         {
             this.camera = camera;
@@ -24,9 +31,19 @@ namespace Monopolio
             sprites = new List<Sprite>();
         }
 
+        /// <summary>
+        /// Getter / Setter da camada de parallax
+        /// </summary>
         public Vector2 parallax { get; set; }
+        /// <summary>
+        /// Getter da lista de sprites da camada de parallax
+        /// </summary>
         public List<Sprite> sprites { get; private set; }
 
+        /// <summary>
+        /// Desenha uma camada de parallax (todas as suas sprites) no ecrã
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.getTransformation(parallax));

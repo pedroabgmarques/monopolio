@@ -29,6 +29,9 @@ namespace Monopolio
 
         private Vector2 posicao;
 
+        /// <summary>
+        /// Posicao do tabuleiro no ecrã
+        /// </summary>
         public Vector2 Posicao
         {
             get { return posicao; }
@@ -37,6 +40,9 @@ namespace Monopolio
         
 
         private Texture2D textura;
+        /// <summary>
+        /// Getter da textura do tabuleiro
+        /// </summary>
         public Texture2D Textura
         {
             get { return textura; }
@@ -46,6 +52,10 @@ namespace Monopolio
         /// Lista de casas que compõem o tabuleiro
         /// </summary>
         private List<Casa> listaCasas;
+        /// <summary>
+        /// Devolve a lista de casas que constituem o tabuleiro
+        /// </summary>
+        /// <returns>Lista de casas</returns>
         public List<Casa> ListaCasas()
         {
             return listaCasas;
@@ -55,6 +65,9 @@ namespace Monopolio
         /// Fila de cartas de comunidade
         /// </summary>
         private Queue listaCommunity;
+        /// <summary>
+        /// Getter / Setter da lista de cartas de comunidade
+        /// </summary>
         public Queue ListaCommunity
         {
             get { return listaCommunity; }
@@ -65,6 +78,9 @@ namespace Monopolio
         /// Fila de cartas da sorte
         /// </summary>
         private Queue listaChance;
+        /// <summary>
+        /// Getter / Setter da lista de cartas de sorte
+        /// </summary>
         public Queue ListaChance
         {
             get { return listaChance; }
@@ -405,7 +421,6 @@ namespace Monopolio
         /// </summary>
         /// <param name="indiceCasa">Indice da casa da qual queremos saber o centro</param>
         /// <param name="token">Token do jogador</param>
-        /// <param name="random">Random seed</param>
         /// <returns></returns>
         public Vector2 centroCasa(int indiceCasa, Texture2D token)
         {
@@ -502,6 +517,7 @@ namespace Monopolio
         /// <param name="camera">Uma instância da camera</param>
         /// <param name="indiceAtual">Índice da casa em que estamos atualmente</param>
         /// <param name="casasAMover">Nº de casas a mover (negativo se vamos andar para trás)</param>
+        /// <param name="jogador">Jogador atual</param>
         public float verificarRotacaoEPartida(Camera camera, int indiceAtual, int casasAMover, Jogador jogador)
         {
 
@@ -646,6 +662,11 @@ namespace Monopolio
             
         }
 
+        /// <summary>
+        /// Devolve a rua do mesmo grupo que tem menos casas construídas
+        /// </summary>
+        /// <param name="indiceCasaAtual">Indice da casa atual</param>
+        /// <returns></returns>
         public int ruaComMenosCasas(int indiceCasaAtual)
         {
             int menorNumCasas = 6;

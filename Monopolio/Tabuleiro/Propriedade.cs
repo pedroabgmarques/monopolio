@@ -17,7 +17,9 @@ using System.Text;
 namespace Monopolio
 {
 
-    //Estado, Construtor e Metodos das propriedades
+    /// <summary>
+    /// Descreve uma propriedade; Casa que pode ser comprada
+    /// </summary>
     public class Propriedade : Casa
     {
 
@@ -78,6 +80,12 @@ namespace Monopolio
 
         Rua ruaTemp;
         #region Draw
+        /// <summary>
+        /// Desenha no ecrã o dono da propriedade
+        /// </summary>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
+        /// <param name="arial12">Fonte a utilizar</param>
+        /// <param name="indiceCasa">Indice da casa atual</param>
         public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
         {
             if (indiceCasa > 0 && indiceCasa < 10)

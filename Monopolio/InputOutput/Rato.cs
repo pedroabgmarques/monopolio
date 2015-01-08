@@ -23,7 +23,13 @@ namespace Monopolio
     /// </summary>
     public enum botao
     {
+        /// <summary>
+        /// Botão esquerdo do rato
+        /// </summary>
         Esquerdo,
+        /// <summary>
+        /// Botão direito do rato
+        /// </summary>
         Direito
     }
 
@@ -34,12 +40,18 @@ namespace Monopolio
     public class Clique : EventArgs
     {
         private Vector2 posicao;
+        /// <summary>
+        /// Posição em que se deu o clique
+        /// </summary>
         public Vector2 Posicao
         {
             get { return posicao; }
             set { posicao = value; }
         }
         private botao botaoClicado;
+        /// <summary>
+        /// Botão que foi clicado
+        /// </summary>
         public botao BotaoClicado
         {
             get { return botaoClicado; }
@@ -47,6 +59,9 @@ namespace Monopolio
         }
 
         private botao botaoDesclicado;
+        /// <summary>
+        /// Getter / Setter do botão que foi desclicado
+        /// </summary>
         public botao BotaoDesclicado
         {
             get { return botaoDesclicado; }

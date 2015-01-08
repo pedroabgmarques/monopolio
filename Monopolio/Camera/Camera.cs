@@ -30,10 +30,18 @@ namespace Monopolio
         private float zoom;
 
         private const float maxZoom = 0.34f;
+        /// <summary>
+        /// Devolve o valor atual de zoom da camara
+        /// </summary>
+        /// <returns>Valor de zoom</returns>
         public float getZoom()
         {
             return zoom;
         }
+        /// <summary>
+        /// Setter do valor de zoom da camara
+        /// </summary>
+        /// <param name="zoom">Valor de zoom</param>
         public void setZoom(float zoom)
         {
             this.zoom = zoom;
@@ -42,6 +50,9 @@ namespace Monopolio
         private Viewport viewport;
         private Vector2 origem;
         private Matrix ViewMatrix;
+        /// <summary>
+        /// Getter / Setter da matrix de transformação da camara
+        /// </summary>
         public Matrix Transform
         {
             get { return ViewMatrix; }
@@ -49,6 +60,9 @@ namespace Monopolio
         }
 
         private Vector2 posicao;
+        /// <summary>
+        /// Getter / Setter da posição da camara
+        /// </summary>
         public Vector2 Posicao
         {
             get { return posicao; }
@@ -58,6 +72,9 @@ namespace Monopolio
         }
 
         private Rectangle? limits;
+        /// <summary>
+        /// Getter / Setter dos limites da camara
+        /// </summary>
         public Rectangle? Limits
         {
             get
@@ -71,10 +88,18 @@ namespace Monopolio
         }
 
         private float rotacao;
+        /// <summary>
+        /// getter da rotação da camara
+        /// </summary>
+        /// <returns>Rotação da camara</returns>
         public float getRotacao()
         {
             return this.rotacao;
         }
+        /// <summary>
+        /// Setter da rotação da camara
+        /// </summary>
+        /// <param name="rotacao">Rotação da camara</param>
         public void setRotacao(float rotacao)
         {
             this.rotacao = rotacao;
@@ -83,6 +108,10 @@ namespace Monopolio
         bool rotating;
 
         private Vector2 posicaoCentral;
+        /// <summary>
+        /// Devolve a posição central da camara
+        /// </summary>
+        /// <returns>Posição central da camara</returns>
         public Vector2 getPosicaoCentral()
         {
             return posicaoCentral;
@@ -92,8 +121,10 @@ namespace Monopolio
 
         #region Construtor
         /// <summary>
-        /// Construtor
+        /// Constrói uma nova camara
         /// </summary>
+        /// <param name="graphics">Graphics device</param>
+        /// <param name="tabuleiro">Tabuleiro do jogo</param>
         public Camera(GraphicsDevice graphics, Tabuleiro tabuleiro)
         {
             this.viewport = graphics.Viewport;
@@ -116,9 +147,22 @@ namespace Monopolio
 
         #region Update
 
+        /// <summary>
+        /// Guarda a rotação atual da camara
+        /// </summary>
         float rotacaoAtual;
+        /// <summary>
+        /// Guarda a rotação de deverá ser somada à camara
+        /// </summary>
         float rotacaoASomar;
 
+        /// <summary>
+        /// Atualiza a posição, zoom e rotação da camara
+        /// </summary>
+        /// <param name="estadoTeclado">Estado atual do teclado</param>
+        /// <param name="graphics">Graphics device></param>
+        /// <param name="tabuleiro">Tabuleiro do jogo</param>
+        /// <param name="cameraAnimationManager">Uma instância de cameraAnimationManager</param>
         public void Update(KeyboardState estadoTeclado, GraphicsDevice graphics, Tabuleiro tabuleiro, CameraAnimationManager cameraAnimationManager)
         {
             ////Posicao
@@ -185,6 +229,10 @@ namespace Monopolio
 
         #region Helpers
 
+        /// <summary>
+        /// Ativa a rotação da camara
+        /// </summary>
+        /// <param name="degrees">Número de graus que a camara deve rodar</param>
         public void activateRotation(int degrees)
         {
             if (!rotating)
@@ -196,12 +244,24 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Rotação desejada para a camara
+        /// </summary>
         float rotacaoTarget;
+        /// <summary>
+        /// Efetua uma rotação "artesanal" da camara
+        /// </summary>
+        /// <param name="rotacao"></param>
         public void rotateTo(float rotacao)
         {
             this.rotacaoTarget += rotacao;
         }
 
+        /// <summary>
+        /// Devolve a view matrix
+        /// </summary>
+        /// <param name="parallax">Parallax a aplicar a camara</param>
+        /// <returns>View Matrix usada para desenhar no ecrã</returns>
         public Matrix getTransformation(Vector2 parallax)
         {
             ViewMatrix =
@@ -215,6 +275,11 @@ namespace Monopolio
             return ViewMatrix;
         }
 
+        /// <summary>
+        /// Devolve a view matrix sem rotação
+        /// </summary>
+        /// <param name="parallax">Parallax a aplicar à camara</param>
+        /// <returns>View Matrix usada para desenhar no ecrã</returns>
         public Matrix getTransformationNoRotation(Vector2 parallax)
         {
             ViewMatrix =

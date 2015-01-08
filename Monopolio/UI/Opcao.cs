@@ -12,12 +12,27 @@ namespace Monopolio
     /// </summary>
     public enum TipoOpcao
     {
+        /// <summary>
+        /// Botão verde
+        /// </summary>
         Bom,
+        /// <summary>
+        /// Não implementado
+        /// </summary>
         Neutro,
+        /// <summary>
+        /// Botão vermelho
+        /// </summary>
         Mau,
+        /// <summary>
+        /// Não implementado
+        /// </summary>
         Close
     }
 
+    /// <summary>
+    /// Descreve uma opção a incluir numa UI
+    /// </summary>
     public class Opcao
     {
 
@@ -25,6 +40,9 @@ namespace Monopolio
         /// Texto da Opção
         /// </summary>
         private string textoOpcao;
+        /// <summary>
+        /// Getter do texto de uma opção a incluir numa UI
+        /// </summary>
         public string TextoOpcao
         {
             get { return textoOpcao; }
@@ -83,6 +101,9 @@ namespace Monopolio
         /// Tipo de opcao (bom, mau, neutro)
         /// </summary>
         private TipoOpcao tipoOpcao;
+        /// <summary>
+        /// Getter do tipo de opção do botão
+        /// </summary>
         public TipoOpcao TipoOpcao
         {
             get { return tipoOpcao; }
@@ -92,6 +113,9 @@ namespace Monopolio
         /// Se não está ativa, o clique não faz nada
         /// </summary>
         private bool activa;
+        /// <summary>
+        /// Getter / Setter do indicador de UI ativa
+        /// </summary>
         public bool Activa
         {
             get { return activa; }
@@ -105,6 +129,7 @@ namespace Monopolio
         /// <param name="textoOpcao">Texto da Opção</param>
         /// <param name="tipoOpcao">Tipo de Opção</param>
         /// <param name="accao">Código a ser executado</param>
+        /// <param name="closeOnClick">Se a UI deve ser fechada quando o utilizador clica na opção</param>
         public Opcao(string textoOpcao, TipoOpcao tipoOpcao, bool closeOnClick, Action<string> accao)
         {
             this.textoOpcao = textoOpcao;

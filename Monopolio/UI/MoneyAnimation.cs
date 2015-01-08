@@ -7,10 +7,16 @@ using System.Text;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma animação de entrada/saída de dinheiro
+    /// </summary>
     public class MoneyAnimation
     {
         private Jogador jogador;
 
+        /// <summary>
+        /// Getter / Setter do jogador que recebeu / pagou
+        /// </summary>
         public Jogador Jogador
         {
             get { return jogador; }
@@ -19,13 +25,20 @@ namespace Monopolio
         private float alpha;
         private bool viva;
         private float valor;
+        /// <summary>
+        /// Indica se animação ainda está a decorrer
+        /// </summary>
         public bool Viva
         {
             get { return viva; }
             set { viva = value; }
         }
 
-
+        /// <summary>
+        /// Construtor de uma nova animação de entrada / saída de dinheiro
+        /// </summary>
+        /// <param name="jogador">Jogador</param>
+        /// <param name="valor">Valor transferido</param>
         public MoneyAnimation(Jogador jogador, float valor)
         {
             this.jogador = jogador;
@@ -34,6 +47,9 @@ namespace Monopolio
             this.valor = valor;
         }
 
+        /// <summary>
+        /// Atualiza a animação de entrada / saida de dinheiro (fade-out)
+        /// </summary>
         public void Update()
         {
             if (viva)
@@ -46,6 +62,11 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Desenha uma animação de entrada / saida de dinheiro
+        /// </summary>
+        /// <param name="fonte">Fonte a utilizar</param>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
         public void Draw(SpriteFont fonte, SpriteBatch spriteBatch)
         {
             if (viva)

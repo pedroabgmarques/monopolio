@@ -131,6 +131,7 @@ namespace Monopolio
         /// <param name="posicaoTarget">Posicao para a qual se deseja mover a camera</param>
         /// <param name="zoomTarget">Zoom desejado</param>
         /// <param name="rotacaoTarget">Rotacao desejada</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(Vector2 posicaoTarget, float zoomTarget, float rotacaoTarget, Action<string> accao = null)
         {
             this.posicaoTarget = posicaoTarget;
@@ -144,6 +145,7 @@ namespace Monopolio
         /// Cria uma animação de posição
         /// </summary>
         /// <param name="posicaoTarget">Posição desejada</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(Vector2 posicaoTarget, Action<string> accao = null)
         {
             this.posicaoTarget = posicaoTarget;
@@ -155,6 +157,7 @@ namespace Monopolio
         /// Cria uma animação de zoom
         /// </summary>
         /// <param name="zoomTarget">Zoom desejado</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(float zoomTarget, Action<string> accao = null)
         {
             this.zoomTarget = zoomTarget;
@@ -167,6 +170,7 @@ namespace Monopolio
         /// </summary>
         /// <param name="posicaoTarget">Posição desejada</param>
         /// <param name="zoomTarget">Zoom desejado</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(Vector2 posicaoTarget, float zoomTarget, Action<string> accao = null)
         {
             this.posicaoTarget = posicaoTarget;
@@ -181,6 +185,7 @@ namespace Monopolio
         /// <param name="posicaoTarget">Posição desejada</param>
         /// <param name="rotacaoTarget">Rotação desejada</param>
         /// /// <param name="v">Hack estúpido para distinguir os contrutores</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(Vector2 posicaoTarget, float rotacaoTarget, bool v, Action<string> accao = null)
         {
             this.posicaoTarget = posicaoTarget;
@@ -194,6 +199,7 @@ namespace Monopolio
         /// </summary>
         /// <param name="rotacaoTarget">Rotação desejada</param>
         /// <param name="v">Hack foleiro para distinguir os contrutores</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public Animation(float rotacaoTarget, bool v, Action<string> accao = null)
         {
             this.rotacaoTarget = rotacaoTarget;

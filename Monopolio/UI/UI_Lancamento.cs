@@ -7,10 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma UI de lançamento
+    /// </summary>
     public class UI_Lancamento : UI_Centrado
     {
-
-        private string texto;
+        new private string texto;
 
         private int dado1;
         private int dado2;
@@ -21,6 +23,11 @@ namespace Monopolio
 
         private Lancamento lancamento;
 
+        /// <summary>
+        /// Construtor de uma nova UI de lançamento de dados
+        /// </summary>
+        /// <param name="nomeTextura">Textura a utilizar</param>
+        /// <param name="ativa">Se está ativa</param>
         public UI_Lancamento(string nomeTextura, bool ativa)
         {
             base.nomeTextura = nomeTextura;
@@ -42,7 +49,11 @@ namespace Monopolio
             lancamento.dado2 = 0;
         }
 
-        
+        /// <summary>
+        /// Atualiza a UI de lançamento
+        /// </summary>
+        /// <param name="geradorRandom">Random seed</param>
+        /// <returns>Estrutura lançamento</returns>
         public override Lancamento Update(Random geradorRandom)
         {
             if (diferenca < 10)
@@ -75,6 +86,15 @@ namespace Monopolio
             return lancamento;
         }
 
+        /// <summary>
+        /// Desenha uma UI de lançamento de dados
+        /// </summary>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
+        /// <param name="camera">Instância da camara</param>
+        /// <param name="arial12">Fonte a utilizar</param>
+        /// <param name="listaJogadores">Lista de jogadores</param>
+        /// <param name="tabuleiro">Instância do tabuleiro</param>
+        /// <param name="jogadorAtual">Jogador atual</param>
         public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(base.textura,

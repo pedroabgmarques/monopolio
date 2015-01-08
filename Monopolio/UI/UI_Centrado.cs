@@ -7,13 +7,24 @@ using Microsoft.Xna.Framework;
 
 namespace Monopolio
 {
-
+    /// <summary>
+    /// Possíveis orientações para os botões
+    /// </summary>
     public enum OrientacaoOpcoes
     {
+        /// <summary>
+        /// Horizontal
+        /// </summary>
         Horizontal,
+        /// <summary>
+        /// Vertical
+        /// </summary>
         Vertical
     }
 
+    /// <summary>
+    /// Descreve uma UI centrada no ecrã
+    /// </summary>
     public class UI_Centrado : UI
     {
 
@@ -32,10 +43,22 @@ namespace Monopolio
         /// </summary>
         protected OrientacaoOpcoes orientacaOpcoes;
 
+        /// <summary>
+        /// Construtor vazio para a herança
+        /// </summary>
         public UI_Centrado()
         {
         }
 
+        /// <summary>
+        /// Construtor de uma UI centrada no ecrã
+        /// </summary>
+        /// <param name="nomeTextura">Nome da textura a carregar</param>
+        /// <param name="ativa">Se está ativa</param>
+        /// <param name="modal">Se é modal</param>
+        /// <param name="texto">Texto da UI</param>
+        /// <param name="listaOpcoes">Lista de opções a apresentar</param>
+        /// <param name="orientacaOpcoes">Orientação das opções a apresentar</param>
         public UI_Centrado(string nomeTextura, bool ativa, bool modal, StringBuilder texto, List<Opcao> listaOpcoes, OrientacaoOpcoes orientacaOpcoes)
         {
             base.nomeTextura = nomeTextura;
@@ -52,6 +75,9 @@ namespace Monopolio
         }
 
         Texture2D botao;
+        /// <summary>
+        /// Gera os rectangulos com as posições e dimensões de cada botão / opção
+        /// </summary>
         public void gerarRectangulosBotoes()
         {
             if (listaOpcoes != null)
@@ -84,6 +110,15 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Desenha uma UI centrada no ecrã
+        /// </summary>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
+        /// <param name="camera">Instância da camara</param>
+        /// <param name="arial12">Fonte a utilizar</param>
+        /// <param name="listaJogadores">Lista de jogadores</param>
+        /// <param name="tabuleiro">Instância do tabuleiro</param>
+        /// <param name="jogadorAtual">Jogador atual</param>
         public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(base.textura,

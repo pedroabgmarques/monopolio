@@ -55,6 +55,7 @@ namespace Monopolio
         /// <param name="posicaoTarget">Posição desejada</param>
         /// <param name="zoomTarget">Zoom desejado</param>
         /// <param name="rotacaoTarget">Rotação desejada</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public void newAnimation(Vector2 posicaoTarget, float zoomTarget, float rotacaoTarget, Action<string> accao = null)
         {
             tempAnimation = new Animation(posicaoTarget, zoomTarget, rotacaoTarget, accao);
@@ -65,6 +66,7 @@ namespace Monopolio
         /// Insere na fila uma nova animação de posição
         /// </summary>
         /// <param name="posicaoTarget">Posição desejada</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public void newAnimation(Vector2 posicaoTarget, Action<string> accao = null)
         {
             tempAnimation = new Animation(posicaoTarget, accao);
@@ -76,6 +78,7 @@ namespace Monopolio
         /// </summary>
         /// <param name="posicaoTarget">Posição desejada</param>
         /// /// <param name="zoom">Zoom desejada</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public void newAnimation(Vector2 posicaoTarget, float zoom, Action<string> accao = null)
         {
             tempAnimation = new Animation(posicaoTarget, zoom, accao);
@@ -99,6 +102,7 @@ namespace Monopolio
         /// Insere na fila uma nova animação de zoom
         /// </summary>
         /// <param name="zoomTarget">Zoom desejado</param>
+        /// <param name="accao">Acção a executar no final da animação</param>
         public void newAnimation(float zoomTarget, Action<string> accao = null)
         {
             tempAnimation = new Animation(zoomTarget, accao);

@@ -16,16 +16,42 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monopolio
 {
-
+    /// <summary>
+    /// Grupos de ruas / monopólios
+    /// </summary>
     public enum GrupoRuas
     {
+        /// <summary>
+        /// Castanho
+        /// </summary>
         Brown,
+        /// <summary>
+        /// Azul clarinho
+        /// </summary>
         LightBlue,
+        /// <summary>
+        /// Cor-de-rosa
+        /// </summary>
         Pink,
+        /// <summary>
+        /// Cor de laranja
+        /// </summary>
         Orange,
+        /// <summary>
+        /// Vermelho
+        /// </summary>
         Red,
+        /// <summary>
+        /// Amarelo
+        /// </summary>
         Yellow,
+        /// <summary>
+        /// Verde
+        /// </summary>
         Green,
+        /// <summary>
+        /// Azul
+        /// </summary>
         Blue
     }
 
@@ -36,6 +62,9 @@ namespace Monopolio
     public class Rua : Propriedade
     {
         private int nCasas;
+        /// <summary>
+        /// Getter / Setter do numero de casas desta rua
+        /// </summary>
         public int NCasas
         {
             get { return nCasas; }
@@ -45,13 +74,30 @@ namespace Monopolio
         private int renda, renda1, renda2, renda3, renda4, renda5;
         private int custoCasa;
         private GrupoRuas grupoRuas;
+        /// <summary>
+        /// Getter / Setter do grupo de ruas a que esta rua pertence
+        /// </summary>
 	    public GrupoRuas GrupoRuas
 	    {
 		    get { return grupoRuas;}
 		    set { grupoRuas = value;}
 	    }
 	
-
+        /// <summary>
+        /// Construtor de uma Rua
+        /// </summary>
+        /// <param name="nome">Nome</param>
+        /// <param name="custo">Custo</param>
+        /// <param name="hipoteca">Valor da hipoteca</param>
+        /// <param name="renda">renda sem casas</param>
+        /// <param name="renda1">renda com uma casa</param>
+        /// <param name="renda2">renda com duas casa</param>
+        /// <param name="renda3">renda com três casa</param>
+        /// <param name="renda4">renda com quatro casa</param>
+        /// <param name="renda5">renda com cinco casa</param>
+        /// <param name="custoCasa">custo de casa casa construída</param>
+        /// <param name="grupoRuas">grupo de ruas a que a rua pertence</param>
+        /// <param name="coordsAndSize">coordenadas e dimensões da rua no tabuleiro</param>
         public Rua(string nome, int custo, int hipoteca, int renda, int renda1, int renda2, int renda3, int renda4, int renda5, int custoCasa, GrupoRuas grupoRuas, Rectangle coordsAndSize)
         {
             base.CoordsAndSize = coordsAndSize;
@@ -70,6 +116,10 @@ namespace Monopolio
             this.grupoRuas = grupoRuas;
         }
 
+        /// <summary>
+        /// Devolve a renda a pagar
+        /// </summary>
+        /// <returns>Renda a pagar, de acordo com o numero de casas construídas</returns>
         public int Renda()
         {
             switch (nCasas)
@@ -94,7 +144,13 @@ namespace Monopolio
         }
 
         private string textoTemp;
-        public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
+        /// <summary>
+        /// Desenha informação relativa a uma rua - dono e nº de casas / hotéis
+        /// </summary>
+        /// <param name="spriteBatch">Instância de spritebatch</param>
+        /// <param name="arial12">Fonte a utilizar</param>
+        /// <param name="indiceCasa">Indice da casa</param>
+        new public void Draw(SpriteBatch spriteBatch, SpriteFont arial12, int indiceCasa)
         {
             if (nCasas > 0)
             {

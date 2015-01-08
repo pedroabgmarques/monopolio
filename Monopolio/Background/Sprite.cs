@@ -16,6 +16,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma sprite de camada de parallax
+    /// </summary>
     public class Sprite
     {
         private string nomeTextura;
@@ -24,6 +27,12 @@ namespace Monopolio
         private Vector2 offset;
         private Vector2 Velocidade;
 
+        /// <summary>
+        /// Construtor de uma sprite
+        /// </summary>
+        /// <param name="nomeTextura">textura da sprite</param>
+        /// <param name="offset">Offset para o y</param>
+        /// <param name="velocidade">Velocidade a que a sprite se move</param>
         public Sprite(string nomeTextura, Vector2 offset, Vector2 velocidade)
         {
             this.nomeTextura = nomeTextura;
@@ -31,6 +40,11 @@ namespace Monopolio
             this.Velocidade = velocidade;
         }
 
+        /// <summary>
+        /// Carrega os assets necessários à sprite
+        /// </summary>
+        /// <param name="Content">ContentManager</param>
+        /// <param name="graphics">GraphicsDevice</param>
         public void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {
             textura = Content.Load<Texture2D>("texturas/parallax/" + nomeTextura);
@@ -38,6 +52,9 @@ namespace Monopolio
                                         graphics.Viewport.Height / 2 - textura.Height / 2) + offset;
         }
 
+        /// <summary>
+        /// Atualiza uma sprite
+        /// </summary>
         public void Update()
         {
             if (Velocidade != Vector2.Zero)
@@ -50,6 +67,10 @@ namespace Monopolio
             }
         }
 
+        /// <summary>
+        /// Desenha uma sprite
+        /// </summary>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             if (textura != null)

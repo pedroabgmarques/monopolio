@@ -15,6 +15,9 @@ using Microsoft.Xna.Framework;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma casa do tabuleiro
+    /// </summary>
     public class Casa
     {
         #region Estado
@@ -31,6 +34,9 @@ namespace Monopolio
         }
 
         private Rectangle coordsAndSize;
+        /// <summary>
+        /// Getter / Setter do rectangulo de coordenadas e tamanho da casa no tabuleiro
+        /// </summary>
         public Rectangle CoordsAndSize
         {
             get { return coordsAndSize; }

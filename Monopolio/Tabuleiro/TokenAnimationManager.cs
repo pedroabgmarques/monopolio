@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Manager de animações de tokens
+    /// </summary>
     public class TokenAnimationManager
     {
 
@@ -50,8 +53,7 @@ namespace Monopolio
         /// Insere na fila uma nova animação de posição, zoom e rotação
         /// </summary>
         /// <param name="posicaoTarget">Posição desejada</param>
-        /// <param name="zoomTarget">Zoom desejado</param>
-        /// <param name="rotacaoTarget">Rotação desejada</param>
+        /// <param name="jogador">Instância de jogador</param>
         public void newAnimation(Vector2 posicaoTarget, Jogador jogador)
         {
             tempAnimation = new TokenAnimation(posicaoTarget, jogador);

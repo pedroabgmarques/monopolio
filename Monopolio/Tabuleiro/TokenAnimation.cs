@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve a animação de um token de utilizador
+    /// </summary>
     public class TokenAnimation
     {
 
@@ -15,6 +18,9 @@ namespace Monopolio
         /// Posição para onde será movido o token
         /// </summary>
         private Vector2 posicaoTarget;
+        /// <summary>
+        /// Posição desejada para o token
+        /// </summary>
         public Vector2 PosicaoTarget
         {
             get { return posicaoTarget; }
@@ -22,7 +28,9 @@ namespace Monopolio
         }
 
         private Jogador jogador;
-
+        /// <summary>
+        /// Getter / Setter do jogador que estamos a animar
+        /// </summary>
         public Jogador Jogador
         {
             get { return jogador; }
@@ -51,6 +59,11 @@ namespace Monopolio
 
         #region Construtor
 
+        /// <summary>
+        /// Construtor de uma animação de token
+        /// </summary>
+        /// <param name="posicaoTarget">Posição para onde se deseja mover o token</param>
+        /// <param name="jogador">Instância do jogador</param>
         public TokenAnimation(Vector2 posicaoTarget, Jogador jogador)
         {
             PosicaoTarget = posicaoTarget;
@@ -62,6 +75,10 @@ namespace Monopolio
 
         #region Update
 
+        /// <summary>
+        /// Atualiza a animação de um token de jogador
+        /// </summary>
+        /// <param name="tabuleiro">Instância do tabuleiro de jogo</param>
         public void Update(Tabuleiro tabuleiro)
         {
 

@@ -6,17 +6,26 @@ using System.Text;
 namespace Monopolio
 {
 
+    /// <summary>
+    /// Possíveis estados do Jogo
+    /// </summary>
     public enum Estado
     {
+        /// <summary>
+        /// Estado inicial do jogo, antes de haver jogadores
+        /// </summary>
         Inicial,
+        /// <summary>
+        /// Um jogador tem a vez de jogar, está a lançar dados
+        /// </summary>
         Lançamento,
-        Casa,
-        Compra,
-        Leilão
+        /// <summary>
+        /// O jogador lançou os dados e agora estamos a processar a casa
+        /// </summary>
+        Casa
     }
     /// <summary>
     /// Esta classe estática guarda o estado em que o jogo se encontra.
-    /// Está implementada como uma árvore binária constituída por listas ligadas.
     /// </summary>
     public static class GameState
     {
@@ -24,6 +33,9 @@ namespace Monopolio
         /// 
         /// </summary>
         static private Estado estado;
+        /// <summary>
+        /// Getter / Setter do estado do jogo
+        /// </summary>
         static public Estado Estado
         {
             get { return estado; }

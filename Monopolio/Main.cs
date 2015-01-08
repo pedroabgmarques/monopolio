@@ -749,8 +749,9 @@ namespace Monopolio
         /// <summary>
         /// Move o jogador e a camera camara um determinado numero de casas
         /// </summary>
-        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
         /// <param name="casasAMover">Nº de casas que vamos mover</param>
+        /// <param name="indiceCasaOriginal">Casa em que o jogador se encontra</param>
+        /// <param name="accao">Acção a executar no final dos movimentos</param>
         private void moverJogadorECameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
             if (camera.getZoom() != Zoom.medio) cameraAnimationManager.newAnimation(Zoom.medio, accao);
@@ -785,8 +786,9 @@ namespace Monopolio
         /// <summary>
         /// Move a camara um determinado numero de casas
         /// </summary>
-        /// <param name="indiceCasaAtual">Indice da casa que esta atualmente ativa</param>
+        /// <param name="indiceCasaOriginal">Indice da casa que esta atualmente ativa</param>
         /// <param name="casasAMover">Nº de casas que vamos mover</param>
+        /// <param name="accao">Acção a executar no final dos movimentos</param>
         private void moverCameraNCasas(int indiceCasaOriginal, int casasAMover, Action<string> accao = null)
         {
             atualizarCasaAtual(jogador.CasaAtual);
@@ -892,10 +894,6 @@ namespace Monopolio
                     {
                         processarCasa(casaAtual);
                     }
-                    break;
-                case Estado.Compra:
-                    break;
-                case Estado.Leilão:
                     break;
                 default:
                     break;
@@ -1326,7 +1324,7 @@ namespace Monopolio
             atualizarCasaAtual(jogador.CasaAtual);
 
             //DEBUG
-            distribuirMonopolios();
+            //distribuirMonopolios();
 
 
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual, casasAMover, jogador), true);
@@ -1348,7 +1346,6 @@ namespace Monopolio
         {
             Jogador jogador;
             GrupoRuas grupoAnterior = GrupoRuas.Brown;
-            int contador = 0;
             int indiceJogador = 0;
 
             jogador = listaJogadores[indiceJogador];
@@ -1714,7 +1711,6 @@ namespace Monopolio
         /// <summary>
         /// Desenha alternadamente rectangulos por cima das casas, fazendo um efeito catita
         /// </summary>
-        /// <param name="velocidade">Velocidade do piscanço, em ms</param>
         private void desenharRectangulos()
         {
             if (jogador != null)
@@ -1757,7 +1753,6 @@ namespace Monopolio
         /// <summary>
         /// Lida com descliques do rato, passando todos os botões que estavamn clicados para o seu estado normal
         /// </summary>
-        /// <param name="clique"></param>
         private void processarDescliquesRato(Clique desclique)
         {
             listaComponentesUI.CopyTo(tempListaComponentesUI);
@@ -1823,7 +1818,7 @@ namespace Monopolio
         /// <summary>
         /// Lida com os eventos disparados pelo rato
         /// </summary>
-        /// <param name="posicao">Posicao do rato quando aconteceu o clique</param>
+        /// <param name="clique">Instância de clique</param>
         private void processarCliquesRato(Clique clique)
         {
             if (UIModalAtiva != null)

@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monopolio
 {
+    /// <summary>
+    /// Descreve uma UI de mortgages
+    /// </summary>
     public class UI_Mortgages : UI_Centrado
     {
 
@@ -15,7 +18,14 @@ namespace Monopolio
         new private List<Opcao> listaOpcoes;
         private List<Rua> listaRuas;
 
-
+        /// <summary>
+        /// Construtor de uma nova UI de Mortgages
+        /// </summary>
+        /// <param name="nomeTextura">Textura da UI</param>
+        /// <param name="ativa">Se está ativa</param>
+        /// <param name="listaOpcoes">Lista de opções a apresentar ao utilizador</param>
+        /// <param name="orientacao">Orientação dos botões</param>
+        /// <param name="jogador">Instância do Jogador</param>
         public UI_Mortgages(string nomeTextura, bool ativa, List<Opcao> listaOpcoes, OrientacaoOpcoes orientacao, Jogador jogador)
         {
             base.nomeTextura = nomeTextura;
@@ -35,6 +45,15 @@ namespace Monopolio
         }
 
         bool offsetCriado = false;
+        /// <summary>
+        /// Desenha no ecrã uma UI de mortgages
+        /// </summary>
+        /// <param name="spriteBatch">Instância do spritebatch</param>
+        /// <param name="camera">Instância da camara</param>
+        /// <param name="arial12">fonte a utilizar</param>
+        /// <param name="listaJogadores">Lista de jogadores</param>
+        /// <param name="tabuleiro">Instância do tabuleiro</param>
+        /// <param name="jogadorAtual">Jogador atual</param>
         public override void Draw(SpriteBatch spriteBatch, Camera camera, SpriteFont arial12, List<Jogador> listaJogadores, Tabuleiro tabuleiro, Jogador jogadorAtual)
         {
             spriteBatch.Draw(base.textura,
