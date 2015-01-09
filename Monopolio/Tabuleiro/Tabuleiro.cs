@@ -143,7 +143,7 @@ namespace Monopolio
 
         #region LoadContent
         /// <summary>
-        /// Loading de assets e das casas do tabuleiro
+        /// Loading de assets
         /// </summary>
         public void LoadContent(ContentManager Content, GraphicsDevice graphics)
         {
