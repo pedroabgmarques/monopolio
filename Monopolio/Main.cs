@@ -558,8 +558,6 @@ namespace Monopolio
                 {
                     proximoJogador();
                 });
-                
-                
             });
             tabuleiro.ListaCommunity.Enqueue(cartaComunidade);
 
@@ -1208,13 +1206,13 @@ namespace Monopolio
                     //Ver qual a rua deste monopolio com menos casas
                     Rua ruaMenosCasas = (Rua)tabuleiro.Casa(tabuleiro.ruaComMenosCasas(jogador.CasaAtual));
 
-                    if (jogador.Dinheiro > ruaMenosCasas.Custo)
+                    if (jogador.Dinheiro > ruaMenosCasas.CustoCasa())
                     {
                         opcao = new Opcao("Build!", TipoOpcao.Bom, true, (s) =>
                         {
                             //Ver qual a rua deste monopolio com menos casas
-                            
-                            jogador.pagar(ruaMenosCasas.Custo);
+
+                            jogador.pagar(ruaMenosCasas.CustoCasa());
                             ruaMenosCasas.NCasas++;
                         });
                         listaOpcoes.Add(opcao);
@@ -1230,7 +1228,7 @@ namespace Monopolio
                     texto.Append("This property is yours and you can invest in it!");
                     texto.AppendLine();
                     texto.Append("For an upgrade, you pay ");
-                    texto.Append(ruaMenosCasas.Custo);
+                    texto.Append(ruaMenosCasas.CustoCasa());
                     texto.Append(" Euro");
                     criarUICentrada("UICentrada", true, true, texto, listaOpcoes, OrientacaoOpcoes.Horizontal);
                 }
