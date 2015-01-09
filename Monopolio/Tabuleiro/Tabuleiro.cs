@@ -175,7 +175,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4,
                     (int)Posicao.Y + 1334,
                     116, 201)));
-            listaCasas.Add(new Imposto("IRS", 10, 200,
+            listaCasas.Add(new Imposto("Income Bounce", 10, 200,
                 new Rectangle(
                     (int)Posicao.X + 1333 - 122 - 4 - 117 - 4 - 113 - 4 - 116 - 6,
                     (int)Posicao.Y + 1334,
@@ -349,7 +349,7 @@ namespace Monopolio
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 5 + 118 + 4,
                     203, 120)));
-            listaCasas.Add(new Imposto("IMI", 0, 75,
+            listaCasas.Add(new Imposto("Luxury Tax", 0, 75,
                 new Rectangle(
                     (int)Posicao.X + 1333,
                     (int)Posicao.Y + 24 + 198 + 5 + 120 + 5 + 118 + 5 + 118 + 5 + 119 + 5 + 119 + 5 + 118 + 4 + 120 + 4,
