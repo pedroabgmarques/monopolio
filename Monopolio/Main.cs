@@ -222,7 +222,7 @@ namespace Monopolio
             rato.clique += new Rato.cliqueHandler(processarCliquesRato);
             rato.desclique += new Rato.DescliqueHandler(processarDescliquesRato);
 
-            //Load do sprite do tabuleiro
+            //Load do sprite e das casas do tabuleiro
             tabuleiro.LoadContent(Content, GraphicsDevice);
 
             //Load das cartas de comunidade

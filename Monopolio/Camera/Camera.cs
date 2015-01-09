@@ -266,7 +266,6 @@ namespace Monopolio
         {
             ViewMatrix =
                     Matrix.CreateTranslation(new Vector3(-Posicao * parallax, 0.0f)) *
-                    // The next line has a catch. See note below.
                     Matrix.CreateTranslation(new Vector3(-origem, 0.0f)) *
                     Matrix.CreateRotationZ(rotacao) *
                     Matrix.CreateScale(getZoom(), getZoom(), 1) *
