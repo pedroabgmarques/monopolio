@@ -1,0 +1,2186 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Monopolio</name>
+    </assembly>
+    <members>
+        <member name="T:Monopolio.Animation">
+            <summary>
+            Implementa uma animação de camera
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.posicaoTarget">
+            <summary>
+            Posição para onde a camera será movida
+            </summary>
+        </member>
+        <member name="M:Monopolio.Animation.setPosicaoTarget(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Setter de posição da camera
+            </summary>
+            <param name="posicaoTarget"></param>
+        </member>
+        <member name="F:Monopolio.Animation.zoomTarget">
+            <summary>
+            Zoom para o qual se deseja mover a camera
+            </summary>
+        </member>
+        <member name="M:Monopolio.Animation.setZoomTarget(System.Single)">
+            <summary>
+            Setter de zoom desejado
+            </summary>
+            <param name="zoom"></param>
+        </member>
+        <member name="F:Monopolio.Animation.rotacaoTarget">
+            <summary>
+            Rotação que se deseja para a camera
+            </summary>
+        </member>
+        <member name="M:Monopolio.Animation.setRotacaoTarget(System.Single)">
+            <summary>
+            Setter de rotação desejada
+            </summary>
+            <param name="rotacao">Rotação desejada</param>
+        </member>
+        <member name="F:Monopolio.Animation.posicaoStep">
+            <summary>
+            Velocidade da mudança de posição
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.zoomStep">
+            <summary>
+            Velocidade da mudança de zoom
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.rotacaoStep">
+            <summary>
+            Velocidade da rotação
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.moving">
+            <summary>
+            Flag de movimento
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.zooming">
+            <summary>
+            Flag de zoom
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.rotating">
+            <summary>
+            Flag de rotação
+            </summary>
+        </member>
+        <member name="F:Monopolio.Animation.accao">
+            <summary>
+            Código a ser executado no final da animação
+            </summary>
+        </member>
+        <member name="M:Monopolio.Animation.getAccao">
+            <summary>
+            Getter do código a ser executado no final da animação
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Animation.activateAnimation(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Espécie de construtor privado para inicializar flags
+            </summary>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Action{System.String})">
+            <summary>
+            Cria uma animação de posicao, zoom e rotacao
+            </summary>
+            <param name="posicaoTarget">Posicao para a qual se deseja mover a camera</param>
+            <param name="zoomTarget">Zoom desejado</param>
+            <param name="rotacaoTarget">Rotacao desejada</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(Microsoft.Xna.Framework.Vector2,System.Action{System.String})">
+            <summary>
+            Cria uma animação de posição
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(System.Single,System.Action{System.String})">
+            <summary>
+            Cria uma animação de zoom
+            </summary>
+            <param name="zoomTarget">Zoom desejado</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(Microsoft.Xna.Framework.Vector2,System.Single,System.Action{System.String})">
+            <summary>
+            Cria uma animação de posicao e zoom
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="zoomTarget">Zoom desejado</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean,System.Action{System.String})">
+            <summary>
+            Cria uma animação de posicao e rotacao
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="rotacaoTarget">Rotação desejada</param>
+            /// <param name="v">Hack estúpido para distinguir os contrutores</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.#ctor(System.Single,System.Boolean,System.Action{System.String})">
+            <summary>
+            Cria uma animação de rotação
+            </summary>
+            <param name="rotacaoTarget">Rotação desejada</param>
+            <param name="v">Hack foleiro para distinguir os contrutores</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.Animation.Update(Monopolio.Camera)">
+            <summary>
+            Atualiza o estado da animação
+            </summary>
+        </member>
+        <member name="P:Monopolio.Animation.Moving">
+            <summary>
+            Getter da flag de movimento
+            </summary>
+        </member>
+        <member name="P:Monopolio.Animation.Zooming">
+            <summary>
+            Getter da flag de zoom
+            </summary>
+        </member>
+        <member name="P:Monopolio.Animation.Rotating">
+            <summary>
+            Getter da flag de rotacao
+            </summary>
+        </member>
+        <member name="T:Monopolio.Camera">
+            <summary>
+            Estado, Construtor e Metodos da Camara
+            </summary>
+        </member>
+        <member name="M:Monopolio.Camera.getZoom">
+            <summary>
+            Devolve o valor atual de zoom da camara
+            </summary>
+            <returns>Valor de zoom</returns>
+        </member>
+        <member name="M:Monopolio.Camera.setZoom(System.Single)">
+            <summary>
+            Setter do valor de zoom da camara
+            </summary>
+            <param name="zoom">Valor de zoom</param>
+        </member>
+        <member name="M:Monopolio.Camera.getRotacao">
+            <summary>
+            getter da rotação da camara
+            </summary>
+            <returns>Rotação da camara</returns>
+        </member>
+        <member name="M:Monopolio.Camera.setRotacao(System.Single)">
+            <summary>
+            Setter da rotação da camara
+            </summary>
+            <param name="rotacao">Rotação da camara</param>
+        </member>
+        <member name="M:Monopolio.Camera.getPosicaoCentral">
+            <summary>
+            Devolve a posição central da camara
+            </summary>
+            <returns>Posição central da camara</returns>
+        </member>
+        <member name="M:Monopolio.Camera.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,Monopolio.Tabuleiro)">
+            <summary>
+            Constrói uma nova camara
+            </summary>
+            <param name="graphics">Graphics device</param>
+            <param name="tabuleiro">Tabuleiro do jogo</param>
+        </member>
+        <member name="F:Monopolio.Camera.rotacaoAtual">
+            <summary>
+            Guarda a rotação atual da camara
+            </summary>
+        </member>
+        <member name="F:Monopolio.Camera.rotacaoASomar">
+            <summary>
+            Guarda a rotação de deverá ser somada à camara
+            </summary>
+        </member>
+        <member name="M:Monopolio.Camera.Update(Microsoft.Xna.Framework.Input.KeyboardState,Microsoft.Xna.Framework.Graphics.GraphicsDevice,Monopolio.Tabuleiro,Monopolio.CameraAnimationManager)">
+            <summary>
+            Atualiza a posição, zoom e rotação da camara
+            </summary>
+            <param name="estadoTeclado">Estado atual do teclado</param>
+            <param name="graphics">Graphics device></param>
+            <param name="tabuleiro">Tabuleiro do jogo</param>
+            <param name="cameraAnimationManager">Uma instância de cameraAnimationManager</param>
+        </member>
+        <member name="M:Monopolio.Camera.activateRotation(System.Int32)">
+            <summary>
+            Ativa a rotação da camara
+            </summary>
+            <param name="degrees">Número de graus que a camara deve rodar</param>
+        </member>
+        <member name="F:Monopolio.Camera.rotacaoTarget">
+            <summary>
+            Rotação desejada para a camara
+            </summary>
+        </member>
+        <member name="M:Monopolio.Camera.rotateTo(System.Single)">
+            <summary>
+            Efetua uma rotação "artesanal" da camara
+            </summary>
+            <param name="rotacao"></param>
+        </member>
+        <member name="M:Monopolio.Camera.getTransformation(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Devolve a view matrix
+            </summary>
+            <param name="parallax">Parallax a aplicar a camara</param>
+            <returns>View Matrix usada para desenhar no ecrã</returns>
+        </member>
+        <member name="M:Monopolio.Camera.getTransformationNoRotation(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Devolve a view matrix sem rotação
+            </summary>
+            <param name="parallax">Parallax a aplicar à camara</param>
+            <returns>View Matrix usada para desenhar no ecrã</returns>
+        </member>
+        <member name="P:Monopolio.Camera.Transform">
+            <summary>
+            Getter / Setter da matrix de transformação da camara
+            </summary>
+        </member>
+        <member name="P:Monopolio.Camera.Posicao">
+            <summary>
+            Getter / Setter da posição da camara
+            </summary>
+        </member>
+        <member name="P:Monopolio.Camera.Limits">
+            <summary>
+            Getter / Setter dos limites da camara
+            </summary>
+        </member>
+        <member name="T:Monopolio.CameraAnimationManager">
+            <summary>
+            Gere as animações da camera, de forma a permitir automatizar séries de movimentos
+            </summary>
+        </member>
+        <member name="F:Monopolio.CameraAnimationManager.animations">
+            <summary>
+            Fila de animações
+            </summary>
+        </member>
+        <member name="F:Monopolio.CameraAnimationManager.tempAnimation">
+            <summary>
+            Objeto reutilizado para criar animações e inseri-las na fila
+            </summary>
+        </member>
+        <member name="F:Monopolio.CameraAnimationManager.activeAnimation">
+            <summary>
+            Animação que está a ser executada num determinado momento
+            </summary>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.#ctor">
+            <summary>
+            Construtor
+            </summary>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.getQueuedAnimations">
+            <summary>
+            Devolve todas as animações em lista
+            </summary>
+            <returns>Animações em lista</returns>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Action{System.String})">
+            <summary>
+            Insere na fila uma nova animação de posição, zoom e rotação
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="zoomTarget">Zoom desejado</param>
+            <param name="rotacaoTarget">Rotação desejada</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(Microsoft.Xna.Framework.Vector2,System.Action{System.String})">
+            <summary>
+            Insere na fila uma nova animação de posição
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(Microsoft.Xna.Framework.Vector2,System.Single,System.Action{System.String})">
+            <summary>
+            Insere na fila uma nova animação de posição e zoom
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            /// <param name="zoom">Zoom desejada</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean,System.Action{System.String})">
+            <summary>
+            Insere uma nova animação de posicao e rotação
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="rotacaoTarget">Rotação desejada</param>
+            <param name="v">Hack foleiro para distinguir contrutores</param>
+            <param name="accao">Código a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(System.Single,System.Action{System.String})">
+            <summary>
+            Insere na fila uma nova animação de zoom
+            </summary>
+            <param name="zoomTarget">Zoom desejado</param>
+            <param name="accao">Acção a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.newAnimation(System.Single,System.Boolean,System.Action{System.String})">
+            <summary>
+            Insere uma nova animaçao de rotação
+            </summary>
+            <param name="rotacaoTarget">Rotação desejada</param>
+            <param name="v">Hack para distinguir construtores</param>
+            <param name="accao">Código a executar no final da animação</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.Update(Monopolio.Camera)">
+            <summary>
+            Atualiza a animação atual
+            </summary>
+            <param name="camera">Uma instância da camera</param>
+        </member>
+        <member name="M:Monopolio.CameraAnimationManager.getNextAnimation(Monopolio.Camera)">
+            <summary>
+            Devolve a próxima animação a executar e inicia os seus valores com valores atuais da camera
+            </summary>
+            <param name="camera">Uma instância da camera</param>
+        </member>
+        <member name="T:Monopolio.Zoom">
+            <summary>
+            Estrutura de possíveis valores de zoom
+            </summary>
+        </member>
+        <member name="F:Monopolio.Zoom.closeUp">
+            <summary>
+            Close-up
+            </summary>
+        </member>
+        <member name="F:Monopolio.Zoom.perto">
+            <summary>
+            Perto
+            </summary>
+        </member>
+        <member name="F:Monopolio.Zoom.medio">
+            <summary>
+            Medio
+            </summary>
+        </member>
+        <member name="F:Monopolio.Zoom.longe">
+            <summary>
+            Longe
+            </summary>
+        </member>
+        <member name="T:Monopolio.Estado">
+            <summary>
+            Possíveis estados do Jogo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Estado.Inicial">
+            <summary>
+            Estado inicial do jogo, antes de haver jogadores
+            </summary>
+        </member>
+        <member name="F:Monopolio.Estado.Lançamento">
+            <summary>
+            Um jogador tem a vez de jogar, está a lançar dados
+            </summary>
+        </member>
+        <member name="F:Monopolio.Estado.Casa">
+            <summary>
+            O jogador lançou os dados e agora estamos a processar a casa
+            </summary>
+        </member>
+        <member name="T:Monopolio.GameState">
+            <summary>
+            Esta classe estática guarda o estado em que o jogo se encontra.
+            </summary>
+        </member>
+        <member name="F:Monopolio.GameState.estado">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Monopolio.GameState.Estado">
+            <summary>
+            Getter / Setter do estado do jogo
+            </summary>
+        </member>
+        <member name="T:Monopolio.Jogador">
+            <summary>
+            Estado, Construtor e Métodos do jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.nome">
+            <summary>
+            Nome do jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.dinheiro">
+            <summary>
+            Quantidade de dinheiro que o jogador possui
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.casaAtual">
+            <summary>
+            Indice da casa em que o jogador se encontra
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.listaPropriedades">
+            <summary>
+            Lista de propriedades que o jogador possui
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.getOutOfJail">
+            <summary>
+            Numero de cartas get out of jail que o jogador tem
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.nVoltas">
+            <summary>
+            Número de voltas que o jogador deu ao tabuleiro
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.primeiraVolta">
+            <summary>
+            Indica se o jogador está ou não na primeira volta
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.ultimoLancamento">
+            <summary>
+            Valor do último lançamento deste jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.token">
+            <summary>
+            Imagem do token deste jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.playerSplash">
+            <summary>
+            "Player 1", "Player 2", etc.
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.Posicao">
+            <summary>
+            Posição do token do jogador no tabuleiro
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.offsetPosicao">
+            <summary>
+            Offset na posição do jogador, para os tokens não ficarem (demasiado) sobrepostos
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.posicaoStats">
+            <summary>
+            Posição na UI em que aparecem as stats deste jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.listaMoneyAnimations">
+            <summary>
+            Lista de animações de entradas ou saídas de dinheiro associadas a este jogador
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.jailed">
+            <summary>
+            Indica se o jogador está na prisão ou não
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.contadorDoubles">
+            <summary>
+            Conta o número de doubles seguidos: se três, o jogador vai diretamente para a prisão
+            </summary>
+        </member>
+        <member name="F:Monopolio.Jogador.doubleToEscapeJail">
+            <summary>
+            Indica se o proximo lançamento é um double para tentar sair da prisão
+            </summary>
+        </member>
+        <member name="M:Monopolio.Jogador.#ctor(System.String,System.Int32,System.Collections.Generic.List{Monopolio.MoneyAnimation}@)">
+            <summary>
+            Construtor do Jogador
+            </summary>
+        </member>
+        <member name="M:Monopolio.Jogador.LoadContent(Microsoft.Xna.Framework.Content.ContentManager,Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Carrega os assets necessários ao jogador
+            </summary>
+            <param name="Content">Content Manager</param>
+            <param name="graphics">Graphics Device</param>
+        </member>
+        <member name="M:Monopolio.Jogador.resetDoubles">
+            <summary>
+            Faz reset ao estado dos doubles
+            </summary>
+        </member>
+        <member name="M:Monopolio.Jogador.pagar(System.Single)">
+            <summary>
+            Retira uma determinada quantidade de dinheiro ao jogador
+            </summary>
+            <param name="valor">Quantidade de dinheiro a retirar ao jogador</param>
+        </member>
+        <member name="M:Monopolio.Jogador.receber(System.Int32)">
+            <summary>
+            Adiciona uma determinada quantidade de dinheiro ao jogador
+            </summary>
+            <param name="valor">Quantidade de dinheiro a adicionar ao jogador</param>
+        </member>
+        <member name="M:Monopolio.Jogador.goTo(System.Int32)">
+            <summary>
+            Move o jogador para uma determinada casa
+            </summary>
+            <param name="casa">Indice da casa para a qual se pretende mover o jogador</param>
+        </member>
+        <member name="M:Monopolio.Jogador.adicionarPropriedade(Monopolio.Propriedade)">
+            <summary>
+            Adiciona uma propriedade à lista de propriedades do jogador
+            </summary>
+            <param name="propriedade">Propriedade a adicionar à lista de propriedades do jogador</param>
+        </member>
+        <member name="M:Monopolio.Jogador.retirarPropriedade(Monopolio.Propriedade)">
+            <summary>
+            Retira uma propriedade à lista de propriedades do jogador
+            </summary>
+            <param name="propriedade">Propriedade a retirar à lista de propriedades do jogador</param>
+        </member>
+        <member name="M:Monopolio.Jogador.nEstacoes">
+            <summary>
+            Devolve o nº de estaçoes que um jogador possui
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Monopolio.Jogador.utilidade">
+            <summary>
+            Devolve o nº de companhias eletricas que um jogador tem
+            </summary>
+            <returns>Número de utilidades que o jogador possui</returns>
+        </member>
+        <member name="M:Monopolio.Jogador.nEletricasEAguas">
+            <summary>
+            Devolve o número de utilidades de eletricidade/água que um jogador possui
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Jogador.totalAssets">
+            <summary>
+            Devolve o total de dinheiro e investimentos de um jogador
+            </summary>
+            <returns>Soma total e dinheiro e investimentos</returns>
+        </member>
+        <member name="M:Monopolio.Jogador.nCasas">
+            <summary>
+            Devolve o numero de casas que o jogador possui
+            </summary>
+            <returns>Número de casas</returns>
+        </member>
+        <member name="M:Monopolio.Jogador.nHoteis">
+            <summary>
+            Devolve o numero de hoteis que um jogador possui
+            </summary>
+            <returns>Numero de hoteis</returns>
+        </member>
+        <member name="M:Monopolio.Jogador.listaRuas">
+            <summary>
+            Devolve a lista de ruas que um jogador possui
+            </summary>
+            <returns>Lista de Ruas</returns>
+        </member>
+        <member name="M:Monopolio.Jogador.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Graphics.GraphicsDevice,Monopolio.Jogador)">
+            <summary>
+            Desenha o token do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.Nome">
+            <summary>
+            Devolve o nome do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.Dinheiro">
+            <summary>
+            Devolve a quantidade de dinheiro que o jogador possui
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.CasaAtual">
+            <summary>
+            Devolve o indice da casa em que o jogador se encontra
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.ListaPropriedades">
+            <summary>
+            Devolve a lista de propriedades que o jogador possui
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.GetOutOfJail">
+            <summary>
+            Getter / Setter do numero de cartas get out of jail que o jogador possui
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.NVoltas">
+            <summary>
+            Getter / Setter do numero de voltas que este jogador deu ao tabuleiro
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.PrimeiraVolta">
+            <summary>
+            Getter / Setter do indicador de primeira volta ao tabuleiro
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.UltimoLancamento">
+            <summary>
+            Getter / Setter do valor do ultimo lançamento do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.Token">
+            <summary>
+            Getter / Setter da textura do token
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.PlayerSplash">
+            <summary>
+            Getter / Setter da textura de splash
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.OffsetPosicao">
+            <summary>
+            Getter / Setter do offset de posição deste jogador no tabuleiro
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.PosicaoStats">
+            <summary>
+            Getter / Setter da posição em que deverão aparecer as entradas / saidas de dinheiro do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.Jailed">
+            <summary>
+            Getter / Setter do estado de prisioneiro do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.ContadorDoubles">
+            <summary>
+            Getter / Setter do contador de doubles do jogador
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.JogaOutraVez">
+            <summary>
+            Getter / Setter do indicador de direito de jogar novamente
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.TurnsOnJail">
+            <summary>
+            Getter / Setter do numero de turnos há que o jogador está na prisão
+            </summary>
+        </member>
+        <member name="P:Monopolio.Jogador.DoubleToEscapeJail">
+            <summary>
+            Getter / setter da aposta do jogador em double para sair da prisão
+            </summary>
+        </member>
+        <member name="T:Monopolio.Lancamento">
+            <summary>
+            Estrutura de um lançamento
+            </summary>
+        </member>
+        <member name="F:Monopolio.Lancamento.dado1">
+            <summary>
+            Valor do primeiro dado
+            </summary>
+        </member>
+        <member name="F:Monopolio.Lancamento.dado2">
+            <summary>
+            Valor do segundo dado
+            </summary>
+        </member>
+        <member name="P:Monopolio.Lancamento.somaDados">
+            <summary>
+            Valor da soma dos dados
+            </summary>
+        </member>
+        <member name="T:Monopolio.CommunityAndChance">
+            <summary>
+            Descreve uma carta de comunidade / sorte
+            </summary>
+        </member>
+        <member name="F:Monopolio.CommunityAndChance.texto">
+            <summary>
+            Texto da carta a apresentar ao utilizador
+            </summary>
+        </member>
+        <member name="F:Monopolio.CommunityAndChance.accao">
+            <summary>
+            Acção a ser executada pela carta
+            </summary>
+        </member>
+        <member name="F:Monopolio.CommunityAndChance.tipoOpcao">
+            <summary>
+            Se a carta é boa ou má
+            </summary>
+        </member>
+        <member name="M:Monopolio.CommunityAndChance.#ctor(Monopolio.TipoOpcao,System.String,System.Action{System.String})">
+            <summary>
+            Construtor
+            </summary>
+            <param name="tipoOpcao">Bom / Mau</param>
+            <param name="texto"></param>
+            <param name="accao"></param>
+        </member>
+        <member name="P:Monopolio.CommunityAndChance.Texto">
+            <summary>
+            Getter / Setter do texto da carta de comunidade / sorte
+            </summary>
+        </member>
+        <member name="P:Monopolio.CommunityAndChance.Accao">
+            <summary>
+            Getter da acção a executar pela carta de comunidade / sorte
+            </summary>
+        </member>
+        <member name="P:Monopolio.CommunityAndChance.TipoOpcao">
+            <summary>
+            Getter do tipo de opção da carta (resultado bom ou mau para o utilizador)
+            </summary>
+        </member>
+        <member name="T:Monopolio.Casa">
+            <summary>
+            Descreve uma casa do tabuleiro
+            </summary>
+        </member>
+        <member name="F:Monopolio.Casa.nome">
+            <summary>
+            Nome da Casa
+            </summary>
+        </member>
+        <member name="P:Monopolio.Casa.Nome">
+            <summary>
+            Get/Set do nome da Casa
+            </summary>
+        </member>
+        <member name="P:Monopolio.Casa.CoordsAndSize">
+            <summary>
+            Getter / Setter do rectangulo de coordenadas e tamanho da casa no tabuleiro
+            </summary>
+        </member>
+        <member name="T:Monopolio.ParallaxLayer">
+            <summary>
+            Descreve uma camada de parallax
+            </summary>
+        </member>
+        <member name="M:Monopolio.ParallaxLayer.#ctor(Monopolio.Camera)">
+            <summary>
+            Construtor de uma camada de parallax
+            </summary>
+            <param name="camera">Instância da camara</param>
+        </member>
+        <member name="M:Monopolio.ParallaxLayer.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Desenha uma camada de parallax (todas as suas sprites) no ecrã
+            </summary>
+            <param name="spriteBatch"></param>
+        </member>
+        <member name="P:Monopolio.ParallaxLayer.parallax">
+            <summary>
+            Getter / Setter da camada de parallax
+            </summary>
+        </member>
+        <member name="P:Monopolio.ParallaxLayer.sprites">
+            <summary>
+            Getter da lista de sprites da camada de parallax
+            </summary>
+        </member>
+        <member name="M:Monopolio.Program.Main(System.String[])">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:Monopolio.Monopolio">
+            <summary>
+            This is the main type for your game
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.graphics">
+            <summary>
+            Permite aceder a informações acerca da capacidade gráfica
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.estadoTeclado">
+            <summary>
+            Estado atual do teclado
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.spriteBatch">
+            <summary>
+            Spritebatch usado para desenhar o jogo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.layers">
+            <summary>
+            Lista de camadas do efeito parallax
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.listaJogadores">
+            <summary>
+            Lista de jogadores
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.listaComponentesUI">
+            <summary>
+            Lista de componentes de UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.arial12">
+            <summary>
+            Fonte Arial, tamanho 12
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.rato">
+            <summary>
+            Contém o estado e eventos do rato
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.tabuleiro">
+            <summary>
+            Tabuleiro de jogo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.camera">
+            <summary>
+            Camara 2D com movimento, rotação e zoom
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.ViewMatrix">
+            <summary>
+            ViewMatriz utilizada para desenhar o jogo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.debugRectangle">
+            <summary>
+            Textura utilizada para sobreposição das casa de jogo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.UIModalAtiva">
+            <summary>
+            Guarda a janela modal ativa, para impedir o clique noutras janelas
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.opcao">
+            <summary>
+            Utilizado e reclicado para criar opções para janelas modais
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.UI_Centrado">
+            <summary>
+            Utilizado e reutilizado para gerar UI's centrais
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.UI_Lancamento">
+            <summary>
+            Utilizado e reutilizado para gerar UI's de lançamento
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.UI_Mortgages">
+            <summary>
+            Utilizado e reutilizado para gerar UI's de mortgages
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.texto">
+            <summary>
+            Utilizado e reutilizado para gerar textos
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.listaOpcoes">
+            <summary>
+            Utilizado e reutilizado para gerar listas de opcoes
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.rectanguloRato">
+            <summary>
+            Utilizado e reutilizado para verificar se o rato está em cima de algo
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.random">
+            <summary>
+            Permite gerar números aleatórios
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.casaAtual">
+            <summary>
+            Guarda a casa que está atualmente ativa
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.cameraAnimationManager">
+            <summary>
+            Gestor de animações da camera
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.tokenAnimationManager">
+            <summary>
+            Gestor de animações dos tokens dos jogadores
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.posicao">
+            <summary>
+            Vector2 reutilizável
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.casasAMover">
+            <summary>
+            TESTE - guarda o numero que saiu nos dados, que indica quantas casas vamos mover
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.indiceJogadorAtual">
+            <summary>
+            Indice do jogador atual
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.jogador">
+            <summary>
+            Jogador atual
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.playerSplashAnimation">
+            <summary>
+            Splash "Player 1" - indica a vez de jogar
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.listaMoneyAnimation">
+            <summary>
+            Lista de animações de receber ou pagar dinheiro
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.#ctor">
+            <summary>
+            Construtor
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.Initialize">
+            <summary>
+            Allows the game to perform any initialization it needs to before starting to run.
+            This is where it can query for any required services and load any non-graphic
+            related content.  Calling base.Initialize will enumerate through any components
+            and initialize them as well.
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.LoadContent">
+            <summary>
+            LoadContent will be called once per game and is the place to load
+            all of your content.
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.UnloadContent">
+            <summary>
+            UnloadContent will be called once per game and is the place to unload
+            all content.
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Allows the game to run logic such as updating the world,
+            checking for collisions, gathering input, and playing audio.
+            </summary>
+            <param name="gameTime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            This is called when the game should draw itself.
+            </summary>
+            <param name="gameTime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.atualizarPlayerAnimationSplash">
+            <summary>
+            Atualiza o splash que indica o jogador que tem a vez de jogar
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharPlayerAnimationSplash">
+            <summary>
+            Desenha o splash que indica o jogador que tem a vez de jogar
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.cartaSorte">
+            <summary>
+            Objeto reutilizado para criar cartas de sorte
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.loadCartasSorte">
+            <summary>
+            Gera uma fila de cartas de sorte
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.cartaComunidade">
+            <summary>
+            Objeto reutilizado para criar cartas de comunidade
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.loadCartasComunidade">
+            <summary>
+            Gera uma fila de cartas de comunidade
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.goToPrison">
+            <summary>
+            Envia um jogador para a prisão
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharTokensJogadores">
+            <summary>
+            Desenha os tokens dos jogadores
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.moverJogadorECameraNCasas(System.Int32,System.Int32,System.Action{System.String})">
+            <summary>
+            Move o jogador e a camera camara um determinado numero de casas
+            </summary>
+            <param name="casasAMover">Nº de casas que vamos mover</param>
+            <param name="indiceCasaOriginal">Casa em que o jogador se encontra</param>
+            <param name="accao">Acção a executar no final dos movimentos</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.moverCameraNCasas(System.Int32,System.Int32,System.Action{System.String})">
+            <summary>
+            Move a camara um determinado numero de casas
+            </summary>
+            <param name="indiceCasaOriginal">Indice da casa que esta atualmente ativa</param>
+            <param name="casasAMover">Nº de casas que vamos mover</param>
+            <param name="accao">Acção a executar no final dos movimentos</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.atualizarCasaAtual(System.Int32)">
+            <summary>
+            Atualiza a casa em que estamos atualmente
+            </summary>
+            <param name="indiceCasaAtual">Índice da casa em que estamos</param>
+        </member>
+        <member name="F:Monopolio.Monopolio.lancamento">
+            <summary>
+            Atualiza a UI de lancamento, caso exista
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.gameLogic">
+            <summary>
+            Implementa a lógica do jogo e altera o seu estado atual
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarCasa(Monopolio.Casa)">
+            <summary>
+            Gere o processamento do código das casas
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarPropriedades(Monopolio.Propriedade)">
+            <summary>
+            Processa as casas do tipo Propriedade
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarUtilidade(Monopolio.Utilidade)">
+            <summary>
+            Processa uma casa do tipo Utilidade (estações, eletricas, águas)
+            </summary>
+            <param name="utilidade">Utilidade a processar</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarRua(Monopolio.Rua)">
+            <summary>
+            Processa as casas do tipo Rua
+            </summary>
+            <param name="rua">Rua a processar</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.verificarListaJogadores">
+            <summary>
+            Se não existem jogadores na lista de jogadores, cria a UI de seleção do número de jogadores
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.tempUI">
+            <summary>
+            Variável temporária para guardar uma UI
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.inicializarJogadores(System.Int32)">
+            <summary>
+            Inicializa a lista de jogadores com um determinado numero de jogadores,
+            fecha a UI de selecção do número de jogadores e altera o estado do jogo
+            </summary>
+            <param name="numJogadores">Número de Jogadores</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.distribuirMonopolios">
+            <summary>
+            DEBUG
+            distribui os monopólios pelos jogadores para se poder testar o código de construir casas e hoteis
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.casaOriginal">
+            <summary>
+            Passa para o próximo jogador a jogar
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.criarUILancamento">
+            <summary>
+            Gera uma janela modal de UI para lançamento de dados
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.criarUICentrada(System.String,System.Boolean,System.Boolean,System.Text.StringBuilder,System.Collections.Generic.List{Monopolio.Opcao},Monopolio.OrientacaoOpcoes)">
+            <summary>
+            Gera uma UI centrada e corre todos os métodos necessários
+            </summary>
+            <param name="nomeTextura">Nome da textura</param>
+            <param name="ativa">Se a janela está ativa</param>
+            <param name="modal">Se a janela é modal</param>
+            <param name="texto">Texto a inserir na janela</param>
+            <param name="listaOpcaoes">Lista de opções a apresentar</param>
+            <param name="orientacaoOpcoes">Orientação da lista de opções (Horizontal / Vertical)</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.criarUILancamento(System.String,System.Boolean)">
+            <summary>
+            Cria uma UI de lançamento de dados e faz as inicializações necessárias
+            </summary>
+            <param name="nomeTextura">Nome da textura</param>
+            <param name="ativa">Ativa</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.atualizarRectanguloRato">
+            <summary>
+            Atualiza o rectângulo do rato de acordo com a sua posição.
+            Este rectângulo é usado para verificar se o rato intersecta um botão
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.verificarRatoSobreBotao">
+            <summary>
+            Verifica se o rato está em cima de um botão e altera o botao convenientemente
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharTabuleiro">
+            <summary>
+            Desenha o tabuleiro de jogo
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharRectangulos">
+            <summary>
+            Desenha alternadamente rectangulos por cima das casas, fazendo um efeito catita
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.tempListaComponentesUI">
+            <summary>
+            Variável temporaria utilizada para guadar a lista de componentes de UI antes de a percorrer,
+            uma vez que pode estar a ser alterada por outros métodos
+            O 100 está martelado porque nunca vamos ter 100 janelas de UI ao mesmo tempo a menos que algo tenha corrido muito mal
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarDescliquesRato(Monopolio.Clique)">
+            <summary>
+            Lida com descliques do rato, passando todos os botões que estavamn clicados para o seu estado normal
+            </summary>
+        </member>
+        <member name="F:Monopolio.Monopolio.tempListaUI">
+            <summary>
+            Variável reutilizada para guardar uma lista de UIs
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.eliminarUIsDesativas">
+            <summary>
+            Percorre a lista de componentes de UI e remove as UIs desativas
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.processarCliquesRato(Monopolio.Clique)">
+            <summary>
+            Lida com os eventos disparados pelo rato
+            </summary>
+            <param name="clique">Instância de clique</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharCoordenadasRato(Monopolio.Rato)">
+            <summary>
+            Desenha as coordenadas atuais do rato
+            Útil para debug
+            </summary>
+            <param name="rato">Uma instância do rato</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharCoordenadasCamera(Monopolio.Camera)">
+            <summary>
+            Desenhar as coordenadas da camera junto ao rato
+            Útil para debug
+            </summary>
+            <param name="camera">Uma instância da camera</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharRotacaoCamera(Monopolio.Camera)">
+            <summary>
+            Desenha a rotação da camera (em radianos) junto ao rato
+            Útil para debug
+            </summary>
+            <param name="camera">Uma instância da camera</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.gerarCamadasParallax">
+            <summary>
+            Define as camadas de background parallax
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.loadAndAddParallax(System.Int32,Monopolio.Sprite)">
+            <summary>
+            Load das texturas necessárias para os backgrounds parallax
+            </summary>
+            <param name="indice">Indice da camada a que o background pertence</param>
+            <param name="sprite">Sprite a adicionar à camada</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.loadAndAddUIJogadores(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Cria uma UI com a lista de jogadores e algumas características destes
+            </summary>
+            <param name="nomeTextura">Nome da textura a utilizar</param>
+            <param name="ativa">Ativa</param>
+            <param name="modal">Modal</param>
+        </member>
+        <member name="M:Monopolio.Monopolio.desenharUI">
+            <summary>
+            Desenha todos os componentes de UI que estão ativas
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.atualizarCamadasParallax">
+            <summary>
+            Atualiza as camadas de parallax que se movem (nuvens)
+            </summary>
+        </member>
+        <member name="M:Monopolio.Monopolio.DrawRectangle(Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Desenha um rectângulo numa determinada posicao e com uma dada cor
+            </summary>
+            <param name="coords">Posição onde o rectângulo será desenhado</param>
+            <param name="color">Cor</param>
+        </member>
+        <member name="T:Monopolio.Propriedade">
+            <summary>
+            Descreve uma propriedade; Casa que pode ser comprada
+            </summary>
+        </member>
+        <member name="F:Monopolio.Propriedade.custo">
+            <summary>
+            Custo da compra da propriedade
+            </summary>
+        </member>
+        <member name="F:Monopolio.Propriedade.hipoteca">
+            <summary>
+            Valor pago pela hipoteca da propriedade
+            </summary>
+        </member>
+        <member name="F:Monopolio.Propriedade.hipotecada">
+            <summary>
+            Indica se a propriedade está hipotecada ou não
+            </summary>
+        </member>
+        <member name="F:Monopolio.Propriedade.dono">
+            <summary>
+            O jogador que é dono deste terreno  
+            </summary>
+        </member>
+        <member name="M:Monopolio.Propriedade.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Int32)">
+            <summary>
+            Desenha no ecrã o dono da propriedade
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+            <param name="arial12">Fonte a utilizar</param>
+            <param name="indiceCasa">Indice da casa atual</param>
+        </member>
+        <member name="P:Monopolio.Propriedade.Custo">
+            <summary>
+            Devolve o custo de compra da propriedade
+            </summary>
+        </member>
+        <member name="P:Monopolio.Propriedade.Hipoteca">
+            <summary>
+            Devolve o valor pago pela hipoteca da propriedade
+            </summary>
+        </member>
+        <member name="P:Monopolio.Propriedade.Hipotecada">
+            <summary>
+            Get/Set da hipoteca da propriedade
+            </summary>
+        </member>
+        <member name="P:Monopolio.Propriedade.Dono">
+            <summary>
+            Devolve o jogador que é dono deste terreno
+            </summary>
+        </member>
+        <member name="T:Monopolio.botao">
+            <summary>
+            Enumerador para os botões do rato
+            </summary>
+        </member>
+        <member name="F:Monopolio.botao.Esquerdo">
+            <summary>
+            Botão esquerdo do rato
+            </summary>
+        </member>
+        <member name="F:Monopolio.botao.Direito">
+            <summary>
+            Botão direito do rato
+            </summary>
+        </member>
+        <member name="T:Monopolio.Clique">
+            <summary>
+            Classe para o evento de clique no botao esquerdo
+            Devolve a posicao do rato aquando do clique
+            </summary>
+        </member>
+        <member name="P:Monopolio.Clique.Posicao">
+            <summary>
+            Posição em que se deu o clique
+            </summary>
+        </member>
+        <member name="P:Monopolio.Clique.BotaoClicado">
+            <summary>
+            Botão que foi clicado
+            </summary>
+        </member>
+        <member name="P:Monopolio.Clique.BotaoDesclicado">
+            <summary>
+            Getter / Setter do botão que foi desclicado
+            </summary>
+        </member>
+        <member name="T:Monopolio.Rato">
+            <summary>
+            Estado, Construtor e Métodos do rato
+            </summary>
+        </member>
+        <member name="M:Monopolio.Rato.#ctor">
+            <summary>
+            Construtor
+            </summary>
+        </member>
+        <member name="M:Monopolio.Rato.LoadContent(Microsoft.Xna.Framework.Content.ContentManager)">
+            <summary>
+            Loading de assets
+            </summary>
+        </member>
+        <member name="P:Monopolio.Rato.Blocked">
+            <summary>
+            Impede os double-clicks
+            </summary>
+        </member>
+        <member name="T:Monopolio.GrupoRuas">
+            <summary>
+            Grupos de ruas / monopólios
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Brown">
+            <summary>
+            Castanho
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.LightBlue">
+            <summary>
+            Azul clarinho
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Pink">
+            <summary>
+            Cor-de-rosa
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Orange">
+            <summary>
+            Cor de laranja
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Red">
+            <summary>
+            Vermelho
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Yellow">
+            <summary>
+            Amarelo
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Green">
+            <summary>
+            Verde
+            </summary>
+        </member>
+        <member name="F:Monopolio.GrupoRuas.Blue">
+            <summary>
+            Azul
+            </summary>
+        </member>
+        <member name="T:Monopolio.Rua">
+            <summary>
+            Uma rua é uma propriedade que pode ter casas e hotéis
+            </summary>
+        </member>
+        <member name="M:Monopolio.Rua.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,Monopolio.GrupoRuas,Microsoft.Xna.Framework.Rectangle)">
+            <summary>
+            Construtor de uma Rua
+            </summary>
+            <param name="nome">Nome</param>
+            <param name="custo">Custo</param>
+            <param name="hipoteca">Valor da hipoteca</param>
+            <param name="renda">renda sem casas</param>
+            <param name="renda1">renda com uma casa</param>
+            <param name="renda2">renda com duas casa</param>
+            <param name="renda3">renda com três casa</param>
+            <param name="renda4">renda com quatro casa</param>
+            <param name="renda5">renda com cinco casa</param>
+            <param name="custoCasa">custo de casa casa construída</param>
+            <param name="grupoRuas">grupo de ruas a que a rua pertence</param>
+            <param name="coordsAndSize">coordenadas e dimensões da rua no tabuleiro</param>
+        </member>
+        <member name="M:Monopolio.Rua.Renda">
+            <summary>
+            Devolve a renda a pagar
+            </summary>
+            <returns>Renda a pagar, de acordo com o numero de casas construídas</returns>
+        </member>
+        <member name="M:Monopolio.Rua.CustoCasa">
+            <summary>
+            Devolve o custo de construção de uma casa nesta rua
+            </summary>
+            <returns>Custo de construção de uma casa / hotel</returns>
+        </member>
+        <member name="M:Monopolio.Rua.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Int32)">
+            <summary>
+            Desenha informação relativa a uma rua - dono e nº de casas / hotéis
+            </summary>
+            <param name="spriteBatch">Instância de spritebatch</param>
+            <param name="arial12">Fonte a utilizar</param>
+            <param name="indiceCasa">Indice da casa</param>
+        </member>
+        <member name="P:Monopolio.Rua.NCasas">
+            <summary>
+            Getter / Setter do numero de casas desta rua
+            </summary>
+        </member>
+        <member name="P:Monopolio.Rua.GrupoRuas">
+            <summary>
+            Getter / Setter do grupo de ruas a que esta rua pertence
+            </summary>
+        </member>
+        <member name="T:Monopolio.Sprite">
+            <summary>
+            Descreve uma sprite de camada de parallax
+            </summary>
+        </member>
+        <member name="M:Monopolio.Sprite.#ctor(System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Construtor de uma sprite
+            </summary>
+            <param name="nomeTextura">textura da sprite</param>
+            <param name="offset">Offset para o y</param>
+            <param name="velocidade">Velocidade a que a sprite se move</param>
+        </member>
+        <member name="M:Monopolio.Sprite.LoadContent(Microsoft.Xna.Framework.Content.ContentManager,Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Carrega os assets necessários à sprite
+            </summary>
+            <param name="Content">ContentManager</param>
+            <param name="graphics">GraphicsDevice</param>
+        </member>
+        <member name="M:Monopolio.Sprite.Update">
+            <summary>
+            Atualiza uma sprite
+            </summary>
+        </member>
+        <member name="M:Monopolio.Sprite.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Desenha uma sprite
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+        </member>
+        <member name="T:Monopolio.Tabuleiro">
+            <summary>
+            Estado, Construtor e Métodos do tabuleiro
+            </summary>
+        </member>
+        <member name="F:Monopolio.Tabuleiro.listaCasas">
+            <summary>
+            Lista de casas que compõem o tabuleiro
+            </summary>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.ListaCasas">
+            <summary>
+            Devolve a lista de casas que constituem o tabuleiro
+            </summary>
+            <returns>Lista de casas</returns>
+        </member>
+        <member name="F:Monopolio.Tabuleiro.listaCommunity">
+            <summary>
+            Fila de cartas de comunidade
+            </summary>
+        </member>
+        <member name="F:Monopolio.Tabuleiro.listaChance">
+            <summary>
+            Fila de cartas da sorte
+            </summary>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.verificarAvenida(Monopolio.Jogador,Monopolio.GrupoRuas)">
+            <summary>
+            Verifica se um jogador possui um monopolio / avenida (todas as ruas da mesma cor)
+            Se sim, o jogador pode eventualmente construir casa
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.LoadContent(Microsoft.Xna.Framework.Content.ContentManager,Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Loading de assets
+            </summary>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.#ctor">
+            <summary>
+            Construtor
+            </summary>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.nearestUtility(System.Int32,System.Boolean)">
+            <summary>
+            Devolve o indice da utilidade mais proxima
+            </summary>
+            <param name="casaAtual">Casa a partir de onde começar a procurar</param>
+            <param name="estacao">Se se procura uma estação ou não (agua, eletricidade)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.centroCasa(System.Int32,Microsoft.Xna.Framework.Graphics.Texture2D)">
+            <summary>
+            Devolve as coordenadas do centro de uma determinada casa para um determinado token
+            </summary>
+            <param name="indiceCasa">Indice da casa da qual queremos saber o centro</param>
+            <param name="token">Token do jogador</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.Casa(System.Int32)">
+            <summary>
+            Devolve a casa de um determinado indice
+            </summary>
+            <param name="indice">Indice da casa a devolver</param>
+            <returns>A casa que se encontra no indice indicado</returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.IndiceCasaAFrente(System.Int32,System.Int32)">
+            <summary>
+            Devolve o índice de uma casa x casas à frente ou atrás
+            </summary>
+            <param name="indiceAtual">Índice da casa em que estamos atualmente</param>
+            <param name="casasAAvancar">Nº de casas a avançar ou recuar</param>
+            <returns>Índice da casa que se encontra à distância pretendida</returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.nCasasDiferenca(System.Int32,System.Int32)">
+            <summary>
+            Devolve o número de casas de diferença que temos que mover para chegar a uma determinada casa
+            </summary>
+            <param name="indiceAtual">Indice em que estamos</param>
+            <param name="indiceDesejado">Indice para onde vamos</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.processarCasaPartida(Monopolio.Jogador,System.Int32)">
+            <summary>
+            Executa as acções necessárias caso passemos na casa de partida
+            </summary>
+            <param name="jogador">Uma instância do jogador que se está a mover</param>
+            <param name="indice">O índice da casa atual</param>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.verificarRotacaoEPartida(Monopolio.Camera,System.Int32,System.Int32,Monopolio.Jogador)">
+            <summary>
+            Verifica e executa uma rotação caso seja necessário
+            É necessária uma rotação sempre que o movimento nos faz passar por uma casa de canto
+            </summary>
+            <param name="camera">Uma instância da camera</param>
+            <param name="indiceAtual">Índice da casa em que estamos atualmente</param>
+            <param name="casasAMover">Nº de casas a mover (negativo se vamos andar para trás)</param>
+            <param name="jogador">Jogador atual</param>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.ruaComMenosCasas(System.Int32)">
+            <summary>
+            Devolve a rua do mesmo grupo que tem menos casas construídas
+            </summary>
+            <param name="indiceCasaAtual">Indice da casa atual</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Tabuleiro.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera,Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Desenha o tabuleiro
+            </summary>
+        </member>
+        <member name="P:Monopolio.Tabuleiro.Posicao">
+            <summary>
+            Posicao do tabuleiro no ecrã
+            </summary>
+        </member>
+        <member name="P:Monopolio.Tabuleiro.Textura">
+            <summary>
+            Getter da textura do tabuleiro
+            </summary>
+        </member>
+        <member name="P:Monopolio.Tabuleiro.ListaCommunity">
+            <summary>
+            Getter / Setter da lista de cartas de comunidade
+            </summary>
+        </member>
+        <member name="P:Monopolio.Tabuleiro.ListaChance">
+            <summary>
+            Getter / Setter da lista de cartas de sorte
+            </summary>
+        </member>
+        <member name="T:Monopolio.TokenAnimation">
+            <summary>
+            Descreve a animação de um token de utilizador
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimation.posicaoTarget">
+            <summary>
+            Posição para onde será movido o token
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimation.posicaoStep">
+            <summary>
+            Velocidade da mudança de posição
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimation.moving">
+            <summary>
+            Flag de movimento
+            </summary>
+        </member>
+        <member name="M:Monopolio.TokenAnimation.#ctor(Microsoft.Xna.Framework.Vector2,Monopolio.Jogador)">
+            <summary>
+            Construtor de uma animação de token
+            </summary>
+            <param name="posicaoTarget">Posição para onde se deseja mover o token</param>
+            <param name="jogador">Instância do jogador</param>
+        </member>
+        <member name="M:Monopolio.TokenAnimation.Update(Monopolio.Tabuleiro)">
+            <summary>
+            Atualiza a animação de um token de jogador
+            </summary>
+            <param name="tabuleiro">Instância do tabuleiro de jogo</param>
+        </member>
+        <member name="P:Monopolio.TokenAnimation.PosicaoTarget">
+            <summary>
+            Posição desejada para o token
+            </summary>
+        </member>
+        <member name="P:Monopolio.TokenAnimation.Jogador">
+            <summary>
+            Getter / Setter do jogador que estamos a animar
+            </summary>
+        </member>
+        <member name="P:Monopolio.TokenAnimation.Moving">
+            <summary>
+            Getter da flag de movimento
+            </summary>
+        </member>
+        <member name="T:Monopolio.TokenAnimationManager">
+            <summary>
+            Manager de animações de tokens
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimationManager.animations">
+            <summary>
+            Fila de animações
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimationManager.tempAnimation">
+            <summary>
+            Objeto reutilizado para criar animações e inseri-las na fila
+            </summary>
+        </member>
+        <member name="F:Monopolio.TokenAnimationManager.activeAnimation">
+            <summary>
+            Animação que está a ser executada num determinado momento
+            </summary>
+        </member>
+        <member name="M:Monopolio.TokenAnimationManager.#ctor">
+            <summary>
+            Construtor
+            </summary>
+        </member>
+        <member name="M:Monopolio.TokenAnimationManager.getQueuedAnimations">
+            <summary>
+            Devolve todas as animações em lista
+            </summary>
+            <returns>Animações em lista</returns>
+        </member>
+        <member name="M:Monopolio.TokenAnimationManager.newAnimation(Microsoft.Xna.Framework.Vector2,Monopolio.Jogador)">
+            <summary>
+            Insere na fila uma nova animação de posição, zoom e rotação
+            </summary>
+            <param name="posicaoTarget">Posição desejada</param>
+            <param name="jogador">Instância de jogador</param>
+        </member>
+        <member name="M:Monopolio.TokenAnimationManager.Update(Monopolio.Tabuleiro)">
+            <summary>
+            Atualiza a animação atual
+            </summary>
+            <param name="tabuleiro">Uma instância do tabuleiro</param>
+        </member>
+        <member name="T:Monopolio.Tipo">
+            <summary>
+            Enumerador dos tipos de utilidades que existem
+            </summary>
+        </member>
+        <member name="T:Monopolio.Utilidade">
+            <summary>
+            As utilidades são as estações, companhias de eletricidade e água
+            Herdam das propriedades
+            </summary>
+        </member>
+        <member name="M:Monopolio.Utilidade.rendaEstacoes(System.Int32)">
+            <summary>
+            Devolve o valor a pagar de renda, consoante o numero de outras utilidades do mesmo tipo que o jogador tenha
+            </summary>
+            <param name="nUtilidades">Numero de outras utilidades do mesmo tipo possuidas pelo dono desta utilidade</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.Utilidade.rendaEletricasEAgua(System.Int32,System.Int32)">
+            <summary>
+            Devolve a renda a pagar no caso especial das companhias de eletricidade
+            </summary>
+            <param name="nEletricasEAguas">Numero de companhias de electricidade e água que o jogador possui</param>
+            <param name="dados">Numero que saiu nos dados no ultimo lançamento</param>
+            <returns></returns>
+        </member>
+        <member name="T:Monopolio.MoneyAnimation">
+            <summary>
+            Descreve uma animação de entrada/saída de dinheiro
+            </summary>
+        </member>
+        <member name="M:Monopolio.MoneyAnimation.#ctor(Monopolio.Jogador,System.Single)">
+            <summary>
+            Construtor de uma nova animação de entrada / saída de dinheiro
+            </summary>
+            <param name="jogador">Jogador</param>
+            <param name="valor">Valor transferido</param>
+        </member>
+        <member name="M:Monopolio.MoneyAnimation.Update">
+            <summary>
+            Atualiza a animação de entrada / saida de dinheiro (fade-out)
+            </summary>
+        </member>
+        <member name="M:Monopolio.MoneyAnimation.Draw(Microsoft.Xna.Framework.Graphics.SpriteFont,Microsoft.Xna.Framework.Graphics.SpriteBatch)">
+            <summary>
+            Desenha uma animação de entrada / saida de dinheiro
+            </summary>
+            <param name="fonte">Fonte a utilizar</param>
+            <param name="spriteBatch">Instância do spritebatch</param>
+        </member>
+        <member name="P:Monopolio.MoneyAnimation.Jogador">
+            <summary>
+            Getter / Setter do jogador que recebeu / pagou
+            </summary>
+        </member>
+        <member name="P:Monopolio.MoneyAnimation.Viva">
+            <summary>
+            Indica se animação ainda está a decorrer
+            </summary>
+        </member>
+        <member name="T:Monopolio.TipoOpcao">
+            <summary>
+            Tipo de opção, muda a textura desenhada para esta opção
+            </summary>
+        </member>
+        <member name="F:Monopolio.TipoOpcao.Bom">
+            <summary>
+            Botão verde
+            </summary>
+        </member>
+        <member name="F:Monopolio.TipoOpcao.Neutro">
+            <summary>
+            Não implementado
+            </summary>
+        </member>
+        <member name="F:Monopolio.TipoOpcao.Mau">
+            <summary>
+            Botão vermelho
+            </summary>
+        </member>
+        <member name="F:Monopolio.TipoOpcao.Close">
+            <summary>
+            Não implementado
+            </summary>
+        </member>
+        <member name="T:Monopolio.Opcao">
+            <summary>
+            Descreve uma opção a incluir numa UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.textoOpcao">
+            <summary>
+            Texto da Opção
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.hover">
+            <summary>
+            True se o rato está por cima desta opção
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.clique">
+            <summary>
+            True se a opção está a ser clicada
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.closeOnClick">
+            <summary>
+            True se o clique nesta opção fecha a UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.rectangulo">
+            <summary>
+            Rectângulo que envolve a opção, utilizado para detectar cliques na opção
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.accao">
+            <summary>
+            Código a ser executado quando existe um clique na opcao
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.tipoOpcao">
+            <summary>
+            Tipo de opcao (bom, mau, neutro)
+            </summary>
+        </member>
+        <member name="F:Monopolio.Opcao.activa">
+            <summary>
+            Se não está ativa, o clique não faz nada
+            </summary>
+        </member>
+        <member name="M:Monopolio.Opcao.#ctor(System.String,Monopolio.TipoOpcao,System.Boolean,System.Action{System.String})">
+            <summary>
+            Construtor
+            </summary>
+            <param name="textoOpcao">Texto da Opção</param>
+            <param name="tipoOpcao">Tipo de Opção</param>
+            <param name="accao">Código a ser executado</param>
+            <param name="closeOnClick">Se a UI deve ser fechada quando o utilizador clica na opção</param>
+        </member>
+        <member name="M:Monopolio.Opcao.ExecutarAccao">
+            <summary>
+            Exucuta o código da opção
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.TextoOpcao">
+            <summary>
+            Getter do texto de uma opção a incluir numa UI
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.Hover">
+            <summary>
+            Devolve true se o rato está por cima desta opção
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.Clique">
+            <summary>
+            Devolve true se a opção está a ser clicada
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.CloseOnClick">
+            <summary>
+            Devolve true se o clique nesta opção fecha a UI
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.TipoOpcao">
+            <summary>
+            Getter do tipo de opção do botão
+            </summary>
+        </member>
+        <member name="P:Monopolio.Opcao.Activa">
+            <summary>
+            Getter / Setter do indicador de UI ativa
+            </summary>
+        </member>
+        <member name="T:Monopolio.OrientacaoOpcoes">
+            <summary>
+            Possíveis orientações para os botões
+            </summary>
+        </member>
+        <member name="F:Monopolio.OrientacaoOpcoes.Horizontal">
+            <summary>
+            Horizontal
+            </summary>
+        </member>
+        <member name="F:Monopolio.OrientacaoOpcoes.Vertical">
+            <summary>
+            Vertical
+            </summary>
+        </member>
+        <member name="T:Monopolio.UI_Centrado">
+            <summary>
+            Descreve uma UI centrada no ecrã
+            </summary>
+        </member>
+        <member name="T:Monopolio.UI">
+            <summary>
+            Estado, Construtor e Métodos da UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.posicao">
+            <summary>
+            Posição da UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.nomeTextura">
+            <summary>
+            Nome da textura a utilizar para renderizar a UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.textura">
+            <summary>
+            Textura da UI
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.listaOpcoes">
+            <summary>
+            Lista de opções a apresentar na UI
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.getListaOpcoes">
+            <summary>
+            Fevolve a lista de opções desta UI
+            </summary>
+            <returns>Lista de opções</returns>
+        </member>
+        <member name="F:Monopolio.UI.botaoBom">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoNeutro">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoMau">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoBom_hover">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoNeutro_hover">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoMau_hover">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoBom_click">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoNeutro_click">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoMau_click">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoClose">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoClose_hover">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.botaoClose_click">
+            <summary>
+            Texturas dos botões nos seus diferentes estados
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.getBotao(Monopolio.TipoOpcao,System.Boolean,System.Boolean)">
+            <summary>
+            Devolve a textura correta para um botão
+            </summary>
+            <param name="tipoOpcao">Tipo de opção</param>
+            <param name="hover">Se o rato está por cima do botao</param>
+            <param name="click">Se o rato está a clicar no botão</param>
+            <returns></returns>
+        </member>
+        <member name="F:Monopolio.UI.ativa">
+            <summary>
+            Indica se a UI está ativa
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI.modal">
+            <summary>
+            indica se a UI é modal
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.#ctor">
+            <summary>
+            Construtor vazio para 
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.ativarUI(Monopolio.UI@)">
+            <summary>
+            Ativa uma UI
+            </summary>
+            <param name="UIModalAtiva">UI modal que está presentemente ativa na classe principal</param>
+        </member>
+        <member name="M:Monopolio.UI.desativarUI(Monopolio.UI@)">
+            <summary>
+            Desativa uma UI
+            </summary>
+            <param name="UIModalAtiva">UI modal que está presentemente ativa na classe principal</param>
+        </member>
+        <member name="M:Monopolio.UI.LoadContent(Microsoft.Xna.Framework.Content.ContentManager,Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Carrega a textura do componente de UI
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera)">
+            <summary>
+            Desenha a textura deste componente de UI
+            </summary>
+            <param name="spriteBatch">Spritebatch em que estamos a desenhar</param>
+            <param name="camera">Camera ativa</param>
+        </member>
+        <member name="M:Monopolio.UI.Update">
+            <summary>
+            Atualiza a UI (para herança)
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI.Update(System.Random)">
+            <summary>
+            Atualiza a UI
+            </summary>
+            <param name="geradorRandom">Seed random</param>
+            <returns></returns>
+        </member>
+        <member name="M:Monopolio.UI.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Collections.Generic.List{Monopolio.Jogador},Monopolio.Tabuleiro,Monopolio.Jogador)">
+            <summary>
+            Overridden by UI_Jogadores
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+            <param name="camera">Instância da camara</param>
+            <param name="arial12">Fonte a utilizar</param>
+            <param name="listaJogadores">Lista de jogadores</param>
+            <param name="tabuleiro">Instância do tabuleiro</param>
+            <param name="jogadorAtual">Jogador atual</param>
+        </member>
+        <member name="P:Monopolio.UI.Ativa">
+            <summary>
+            Getter do indicador de UI ativa
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.texto">
+            <summary>
+            Stringbuilder utilizado para 
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.bordaLateral">
+            <summary>
+            Variáveis utilizadas para calcular as bordas entre botões
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.bordaSuperior">
+            <summary>
+            Variáveis utilizadas para calcular as bordas entre botões
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.diferencaHorizontal">
+            <summary>
+            Variáveis utilizadas para calcular as bordas entre botões
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.diferencaVertical">
+            <summary>
+            Variáveis utilizadas para calcular as bordas entre botões
+            </summary>
+        </member>
+        <member name="F:Monopolio.UI_Centrado.orientacaOpcoes">
+            <summary>
+            Orientação dos botões - vertical ou horizontal
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI_Centrado.#ctor">
+            <summary>
+            Construtor vazio para a herança
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI_Centrado.#ctor(System.String,System.Boolean,System.Boolean,System.Text.StringBuilder,System.Collections.Generic.List{Monopolio.Opcao},Monopolio.OrientacaoOpcoes)">
+            <summary>
+            Construtor de uma UI centrada no ecrã
+            </summary>
+            <param name="nomeTextura">Nome da textura a carregar</param>
+            <param name="ativa">Se está ativa</param>
+            <param name="modal">Se é modal</param>
+            <param name="texto">Texto da UI</param>
+            <param name="listaOpcoes">Lista de opções a apresentar</param>
+            <param name="orientacaOpcoes">Orientação das opções a apresentar</param>
+        </member>
+        <member name="M:Monopolio.UI_Centrado.gerarRectangulosBotoes">
+            <summary>
+            Gera os rectangulos com as posições e dimensões de cada botão / opção
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI_Centrado.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Collections.Generic.List{Monopolio.Jogador},Monopolio.Tabuleiro,Monopolio.Jogador)">
+            <summary>
+            Desenha uma UI centrada no ecrã
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+            <param name="camera">Instância da camara</param>
+            <param name="arial12">Fonte a utilizar</param>
+            <param name="listaJogadores">Lista de jogadores</param>
+            <param name="tabuleiro">Instância do tabuleiro</param>
+            <param name="jogadorAtual">Jogador atual</param>
+        </member>
+        <member name="T:Monopolio.UI_Lancamento">
+            <summary>
+            Descreve uma UI de lançamento
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI_Lancamento.#ctor(System.String,System.Boolean)">
+            <summary>
+            Construtor de uma nova UI de lançamento de dados
+            </summary>
+            <param name="nomeTextura">Textura a utilizar</param>
+            <param name="ativa">Se está ativa</param>
+        </member>
+        <member name="M:Monopolio.UI_Lancamento.Update(System.Random)">
+            <summary>
+            Atualiza a UI de lançamento
+            </summary>
+            <param name="geradorRandom">Random seed</param>
+            <returns>Estrutura lançamento</returns>
+        </member>
+        <member name="M:Monopolio.UI_Lancamento.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Collections.Generic.List{Monopolio.Jogador},Monopolio.Tabuleiro,Monopolio.Jogador)">
+            <summary>
+            Desenha uma UI de lançamento de dados
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+            <param name="camera">Instância da camara</param>
+            <param name="arial12">Fonte a utilizar</param>
+            <param name="listaJogadores">Lista de jogadores</param>
+            <param name="tabuleiro">Instância do tabuleiro</param>
+            <param name="jogadorAtual">Jogador atual</param>
+        </member>
+        <member name="T:Monopolio.UI_Mortgages">
+            <summary>
+            Descreve uma UI de mortgages
+            </summary>
+        </member>
+        <member name="M:Monopolio.UI_Mortgages.#ctor(System.String,System.Boolean,System.Collections.Generic.List{Monopolio.Opcao},Monopolio.OrientacaoOpcoes,Monopolio.Jogador)">
+            <summary>
+            Construtor de uma nova UI de Mortgages
+            </summary>
+            <param name="nomeTextura">Textura da UI</param>
+            <param name="ativa">Se está ativa</param>
+            <param name="listaOpcoes">Lista de opções a apresentar ao utilizador</param>
+            <param name="orientacao">Orientação dos botões</param>
+            <param name="jogador">Instância do Jogador</param>
+        </member>
+        <member name="M:Monopolio.UI_Mortgages.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,Monopolio.Camera,Microsoft.Xna.Framework.Graphics.SpriteFont,System.Collections.Generic.List{Monopolio.Jogador},Monopolio.Tabuleiro,Monopolio.Jogador)">
+            <summary>
+            Desenha no ecrã uma UI de mortgages
+            </summary>
+            <param name="spriteBatch">Instância do spritebatch</param>
+            <param name="camera">Instância da camara</param>
+            <param name="arial12">fonte a utilizar</param>
+            <param name="listaJogadores">Lista de jogadores</param>
+            <param name="tabuleiro">Instância do tabuleiro</param>
+            <param name="jogadorAtual">Jogador atual</param>
+        </member>
+    </members>
+</doc>
