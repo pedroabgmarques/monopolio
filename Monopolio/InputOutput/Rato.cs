@@ -1,9 +1,4 @@
-﻿/*
- * Author: Pedro Marques
- * Date: 07/11/204
- * Email: pedroabgmarques@gmail.com / a10855@alunos.ipca.pt
- * Description:
- * 
+﻿/* 
  * Guarda o estado e disponibiliza todas as funcionalidades necessárias para o jogo que envolvem o rato.
  */
 

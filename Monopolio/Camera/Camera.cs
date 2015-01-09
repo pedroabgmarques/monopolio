@@ -1,9 +1,4 @@
 ﻿/*
- * Author: Pedro Marques
- * Date: 07/11/204
- * Email: pedroabgmarques@gmail.com / a10855@alunos.ipca.pt
- * Description:
- * 
  * Implementa uma camera 2D com capacidades de movimento, zoom e rotação
  * Com elementos do artigo "2D Camera with parallax scrolling in XNA" de David Gouveia
  */

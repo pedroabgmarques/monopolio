@@ -1,9 +1,4 @@
 ﻿/*
- * Author: Pedro Marques
- * Date: 07/11/204
- * Email: pedroabgmarques@gmail.com / a10855@alunos.ipca.pt
- * Description:
- * 
  * Lida com tudo o que tenha a ver com o tabuleiro do jogo
  */
 

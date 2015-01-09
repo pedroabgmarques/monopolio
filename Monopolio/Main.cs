@@ -1322,7 +1322,7 @@ namespace Monopolio
             atualizarCasaAtual(jogador.CasaAtual);
 
             //DEBUG
-            //distribuirMonopolios();
+            distribuirMonopolios();
 
 
             cameraAnimationManager.newAnimation(posicao, tabuleiro.verificarRotacaoEPartida(camera, jogador.CasaAtual, casasAMover, jogador), true);

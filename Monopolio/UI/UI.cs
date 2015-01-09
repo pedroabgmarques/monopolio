@@ -1,9 +1,4 @@
 ﻿/*
- * Author: Pedro Marques
- * Date: 09/11/204
- * Email: pedroabgmarques@gmail.com / a10855@alunos.ipca.pt
- * Description:
- * 
  * Faz a gestão de toda a UI do jogo
  */
 

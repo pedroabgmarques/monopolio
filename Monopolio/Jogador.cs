@@ -1,9 +1,4 @@
-﻿/*
- * Author: Pedro Marques
- * Date: 09/11/2014
- * Email: pedroabgmarques@gmail.com /a10855@alunos.ipca.pt
- * Description:
- * 
+﻿/* 
  * Descreve e gere um jogador
  * */
 
